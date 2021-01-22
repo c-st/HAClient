@@ -1,5 +1,7 @@
 # HAClient
 
+![HAClient](https://github.com/c-st/HAClient/workflows/HAClient/badge.svg)
+
 A Swift client for the HomeAssistant websocket API. 
 
 ## Reference
