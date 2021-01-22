@@ -3,6 +3,8 @@ import XCTest
 
 final class HAClientTests: XCTestCase {
     func testExample() {
-        XCTAssertEqual(HAClient().text, "Hello, World!")
+//        let client = HAClient(endpoint: "ws://192.168.86.42:8123/api/websocket")
+//
+//        client.ping()
     }
 }
