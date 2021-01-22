@@ -26,9 +26,14 @@ final class HAClientTests: XCTestCase {
         client = HAClient(messageExchange: mockExchange!)
     }
 
-    func testSendsAccessTokenAfterConnection() {
-        client?.authenticate(token: "token")
-        // TODO: expect JSON string
-        expect(self.mockExchange?.sentMessages).to(equal(["token foo"]))
+    func testSendsAccessTokenWhenAuthenticating() {
+        client?.authenticate(token: "mytoken")
+        expect(self.mockExchange?.sentMessages).to(equal([
+            "{\"access_token\":\"mytoken\",\"type\":\"auth\"}",
+        ]))
     }
+    
+    func testInvokesSuccessCallbackAfterAuth() {}
+    
+    func testInvokesErrorCallbackAfterFailedAuth() {}
 }

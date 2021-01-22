@@ -15,7 +15,9 @@ struct HAClient {
     }
 
     func authenticate(token: String) {
-        messageExchange.sendMessage(message: "token foo")
+        messageExchange.sendMessage(
+            message: JSONHandler.serialize(AuthMessage(accessToken: token))
+        )
     }
 
     private func onMessage(message: String) {
