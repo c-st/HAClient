@@ -9,11 +9,13 @@ final class JSONHandler {
 
         return String(decoding: data, as: UTF8.self)
     }
-    
+
     static func deserialize(_ jsonString: String) -> Any? {
         let jsonData = jsonString.data(using: .utf8)!
-        let baseEvent = try! JSON.decoder.decode(BaseMessage.self, from: jsonData)
-        
+        guard let baseEvent = try? JSON.decoder.decode(BaseMessage.self, from: jsonData) else {
+            return nil
+        }
+
         switch baseEvent.type {
         case .auth_required:
             return try? JSON.decoder.decode(AuthRequired.self, from: jsonData)

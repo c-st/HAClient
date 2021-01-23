@@ -9,12 +9,13 @@ protocol MessageExchange {
 
 enum HAClientError: Error {
     case authenticationFailed(String)
+    case wrongPhase(String)
 }
 
 class HAClient {
     var currentPhase: Phase?
     private var messageExchange: MessageExchange
-    
+
     typealias AuthCompletionHandler = () -> Void
     typealias AuthFailureHandler = (String) -> Void
     typealias CurrentRequestID = Int
@@ -36,15 +37,42 @@ class HAClient {
         )
     }
 
-    private func handleTextMessage(jsonString: String) {
-        print("Client received message from websocket \(jsonString)")
+    func populateRegistry() {
+        do {
+            try messageExchange.sendMessage(message: JSONHandler.serialize(RequestAreaRegistry(id: getAndIncrementId())))
 
+            try messageExchange.sendMessage(message: JSONHandler.serialize(RequestDeviceRegistry(id: getAndIncrementId())))
+
+            try messageExchange.sendMessage(message: JSONHandler.serialize(RequestEntityRegistry(id: getAndIncrementId())))
+        } catch {
+            print("There was an error requesting registry information", error)
+        }
+    }
+
+    private func getAndIncrementId() throws -> Int {
+        switch currentPhase {
+        case let .authenticated(currentId):
+            currentPhase = .authenticated(currentId + 1)
+            return currentId
+        default:
+            throw HAClientError.wrongPhase("Can only send commands when authenticated")
+        }
+    }
+
+    private func sendCommand(commandObject: Encodable) {
+        messageExchange.sendMessage(
+            message: JSONHandler.serialize(commandObject)
+        )
+    }
+
+    private func handleTextMessage(jsonString: String) {
         let incomingMessage = JSONHandler.deserialize(jsonString)
+
         switch currentPhase {
         case let .pendingAuth(completion, onFailure):
             switch incomingMessage {
             case _ as AuthOkMessage:
-                currentPhase = .authenticated(0)
+                currentPhase = .authenticated(1)
                 print("Authentication successful")
                 completion()
                 break
@@ -57,9 +85,10 @@ class HAClient {
             }
 
         case .authenticated:
-            switch incomingMessage {
-            default:
-                print("Msg while authenticated", incomingMessage!)
+            if let _ = incomingMessage {
+                // print("Message while authenticated", message)
+            } else {
+                print("Received unsupported message type", jsonString)
             }
 
         default:

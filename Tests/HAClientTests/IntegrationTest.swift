@@ -14,5 +14,7 @@ final class IntegrationTest: XCTestCase {
                 onFailure: { reason in print("Authentication failure", reason) }
             )
         }
+        
+        client.populateRegistry()
     }
 }
