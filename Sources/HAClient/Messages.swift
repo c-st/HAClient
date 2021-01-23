@@ -37,6 +37,7 @@ enum IncomingMessageType: String, Codable {
     case auth_required
     case auth_ok
     case auth_invalid
+    case result
 }
 
 struct AuthRequired: Codable {
@@ -56,4 +57,11 @@ struct AuthOkMessage: Codable {
 struct AuthInvalidMessage: Codable {
     var type: String = IncomingMessageType.auth_invalid.rawValue
     let message: String
+}
+
+struct ResultMessage: Codable {
+    var type: String = IncomingMessageType.result.rawValue
+    let id: Int
+    let success: Bool
+    // let result: [Any]
 }

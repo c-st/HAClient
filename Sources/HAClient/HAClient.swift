@@ -13,20 +13,24 @@ enum HAClientError: Error {
 }
 
 class HAClient {
-    var currentPhase: Phase?
-    private var messageExchange: MessageExchange
-
-    typealias AuthCompletionHandler = () -> Void
+    typealias VoidCompletionHandler = () -> Void
     typealias AuthFailureHandler = (String) -> Void
     typealias CurrentRequestID = Int
 
+    var currentPhase: Phase?
+
+    private var messageExchange: MessageExchange
+    private var registry: Registry
+
     enum Phase {
-        case pendingAuth(AuthCompletionHandler, AuthFailureHandler)
+        case pendingAuth(VoidCompletionHandler, AuthFailureHandler)
         case authenticated(CurrentRequestID)
+        case pendingRegistryPopulation(VoidCompletionHandler, Int?, Int?, Int?)
     }
 
     init(messageExchange: MessageExchange) {
         self.messageExchange = messageExchange
+        registry = Registry()
     }
 
     func authenticate(token: String, completion: @escaping () -> Void, onFailure: @escaping (_ errorMessage: String) -> Void) {
@@ -37,13 +41,29 @@ class HAClient {
         )
     }
 
-    func populateRegistry() {
+    func populateRegistry(_ completion: @escaping () -> Void) {
         do {
-            try messageExchange.sendMessage(message: JSONHandler.serialize(RequestAreaRegistry(id: getAndIncrementId())))
+            let fetchAreasRequestId = try getAndIncrementId()
+            messageExchange.sendMessage(
+                message: JSONHandler.serialize(RequestAreaRegistry(id: fetchAreasRequestId))
+            )
 
-            try messageExchange.sendMessage(message: JSONHandler.serialize(RequestDeviceRegistry(id: getAndIncrementId())))
+            let fetchDevicesRequestId = try getAndIncrementId()
+            messageExchange.sendMessage(
+                message: JSONHandler.serialize(RequestDeviceRegistry(id: fetchDevicesRequestId))
+            )
 
-            try messageExchange.sendMessage(message: JSONHandler.serialize(RequestEntityRegistry(id: getAndIncrementId())))
+            let fetchEntitiesRequestId = try getAndIncrementId()
+            messageExchange.sendMessage(
+                message: JSONHandler.serialize(RequestEntityRegistry(id: fetchEntitiesRequestId))
+            )
+
+            currentPhase = .pendingRegistryPopulation(
+                completion,
+                fetchAreasRequestId,
+                fetchDevicesRequestId,
+                fetchEntitiesRequestId
+            )
         } catch {
             print("There was an error requesting registry information", error)
         }
@@ -59,12 +79,6 @@ class HAClient {
         }
     }
 
-    private func sendCommand(commandObject: Encodable) {
-        messageExchange.sendMessage(
-            message: JSONHandler.serialize(commandObject)
-        )
-    }
-
     private func handleTextMessage(jsonString: String) {
         let incomingMessage = JSONHandler.deserialize(jsonString)
 
@@ -73,7 +87,6 @@ class HAClient {
             switch incomingMessage {
             case _ as AuthOkMessage:
                 currentPhase = .authenticated(1)
-                print("Authentication successful")
                 completion()
                 break
             case let authInvalidMessage as AuthInvalidMessage:
@@ -84,9 +97,43 @@ class HAClient {
                 print("Ignoring message", jsonString)
             }
 
+        case let .pendingRegistryPopulation(completion, areaRequestId, deviceRequestId, entityRequestId):
+            switch incomingMessage {
+            case let resultMessage as ResultMessage:
+                if !resultMessage.success {
+                    currentPhase = .none
+                } else {
+                    switch resultMessage.id {
+                    case let id where id == areaRequestId:
+                        currentPhase = .pendingRegistryPopulation(completion, nil, deviceRequestId, entityRequestId)
+                    // TODO: handle areas
+                    case let id where id == deviceRequestId:
+                        currentPhase = .pendingRegistryPopulation(completion, areaRequestId, nil, entityRequestId)
+                    // TODO: handle devices
+                    case let id where id == entityRequestId:
+                        currentPhase = .pendingRegistryPopulation(completion, areaRequestId, deviceRequestId, nil)
+                    // TODO: handle entities
+                    default:
+                        print("Unknown response id \(resultMessage.id)")
+                    }
+
+                    switch currentPhase {
+                    case let .pendingRegistryPopulation(completion, nil, nil, nil):
+                        let newId = max(areaRequestId ?? 0, deviceRequestId ?? 0, entityRequestId ?? 0) + 1
+                        currentPhase = .authenticated(newId)
+                        completion()
+                        break
+                    default:
+                        break
+                    }
+                }
+            default:
+                break
+            }
+
         case .authenticated:
-            if let _ = incomingMessage {
-                // print("Message while authenticated", message)
+            if let message = incomingMessage {
+                print("Message while authenticated", message)
             } else {
                 print("Received unsupported message type", jsonString)
             }

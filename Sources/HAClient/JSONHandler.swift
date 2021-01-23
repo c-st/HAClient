@@ -12,17 +12,20 @@ final class JSONHandler {
 
     static func deserialize(_ jsonString: String) -> Any? {
         let jsonData = jsonString.data(using: .utf8)!
-        guard let baseEvent = try? JSON.decoder.decode(BaseMessage.self, from: jsonData) else {
+        guard let messageWithType = try? JSON.decoder.decode(BaseMessage.self, from: jsonData) else {
+            print("Attempting to deserialize a message without type", jsonString)
             return nil
         }
 
-        switch baseEvent.type {
+        switch messageWithType.type {
         case .auth_required:
             return try? JSON.decoder.decode(AuthRequired.self, from: jsonData)
         case .auth_ok:
             return try? JSON.decoder.decode(AuthOkMessage.self, from: jsonData)
         case .auth_invalid:
             return try? JSON.decoder.decode(AuthInvalidMessage.self, from: jsonData)
+        case .result:
+            return try? JSON.decoder.decode(ResultMessage.self, from: jsonData)
         }
     }
 }

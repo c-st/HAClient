@@ -35,7 +35,7 @@ final class HAClientAuthenticationTests: XCTestCase {
             message: JSONHandler.serialize(AuthOkMessage())
         )
 
-        expect(self.client.currentPhase) == HAClient.Phase.authenticated(0)
+        expect(self.client.currentPhase) == HAClient.Phase.authenticated(1)
     }
 
     func testSetsFailureStateAfterInvalidAuthentication() {

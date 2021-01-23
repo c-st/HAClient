@@ -37,9 +37,11 @@ class FakeMessageExchange: MessageExchange {
 extension HAClient.Phase: Equatable {
     public static func == (lhs: HAClient.Phase, rhs: HAClient.Phase) -> Bool {
         switch (lhs, rhs) {
-        case (.authenticated(_), .authenticated(_)):
-            return true
+        case let (.authenticated(leftId), .authenticated(rightId)):
+            return leftId == rightId
         case (.pendingAuth(_, _), .pendingAuth(_, _)):
+            return true
+        case (.pendingRegistryPopulation(_, _, _, _), .pendingRegistryPopulation(_, _, _, _)):
             return true
         default:
             return false
