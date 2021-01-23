@@ -1,104 +1,69 @@
 import Foundation
 
 protocol MessageExchange {
-    mutating func setMessageHandler(_ messageHandler: @escaping ((String) -> Void))
+    func setMessageHandler(_ messageHandler: @escaping ((String) -> Void))
     func sendMessage(message: String)
     func ping()
+    func disconnect()
 }
 
-struct HAClient {
+enum HAClientError: Error {
+    case authenticationFailed(String)
+}
+
+class HAClient {
+    var currentPhase: Phase?
     private var messageExchange: MessageExchange
+    
+    typealias AuthCompletionHandler = () -> Void
+    typealias AuthFailureHandler = (String) -> Void
+    typealias CurrentRequestID = Int
+
+    enum Phase {
+        case pendingAuth(AuthCompletionHandler, AuthFailureHandler)
+        case authenticated(CurrentRequestID)
+    }
 
     init(messageExchange: MessageExchange) {
         self.messageExchange = messageExchange
-        self.messageExchange.setMessageHandler(onMessage)
     }
 
-    func authenticate(token: String) {
+    func authenticate(token: String, completion: @escaping () -> Void, onFailure: @escaping (_ errorMessage: String) -> Void) {
+        currentPhase = .pendingAuth(completion, onFailure)
+        messageExchange.setMessageHandler(handleTextMessage(jsonString:))
         messageExchange.sendMessage(
             message: JSONHandler.serialize(AuthMessage(accessToken: token))
         )
     }
 
-    private func onMessage(message: String) {
-        print("Client received message from websocket \(message)")
-    }
-}
+    private func handleTextMessage(jsonString: String) {
+        print("Client received message from websocket \(jsonString)")
 
-class WebSocket: NSObject, URLSessionWebSocketDelegate {
-    func urlSession(_ session: URLSession, webSocketTask: URLSessionWebSocketTask, didOpenWithProtocol protocol: String?) {
-        print("Web Socket did connect")
-    }
-
-    func urlSession(_ session: URLSession, webSocketTask: URLSessionWebSocketTask, didCloseWith closeCode: URLSessionWebSocketTask.CloseCode, reason: Data?) {
-        print("Web Socket did disconnect")
-    }
-}
-
-struct WebSocketConnection: MessageExchange {
-    private let websocketEndpoint: String
-    private let webSocketDelegate = WebSocket()
-    private let webSocketTask: URLSessionWebSocketTask
-    private var messageHandler: ((String) -> Void)?
-
-    init(endpoint: String) {
-        websocketEndpoint = endpoint
-
-        let session = URLSession(
-            configuration: .default,
-            delegate: webSocketDelegate,
-            delegateQueue: OperationQueue()
-        )
-
-        let url = URL(string: websocketEndpoint)!
-        webSocketTask = session.webSocketTask(with: url)
-        webSocketTask.resume()
-        receiveMessage()
-    }
-
-    mutating func setMessageHandler(_ messageHandler: @escaping ((String) -> Void)) {
-        self.messageHandler = messageHandler
-    }
-
-    func sendMessage(message: String) {
-        webSocketTask.send(URLSessionWebSocketTask.Message.string(message)) { error in
-            if let error = error {
-                print("WebSocket sending error: \(error)")
+        let incomingMessage = JSONHandler.deserialize(jsonString)
+        switch currentPhase {
+        case let .pendingAuth(completion, onFailure):
+            switch incomingMessage {
+            case _ as AuthOkMessage:
+                currentPhase = .authenticated(0)
+                print("Authentication successful")
+                completion()
+                break
+            case let authInvalidMessage as AuthInvalidMessage:
+                currentPhase = nil
+                messageExchange.disconnect()
+                onFailure(authInvalidMessage.message)
+            default:
+                print("Ignoring message", jsonString)
             }
-        }
-    }
 
-    private func receiveMessage() {
-        webSocketTask.receive { result in
-            switch result {
-            case let .failure(error):
-                print("Failed to receive message: \(error)")
-            case let .success(message):
-                switch message {
-                case let .string(text):
-                    print("Received text message: \(text)")
-                    if let messageHandler = self.messageHandler {
-                        messageHandler(text)
-                    }
-                case let .data(data):
-                    print("Received binary message: \(data)")
-                @unknown default:
-                    fatalError()
-                }
-
-                self.receiveMessage()
+        case .authenticated:
+            switch incomingMessage {
+            default:
+                print("Msg while authenticated", incomingMessage!)
             }
-        }
-    }
 
-    func ping() {
-        print("sending a ping")
-        webSocketTask.sendPing { error in
-            if let error = error {
-                print("Error when sending PING \(error)")
-            } else {
-                print("Successfully sent a ping")
-            }
+        default:
+            print("Ignoring text message", jsonString)
         }
     }
 }
