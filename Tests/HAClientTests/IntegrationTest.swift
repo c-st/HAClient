@@ -22,5 +22,6 @@ final class IntegrationTest: XCTestCase {
         }
 
         expect(client.currentPhase) == .authenticated
+        expect(client.registry.areas.count).to(be(4))
     }
 }

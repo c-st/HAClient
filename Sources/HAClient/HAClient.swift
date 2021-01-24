@@ -20,8 +20,9 @@ class HAClient {
     var currentPhase: Phase?
 
     private var messageExchange: MessageExchange
-    private var registry: Registry
     private var lastUsedRequestId: Int?
+    
+    let registry: Registry
 
     enum Phase {
         case pendingAuth(VoidCompletionHandler, AuthFailureHandler)
@@ -134,8 +135,8 @@ class HAClient {
 
         switch matchingRequest.type {
         case .listAreas:
-            if let areaMessage = try? JSON.decoder.decode(ListAreasResultMessage.self, from: jsonData) {
-                print("todo handle", areaMessage)
+            if let message = try? JSON.decoder.decode(ListAreasResultMessage.self, from: jsonData) {
+                self.registry.handleResultMessage(message)
             }
         case .listDevices:
             break
