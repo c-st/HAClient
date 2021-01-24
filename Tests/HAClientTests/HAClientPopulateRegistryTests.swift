@@ -88,24 +88,81 @@ final class HAClientPopulateRegistryTests: XCTestCase {
                             ListAreasResultMessage.Area(
                                 name: "Bedroom",
                                 areaId: "bedroom"
+                            )
+                        ]
+                    )
+                )
+            )
+            self.mockExchange.simulateIncomingMessage(
+                message: JSONCoding.serialize(
+                    ListDevicesResultMessage(
+                        id: 2,
+                        success: true,
+                        result: [
+                            ListDevicesResultMessage.Device(
+                                id: "device-id-1",
+                                name: "living_room_lamp",
+                                nameByUser: nil,
+                                manufacturer: "Lamp Manufacturer",
+                                areaId: "living-room"
                             ),
-                            ListAreasResultMessage.Area(
-                                name: "Kitchen",
-                                areaId: "kitchen"
+                            ListDevicesResultMessage.Device(
+                                id: "device-id-2",
+                                name: "bedroom_lamp",
+                                nameByUser: nil,
+                                manufacturer: "Lamp Manufacturer",
+                                areaId: "bedroom"
+                            ),
+                            ListDevicesResultMessage.Device(
+                                id: "device-id-3",
+                                name: "Sensor",
+                                nameByUser: nil,
+                                manufacturer: "Sensor Manufacturer",
+                                areaId: "living-room"
                             ),
                         ]
                     )
                 )
             )
             self.mockExchange.simulateIncomingMessage(
-                message: JSONCoding.serialize(BaseResultMessage(id: 2, success: true))
-            )
-            self.mockExchange.simulateIncomingMessage(
-                message: JSONCoding.serialize(BaseResultMessage(id: 3, success: true))
+                message: JSONCoding.serialize(
+                    ListEntitiesResultMessage(
+                        id: 3,
+                        success: true,
+                        result: [
+                            ListEntitiesResultMessage.Entity(
+                                id: "light.living_room_lamp",
+                                areaId: nil,
+                                deviceId: "device-id-1",
+                                platform: "mqtt"
+                            ),
+                            ListEntitiesResultMessage.Entity(
+                                id: "light.bedroom_lamp",
+                                areaId: nil,
+                                deviceId: "device-id-2",
+                                platform: "mqtt"
+                            ),
+                            ListEntitiesResultMessage.Entity(
+                                id: "sensor.living_room_humidity",
+                                areaId: nil,
+                                deviceId: "device-id-3",
+                                platform: "mqtt"
+                            ),
+                            ListEntitiesResultMessage.Entity(
+                                id: "sensor.living_room_temperature",
+                                areaId: nil,
+                                deviceId: "device-id-3",
+                                platform: "mqtt"
+                            )
+                        ]
+                    )
+                )
             )
 
             expect(self.client.currentPhase) == .authenticated
-            expect(self.client.registry.areas.count).to(be(3))
+            expect(self.client.registry.areas.count).to(be(2))
+            expect(self.client.registry.devices.count).to(be(3))
+            expect(self.client.registry.entities.count).to(be(4))
         }
     }
 }

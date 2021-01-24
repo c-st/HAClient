@@ -23,5 +23,6 @@ final class IntegrationTest: XCTestCase {
 
         expect(client.currentPhase) == .authenticated
         expect(client.registry.areas.count).to(be(4))
+        expect(client.registry.entities["light.office_lamp_light"]).toNot(beNil())
     }
 }

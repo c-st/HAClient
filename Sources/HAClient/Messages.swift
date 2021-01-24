@@ -89,3 +89,47 @@ struct ListAreasResultMessage: Codable {
         }
     }
 }
+
+struct ListDevicesResultMessage: Codable {
+    var type: String = IncomingMessageType.result.rawValue
+    let id: Int
+    let success: Bool
+    let result: [Device]
+
+    struct Device: Codable {
+        let id: String
+        let name: String
+        let nameByUser: String?
+        let manufacturer: String
+        let areaId: String?
+        
+        private enum CodingKeys: String, CodingKey {
+            case id
+            case name
+            case nameByUser = "name_by_user"
+            case manufacturer
+            case areaId = "area_id"
+        }
+    }
+}
+
+struct ListEntitiesResultMessage: Codable {
+    var type: String = IncomingMessageType.result.rawValue
+    let id: Int
+    let success: Bool
+    let result: [Entity]
+
+    struct Entity: Codable {
+        let id: String
+        let areaId: String?
+        let deviceId: String?
+        let platform: String
+        
+        private enum CodingKeys: String, CodingKey {
+            case id = "entity_id"
+            case areaId = "area_id"
+            case deviceId = "device_id"
+            case platform
+        }
+    }
+}

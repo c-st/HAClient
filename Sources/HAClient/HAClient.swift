@@ -13,16 +13,15 @@ enum HAClientError: Error {
 }
 
 class HAClient {
-    typealias VoidCompletionHandler = () -> Void
-    typealias AuthFailureHandler = (String) -> Void
-    typealias CurrentRequestID = Int
-
     var currentPhase: Phase?
+    let registry: Registry
 
     private var messageExchange: MessageExchange
     private var lastUsedRequestId: Int?
-    
-    let registry: Registry
+
+    typealias VoidCompletionHandler = () -> Void
+    typealias AuthFailureHandler = (String) -> Void
+    typealias CurrentRequestID = Int
 
     enum Phase {
         case pendingAuth(VoidCompletionHandler, AuthFailureHandler)
@@ -38,11 +37,11 @@ class HAClient {
     init(messageExchange: MessageExchange) {
         self.messageExchange = messageExchange
         registry = Registry()
+        messageExchange.setMessageHandler(handleTextMessage(jsonString:))
     }
 
     func authenticate(token: String, completion: @escaping () -> Void, onFailure: @escaping (_ errorMessage: String) -> Void) {
         currentPhase = .pendingAuth(completion, onFailure)
-        messageExchange.setMessageHandler(handleTextMessage(jsonString:))
         messageExchange.sendMessage(
             message: JSONCoding.serialize(AuthMessage(accessToken: token))
         )
@@ -85,18 +84,14 @@ class HAClient {
 
         switch currentPhase {
         case let .pendingAuth(completion, onFailure):
-            switch incomingMessage {
-            case _ as AuthOkMessage:
-                currentPhase = .authenticated
-                completion()
-                break
-            case let authInvalidMessage as AuthInvalidMessage:
-                currentPhase = nil
-                messageExchange.disconnect()
-                onFailure(authInvalidMessage.message)
-            default:
-                print("Ignoring message", jsonString)
+            guard let message = incomingMessage else {
+                return
             }
+            currentPhase = handleAuthenticationMessage(
+                message: message,
+                completion: completion,
+                onFailure: onFailure
+            )
 
         case let .pendingRegistryPopulation(completion, pendingRequests):
             switch incomingMessage {
@@ -127,6 +122,21 @@ class HAClient {
         }
     }
 
+    private func handleAuthenticationMessage(message: Any, completion: @escaping VoidCompletionHandler, onFailure: @escaping AuthFailureHandler) -> Phase? {
+        switch message {
+        case _ as AuthOkMessage:
+            completion()
+            return .authenticated
+        case let authInvalidMessage as AuthInvalidMessage:
+            messageExchange.disconnect()
+            onFailure(authInvalidMessage.message)
+            return nil
+        default:
+            print("Ignoring message", message)
+            return currentPhase
+        }
+    }
+
     private func handleRegistryPopulationMessage(requestId: Int, pendingRequests: Array<PendingRequest>, jsonData: Data, completion: @escaping VoidCompletionHandler) -> Phase? {
         guard let matchingRequest = pendingRequests.first(where: { $0.id == requestId }) else {
             print("No matching request found with this ID", requestId)
@@ -136,12 +146,16 @@ class HAClient {
         switch matchingRequest.type {
         case .listAreas:
             if let message = try? JSON.decoder.decode(ListAreasResultMessage.self, from: jsonData) {
-                self.registry.handleResultMessage(message)
+                registry.handleResultMessage(message)
             }
         case .listDevices:
-            break
+            if let message = try? JSON.decoder.decode(ListDevicesResultMessage.self, from: jsonData) {
+                registry.handleResultMessage(message)
+            }
         case .listEntities:
-            break
+            if let message = try? JSON.decoder.decode(ListEntitiesResultMessage.self, from: jsonData) {
+                registry.handleResultMessage(message)
+            }
         }
 
         let remainingRequests = pendingRequests.filter({ $0.id != requestId })
