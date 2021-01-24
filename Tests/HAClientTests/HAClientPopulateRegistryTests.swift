@@ -18,7 +18,7 @@ final class HAClientPopulateRegistryTests: XCTestCase {
             onFailure: { _ in }
         )
         mockExchange.simulateIncomingMessage(
-            message: JSONHandler.serialize(AuthOkMessage())
+            message: JSONCoding.serialize(AuthOkMessage())
         )
         mockExchange.sentMessages = []
     }
@@ -27,9 +27,9 @@ final class HAClientPopulateRegistryTests: XCTestCase {
         client.populateRegistry {}
 
         expect(self.mockExchange.sentMessages).to(equal([
-            JSONHandler.serialize(RequestAreaRegistry(id: 1)),
-            JSONHandler.serialize(RequestDeviceRegistry(id: 2)),
-            JSONHandler.serialize(RequestEntityRegistry(id: 3)),
+            JSONCoding.serialize(RequestAreaRegistry(id: 1)),
+            JSONCoding.serialize(RequestDeviceRegistry(id: 2)),
+            JSONCoding.serialize(RequestEntityRegistry(id: 3)),
         ]))
     }
 
@@ -40,16 +40,16 @@ final class HAClientPopulateRegistryTests: XCTestCase {
             }
 
             self.mockExchange.simulateIncomingMessage(
-                message: JSONHandler.serialize(ResultMessage(id: 1, success: true))
+                message: JSONCoding.serialize(BaseResultMessage(id: 1, success: true))
             )
             self.mockExchange.simulateIncomingMessage(
-                message: JSONHandler.serialize(ResultMessage(id: 2, success: true))
+                message: JSONCoding.serialize(BaseResultMessage(id: 2, success: true))
             )
             self.mockExchange.simulateIncomingMessage(
-                message: JSONHandler.serialize(ResultMessage(id: 3, success: true))
+                message: JSONCoding.serialize(BaseResultMessage(id: 3, success: true))
             )
 
-            expect(self.client.currentPhase) == .authenticated(4)
+            expect(self.client.currentPhase) == .authenticated
         }
     }
 
@@ -57,13 +57,13 @@ final class HAClientPopulateRegistryTests: XCTestCase {
         client.populateRegistry {}
 
         mockExchange.simulateIncomingMessage(
-            message: JSONHandler.serialize(ResultMessage(id: 1, success: true))
+            message: JSONCoding.serialize(BaseResultMessage(id: 1, success: true))
         )
         mockExchange.simulateIncomingMessage(
-            message: JSONHandler.serialize(ResultMessage(id: 2, success: false))
+            message: JSONCoding.serialize(BaseResultMessage(id: 2, success: false))
         )
         mockExchange.simulateIncomingMessage(
-            message: JSONHandler.serialize(ResultMessage(id: 3, success: true))
+            message: JSONCoding.serialize(BaseResultMessage(id: 3, success: true))
         )
 
         expect(self.client.currentPhase).toEventually(beNil())

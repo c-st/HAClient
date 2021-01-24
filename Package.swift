@@ -13,14 +13,15 @@ let package = Package(
     products: [
         .library(
             name: "HAClient",
-            targets: ["HAClient"]),
+            targets: ["HAClient"]
+        )
     ],
     dependencies: [
         .package(
             name: "Nimble",
             url: "https://github.com/Quick/Nimble.git",
             .upToNextMajor(from: "8.0.1")
-        ),
+        )
     ],
     targets: [
         .target(
@@ -30,6 +31,6 @@ let package = Package(
         .testTarget(
             name: "HAClientTests",
             dependencies: ["HAClient", "Nimble"]
-        ),
+        )
     ]
 )

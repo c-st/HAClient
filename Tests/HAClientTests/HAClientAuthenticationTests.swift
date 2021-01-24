@@ -20,7 +20,7 @@ final class HAClientAuthenticationTests: XCTestCase {
         )
 
         expect(self.mockExchange.sentMessages).to(equal([
-            JSONHandler.serialize(AuthMessage(accessToken: "mytoken")),
+            JSONCoding.serialize(AuthMessage(accessToken: "mytoken")),
         ]))
     }
 
@@ -32,10 +32,10 @@ final class HAClientAuthenticationTests: XCTestCase {
         )
 
         mockExchange.simulateIncomingMessage(
-            message: JSONHandler.serialize(AuthOkMessage())
+            message: JSONCoding.serialize(AuthOkMessage())
         )
 
-        expect(self.client.currentPhase) == HAClient.Phase.authenticated(1)
+        expect(self.client.currentPhase) == HAClient.Phase.authenticated
     }
 
     func testSetsFailureStateAfterInvalidAuthentication() {
@@ -46,7 +46,7 @@ final class HAClientAuthenticationTests: XCTestCase {
         )
 
         mockExchange.simulateIncomingMessage(
-            message: JSONHandler.serialize(AuthInvalidMessage(message: "Invalid token"))
+            message: JSONCoding.serialize(AuthInvalidMessage(message: "Invalid token"))
         )
 
         expect(self.client.currentPhase).to(beNil())

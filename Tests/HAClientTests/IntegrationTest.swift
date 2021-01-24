@@ -21,6 +21,6 @@ final class IntegrationTest: XCTestCase {
             }
         }
 
-        expect(client.currentPhase) == .authenticated(4)
+        expect(client.currentPhase) == .authenticated
     }
 }

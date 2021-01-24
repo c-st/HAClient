@@ -1,6 +1,6 @@
 import Foundation
 
-final class JSONHandler {
+final class JSONCoding {
     static func serialize(_ message: Encodable) -> String {
         let data = try! JSONSerialization.data(
             withJSONObject: message.asDictionary,
@@ -25,7 +25,7 @@ final class JSONHandler {
         case .auth_invalid:
             return try? JSON.decoder.decode(AuthInvalidMessage.self, from: jsonData)
         case .result:
-            return try? JSON.decoder.decode(ResultMessage.self, from: jsonData)
+            return try? JSON.decoder.decode(BaseResultMessage.self, from: jsonData)
         }
     }
 }

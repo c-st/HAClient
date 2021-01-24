@@ -10,13 +10,13 @@ class FakeMessageExchange: MessageExchange {
     var successfullyAuthenticated: Bool?
 
     // MARK: Fake helpers
-    
+
     func simulateIncomingMessage(message: String) {
         if let handler = messageHandler {
             handler(message)
         }
     }
-    
+
     // MARK: Protocol
 
     func sendMessage(message: String) {
@@ -37,11 +37,11 @@ class FakeMessageExchange: MessageExchange {
 extension HAClient.Phase: Equatable {
     public static func == (lhs: HAClient.Phase, rhs: HAClient.Phase) -> Bool {
         switch (lhs, rhs) {
-        case let (.authenticated(leftId), .authenticated(rightId)):
-            return leftId == rightId
+        case (.authenticated, .authenticated):
+            return true
         case (.pendingAuth(_, _), .pendingAuth(_, _)):
             return true
-        case (.pendingRegistryPopulation(_, _, _, _), .pendingRegistryPopulation(_, _, _, _)):
+        case (.pendingRegistryPopulation(_, _), .pendingRegistryPopulation(_, _)):
             return true
         default:
             return false

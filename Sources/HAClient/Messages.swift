@@ -5,7 +5,7 @@ import Foundation
 struct AuthMessage: Codable {
     var type: String = "auth"
     let accessToken: String
-    
+
     private enum CodingKeys: String, CodingKey {
         case type
         case accessToken = "access_token"
@@ -43,7 +43,7 @@ enum IncomingMessageType: String, Codable {
 struct AuthRequired: Codable {
     var type: String = IncomingMessageType.auth_required.rawValue
     let haVersion: String
-    
+
     private enum CodingKeys: String, CodingKey {
         case type
         case haVersion = "ha_version"
@@ -59,9 +59,33 @@ struct AuthInvalidMessage: Codable {
     let message: String
 }
 
-struct ResultMessage: Codable {
+struct BaseResultMessage: Codable {
     var type: String = IncomingMessageType.result.rawValue
     let id: Int
     let success: Bool
-    // let result: [Any]
+}
+
+// MARK: Result payloads
+
+enum ResultType {
+    case listAreas
+    case listDevices
+    case listEntities
+}
+
+struct ListAreasResultMessage: Codable {
+    var type: String = IncomingMessageType.result.rawValue
+    let id: Int
+    let success: Bool
+    let result: [Area]
+
+    struct Area: Codable {
+        let name: String
+        let areaId: String
+
+        private enum CodingKeys: String, CodingKey {
+            case name
+            case areaId = "area_id"
+        }
+    }
 }
