@@ -1,9 +1,8 @@
 import Foundation
 
-protocol MessageExchange {
+public protocol MessageExchange {
     func setMessageHandler(_ messageHandler: @escaping ((String) -> Void))
     func sendMessage(message: String)
-    func ping()
     func disconnect()
 }
 
@@ -12,9 +11,9 @@ enum HAClientError: Error {
     case wrongPhase(String)
 }
 
-class HAClient {
+public class HAClient {
     var currentPhase: Phase?
-    let registry: Registry
+    public let registry: Registry
 
     private var messageExchange: MessageExchange
     private var lastUsedRequestId: Int?
@@ -35,20 +34,20 @@ class HAClient {
         case authenticated
     }
 
-    init(messageExchange: MessageExchange) {
+    public init(messageExchange: MessageExchange) {
         self.messageExchange = messageExchange
         registry = Registry()
         messageExchange.setMessageHandler(handleTextMessage(jsonString:))
     }
 
-    func authenticate(token: String, completion: @escaping () -> Void, onFailure: @escaping (_ errorMessage: String) -> Void) {
+    public func authenticate(token: String, completion: @escaping () -> Void, onFailure: @escaping (_ errorMessage: String) -> Void) {
         currentPhase = .pendingAuth(completion, onFailure)
         messageExchange.sendMessage(
             message: JSONCoding.serialize(AuthMessage(accessToken: token))
         )
     }
 
-    func populateRegistry(_ completion: @escaping () -> Void) {
+    public func populateRegistry(_ completion: @escaping () -> Void) {
         let fetchAreasRequestId = getAndIncrementId()
         messageExchange.sendMessage(
             message: JSONCoding.serialize(RequestAreaRegistry(id: fetchAreasRequestId))
@@ -74,7 +73,7 @@ class HAClient {
         )
     }
 
-    func fetchStates(_ completion: @escaping () -> Void) {
+    public func fetchStates(_ completion: @escaping () -> Void) {
         let fetchStatesRequestId = getAndIncrementId()
         messageExchange.sendMessage(
             message: JSONCoding.serialize(RequestCurrentStates(id: fetchStatesRequestId))

@@ -1,44 +1,44 @@
 import Foundation
 
-struct Area {
+public struct Area {
     let id: String
     let name: String
 }
 
-struct Device: Equatable {
+public struct Device: Equatable {
     let id: String
     let name: String
     let manufacturer: String
     let areaId: String?
 
-    static func == (lhs: Device, rhs: Device) -> Bool {
+    static public func == (lhs: Device, rhs: Device) -> Bool {
         return lhs.id == rhs.id
     }
 }
 
-struct Entity: Equatable {
+public struct Entity: Equatable {
     let id: String
     let areaId: String?
     let deviceId: String?
     let platform: String
 
-    static func == (lhs: Entity, rhs: Entity) -> Bool {
+    static public func == (lhs: Entity, rhs: Entity) -> Bool {
         return lhs.id == rhs.id
     }
 }
 
-struct State {
+public struct State {
     let entityId: String
     let stateText: String
 }
 
-class Registry {
-    private(set) var areas: [Area] = []
-    private(set) var devices: [String: Device] = [:]
-    private(set) var entities: [String: Entity] = [:]
-    private(set) var states: [String: State] = [:]
+public class Registry {
+    private(set) public var areas: [Area] = []
+    private(set) public var devices: [String: Device] = [:]
+    private(set) public var entities: [String: Entity] = [:]
+    private(set) public var states: [String: State] = [:]
 
-    func entitiesInArea(areaId: String) -> [Entity] {
+    public func entitiesInArea(areaId: String) -> [Entity] {
         let deviceIdsInArea = devices.values
             .filter { $0.areaId == areaId }
             .map { $0.id }

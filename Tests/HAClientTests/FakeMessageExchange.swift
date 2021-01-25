@@ -27,9 +27,6 @@ class FakeMessageExchange: MessageExchange {
         self.messageHandler = messageHandler
     }
 
-    func ping() {
-    }
-
     func disconnect() {
     }
 }

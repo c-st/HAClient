@@ -1,12 +1,12 @@
 import Foundation
 
-class WebSocketConnection: MessageExchange {
+public class WebSocketConnection: MessageExchange {
     private let websocketEndpoint: String
     private let webSocketDelegate = WebSocket()
     private let webSocketTask: URLSessionWebSocketTask
     private var messageHandler: ((String) -> Void)?
 
-    init(endpoint: String) {
+    public init(endpoint: String) {
         websocketEndpoint = endpoint
 
         let session = URLSession(
@@ -22,11 +22,11 @@ class WebSocketConnection: MessageExchange {
         receiveMessage()
     }
 
-    func setMessageHandler(_ messageHandler: @escaping ((String) -> Void)) {
+    public func setMessageHandler(_ messageHandler: @escaping ((String) -> Void)) {
         self.messageHandler = messageHandler
     }
 
-    func sendMessage(message: String) {
+    public func sendMessage(message: String) {
         print("Sending outgoing text message", message)
         webSocketTask.send(URLSessionWebSocketTask.Message.string(message)) { error in
             if let error = error {
@@ -34,18 +34,8 @@ class WebSocketConnection: MessageExchange {
             }
         }
     }
-    
-    func ping() {
-        webSocketTask.sendPing { error in
-            if let error = error {
-                print("Error when sending PING \(error)")
-            } else {
-                print("Sent a ping")
-            }
-        }
-    }
 
-    func disconnect() {
+    public func disconnect() {
         webSocketTask.cancel(with: .goingAway, reason: nil)
     }
 
