@@ -5,24 +5,44 @@ struct Area {
     let name: String
 }
 
-struct Device {
+struct Device: Equatable {
     let id: String
     let name: String
     let manufacturer: String
     let areaId: String?
+
+    static func == (lhs: Device, rhs: Device) -> Bool {
+        return lhs.id == rhs.id
+    }
 }
 
-struct Entity {
+struct Entity: Equatable {
     let id: String
     let areaId: String?
     let deviceId: String?
     let platform: String
+
+    static func == (lhs: Entity, rhs: Entity) -> Bool {
+        return lhs.id == rhs.id
+    }
 }
 
 class Registry {
     private(set) var areas: [Area] = []
     private(set) var devices: [String: Device] = [:]
     private(set) var entities: [String: Entity] = [:]
+
+    func entitiesInArea(areaId: String) -> [Entity] {
+        let deviceIdsInArea = devices.values
+            .filter { $0.areaId == areaId }
+            .map { $0.id }
+
+        let entitiesFromDevices = entities.values
+            .filter { $0.deviceId != nil }
+            .filter { deviceIdsInArea.contains($0.deviceId!) }
+
+        return entitiesFromDevices
+    }
 
     func handleResultMessage(_ resultMessage: Any) {
         switch resultMessage {

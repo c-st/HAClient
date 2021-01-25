@@ -59,8 +59,6 @@ class WebSocketConnection: MessageExchange {
                 case let .string(text):
                     if let handler = self.messageHandler {
                         handler(text)
-                    } else {
-                        print("No handler for text message: \(text)")
                     }
                 case let .data(data):
                     print("Received binary message: \(data)")
