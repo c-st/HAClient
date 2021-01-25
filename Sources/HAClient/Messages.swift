@@ -27,6 +27,11 @@ struct RequestEntityRegistry: Codable {
     let id: Int
 }
 
+struct RequestCurrentStates: Codable {
+    var type: String = "get_states"
+    let id: Int
+}
+
 // MARK: Incoming messages
 
 struct BaseMessage: Codable {
@@ -71,6 +76,7 @@ enum ResultType {
     case listAreas
     case listDevices
     case listEntities
+    case currentStates
 }
 
 struct ListAreasResultMessage: Codable {
@@ -102,7 +108,7 @@ struct ListDevicesResultMessage: Codable {
         let nameByUser: String?
         let manufacturer: String
         let areaId: String?
-        
+
         private enum CodingKeys: String, CodingKey {
             case id
             case name
@@ -124,12 +130,29 @@ struct ListEntitiesResultMessage: Codable {
         let areaId: String?
         let deviceId: String?
         let platform: String
-        
+
         private enum CodingKeys: String, CodingKey {
             case id = "entity_id"
             case areaId = "area_id"
             case deviceId = "device_id"
             case platform
+        }
+    }
+}
+
+struct CurrentStatesResultMessage: Codable {
+    var type: String = IncomingMessageType.result.rawValue
+    let id: Int
+    let success: Bool
+    let result: [State]
+
+    struct State: Codable {
+        let entityId: String
+        let state: String
+
+        private enum CodingKeys: String, CodingKey {
+            case entityId = "entity_id"
+            case state
         }
     }
 }

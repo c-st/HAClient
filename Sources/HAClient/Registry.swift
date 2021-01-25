@@ -27,10 +27,16 @@ struct Entity: Equatable {
     }
 }
 
+struct State {
+    let entityId: String
+    let stateText: String
+}
+
 class Registry {
     private(set) var areas: [Area] = []
     private(set) var devices: [String: Device] = [:]
     private(set) var entities: [String: Entity] = [:]
+    private(set) var states: [String: State] = [:]
 
     func entitiesInArea(areaId: String) -> [Entity] {
         let deviceIdsInArea = devices.values
@@ -74,6 +80,15 @@ class Registry {
                 )
             }
             print("Received \(entities.count) entities")
+
+        case let message as CurrentStatesResultMessage:
+            states = message.result.reduce(into: states) { stateRegistry, state in
+                stateRegistry[state.entityId] = State(
+                    entityId: state.entityId,
+                    stateText: state.state
+                )
+            }
+            print("Received \(message.result.count) new states")
 
         default:
             break

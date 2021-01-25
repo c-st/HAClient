@@ -4,7 +4,7 @@ import XCTest
 @testable import HAClient
 
 final class IntegrationTest: XCTestCase {
-    func skip_testAuthenticate() {
+    func skip_testAuthenticateAndDoStuff() {
         let client = HAClient(messageExchange: WebSocketConnection(endpoint: "ws://homeassistant.raspberrypi.localdomain/api/websocket"))
 
         waitUntil(timeout: 1) { done in
@@ -22,9 +22,23 @@ final class IntegrationTest: XCTestCase {
         }
 
         expect(client.currentPhase) == .authenticated
-        expect(client.registry.areas.count).to(be(4))
-        expect(client.registry.entities["light.office_lamp_light"]).toNot(beNil())
+        expect(client.registry.areas.count)
+            .to(be(4))
 
-        print(client.registry.entitiesInArea(areaId: client.registry.areas[0].id))
+        expect(client.registry.entities["light.office_lamp_light"])
+            .toNot(beNil())
+
+//        print(client.registry.entitiesInArea(
+//            areaId: client.registry.areas[0].id)
+//        )
+
+        // fetch states
+        waitUntil(timeout: 1) { done in
+            client.fetchStates {
+                done()
+            }
+
+            print(client.registry.states)
+        }
     }
 }
