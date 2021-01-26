@@ -15,7 +15,7 @@ final class HAClientAuthenticationTests: XCTestCase {
     func testSendsAccessTokenWhenAuthenticating() {
         client.authenticate(
             token: "mytoken",
-            completion: { },
+            onConnection: { },
             onFailure: { _ in }
         )
 
@@ -27,7 +27,7 @@ final class HAClientAuthenticationTests: XCTestCase {
     func testSetsStateAfterSuccessfulAuthentication() {
         client.authenticate(
             token: "mytoken",
-            completion: { },
+            onConnection: { },
             onFailure: { _ in }
         )
 
@@ -41,7 +41,7 @@ final class HAClientAuthenticationTests: XCTestCase {
     func testSetsFailureStateAfterInvalidAuthentication() {
         client?.authenticate(
             token: "invalid_token",
-            completion: { },
+            onConnection: { },
             onFailure: { _ in }
         )
 

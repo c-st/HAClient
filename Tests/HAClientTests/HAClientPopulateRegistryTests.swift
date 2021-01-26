@@ -12,7 +12,7 @@ final class HAClientPopulateRegistryTests: XCTestCase {
         client = HAClient(messageExchange: mockExchange)
         client.authenticate(
             token: "mytoken",
-            completion: { },
+            onConnection: { },
             onFailure: { _ in }
         )
         mockExchange.simulateIncomingMessage(
@@ -22,7 +22,7 @@ final class HAClientPopulateRegistryTests: XCTestCase {
     }
 
     func testUsesIncrementingIdWhenMakingRequests() {
-        client.populateRegistry {}
+        client.requestRegistry()
 
         expect(self.mockExchange.sentMessages).to(equal([
             JSONCoding.serialize(RequestAreaRegistry(id: 1)),
@@ -33,9 +33,7 @@ final class HAClientPopulateRegistryTests: XCTestCase {
 
     func testCallsCompletionWhenAllPopulationResponsesHaveArrived() {
         waitUntil(timeout: 1) { done in
-            self.client.populateRegistry {
-                done()
-            }
+            self.client.requestRegistry()
 
             self.mockExchange.simulateIncomingMessage(
                 message: JSONCoding.serialize(BaseResultMessage(id: 1, success: true))
@@ -48,30 +46,13 @@ final class HAClientPopulateRegistryTests: XCTestCase {
             )
 
             expect(self.client.currentPhase) == .authenticated
+            done()
         }
-    }
-
-    func testResetsPhaseIfAResponseWasNotSuccessful() {
-        client.populateRegistry {}
-
-        mockExchange.simulateIncomingMessage(
-            message: JSONCoding.serialize(BaseResultMessage(id: 1, success: true))
-        )
-        mockExchange.simulateIncomingMessage(
-            message: JSONCoding.serialize(BaseResultMessage(id: 2, success: false))
-        )
-        mockExchange.simulateIncomingMessage(
-            message: JSONCoding.serialize(BaseResultMessage(id: 3, success: true))
-        )
-
-        expect(self.client.currentPhase).toEventually(beNil())
     }
 
     func testHandlesResponsesToPopulateRegistry() {
         waitUntil(timeout: 1) { done in
-            self.client.populateRegistry {
-                done()
-            }
+            self.client.requestRegistry()
 
             TestExamples.simulatePopulateRegistryResponses(self.mockExchange)
 
@@ -79,13 +60,13 @@ final class HAClientPopulateRegistryTests: XCTestCase {
             expect(self.client.registry.areas.count).to(be(2))
             expect(self.client.registry.devices.count).to(be(3))
             expect(self.client.registry.entities.count).to(be(4))
+            done()
         }
     }
 
     func testReturnsEntitesByArea() {
-        client.populateRegistry {}
-        TestExamples.simulatePopulateRegistryResponses(self.mockExchange)
-
+        client.requestRegistry()
+        TestExamples.simulatePopulateRegistryResponses(mockExchange)
 
         expect(self.client.registry.entitiesInArea(areaId: "living-room").count).to(be(3))
         expect(

@@ -10,35 +10,18 @@ final class IntegrationTest: XCTestCase {
         waitUntil(timeout: 1) { done in
             client.authenticate(
                 token: "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiIzNmFmZDMyMjdkYzQ0YmNlOGZiNDRhNTFiZDA4MDdkZSIsImlhdCI6MTYxMTI3MTQ2NiwiZXhwIjoxOTI2NjMxNDY2fQ.YDRag0Hvq0lrTvu4Rt_z9NAQAJJNManAP0g4wHBFRq0",
-                completion: { done() },
+                onConnection: { done() },
                 onFailure: { reason in print("Authentication failure", reason) }
             )
         }
 
-        waitUntil(timeout: 1) { done in
-            client.populateRegistry {
-                done()
-            }
-        }
-
         expect(client.currentPhase) == .authenticated
-        expect(client.registry.areas.count)
-            .to(be(4))
 
-        expect(client.registry.entities["light.office_lamp_light"])
-            .toNot(beNil())
+        client.requestRegistry()
+        client.requestStates()
 
-//        print(client.registry.entitiesInArea(
-//            areaId: client.registry.areas[0].id)
-//        )
-
-        // fetch states
-        waitUntil(timeout: 1) { done in
-            client.fetchStates {
-                done()
-            }
-
-            print(client.registry.states)
-        }
+        expect(client.registry.areas).toEventually(haveCount(4))
+        expect(client.registry.entities["light.office_lamp_light"]).toNotEventually(beNil())
+        expect(client.registry.states).toNotEventually(beNil())
     }
 }

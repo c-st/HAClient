@@ -13,7 +13,7 @@ final class HAClientEntityStateTests: XCTestCase {
         client = HAClient(messageExchange: mockExchange)
         client.authenticate(
             token: "mytoken",
-            completion: { },
+            onConnection: { },
             onFailure: { _ in }
         )
         mockExchange.simulateIncomingMessage(
@@ -23,43 +23,13 @@ final class HAClientEntityStateTests: XCTestCase {
         mockExchange.sentMessages = []
     }
 
-    func testCallsCompletionAfterSuccessfulResponse() {
-        waitUntil(timeout: 1) { done in
-            self.client.fetchStates {
-                done()
-            }
-
-            self.mockExchange.simulateIncomingMessage(message:
-                JSONCoding.serialize(
-                    CurrentStatesResultMessage(
-                        id: 5,
-                        success: true,
-                        result: []
-                    )
-                )
-            )
-        }
-    }
-
-    func testResetsPhaseIfAResponseWasNotSuccessful() {
-        client.fetchStates {}
-
-        mockExchange.simulateIncomingMessage(message:
-            JSONCoding.serialize(
-                CurrentStatesResultMessage(id: 6, success: false, result: [])
-            )
-        )
-
-        expect(self.client.currentPhase).toEventually(beNil())
-    }
-
     func testRecordsStateInRegistry() {
-        client.fetchStates {}
+        client.requestStates()
 
         mockExchange.simulateIncomingMessage(message:
             JSONCoding.serialize(
                 CurrentStatesResultMessage(
-                    id: 5,
+                    id: 1,
                     success: true,
                     result: [
                         CurrentStatesResultMessage.State(entityId: "id-1", state: "on"),
@@ -70,7 +40,7 @@ final class HAClientEntityStateTests: XCTestCase {
 
         expect(self.client.registry.states.count)
             .toEventually(beGreaterThan(0))
-        
+
         expect(self.client.registry.states["id-1"]?.stateText)
             .toEventually(be("on"))
     }

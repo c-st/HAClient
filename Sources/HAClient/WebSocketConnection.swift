@@ -27,7 +27,6 @@ public class WebSocketConnection: MessageExchange {
     }
 
     public func sendMessage(message: String) {
-        print("Sending outgoing text message", message)
         webSocketTask.send(URLSessionWebSocketTask.Message.string(message)) { error in
             if let error = error {
                 print("WebSocket sending error: \(error)")

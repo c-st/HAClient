@@ -11,13 +11,18 @@ enum HAClientError: Error {
     case wrongPhase(String)
 }
 
-public class HAClient {
-    var currentPhase: Phase?
-    public let registry: Registry
+public protocol HAClientProtocol {
+    init(messageExchange: MessageExchange)
+    func authenticate(
+        token: String,
+        onConnection: @escaping () -> Void,
+        onFailure: @escaping (_ errorMessage: String) -> Void
+    )
+    func requestRegistry()
+    func requestStates()
+}
 
-    private var messageExchange: MessageExchange
-    private var lastUsedRequestId: Int?
-
+public class HAClient: HAClientProtocol {
     typealias VoidCompletionHandler = () -> Void
     typealias AuthFailureHandler = (String) -> Void
     typealias RequestID = Int
@@ -29,59 +34,66 @@ public class HAClient {
 
     enum Phase {
         case pendingAuth(VoidCompletionHandler, AuthFailureHandler)
-        case pendingRegistryPopulation(VoidCompletionHandler, Array<PendingRequest>)
-        case pendingStateUpdate(VoidCompletionHandler, PendingRequest)
         case authenticated
     }
 
-    public init(messageExchange: MessageExchange) {
+    var currentPhase: Phase?
+    public let registry: Registry
+
+    private var messageExchange: MessageExchange
+    private var lastUsedRequestId: Int?
+    private var pendingRequests: [RequestID: PendingRequest] = [:]
+
+    public required init(messageExchange: MessageExchange) {
         self.messageExchange = messageExchange
         registry = Registry()
         messageExchange.setMessageHandler(handleTextMessage(jsonString:))
     }
 
-    public func authenticate(token: String, completion: @escaping () -> Void, onFailure: @escaping (_ errorMessage: String) -> Void) {
-        currentPhase = .pendingAuth(completion, onFailure)
+    public func authenticate(token: String, onConnection: @escaping () -> Void, onFailure: @escaping (_ errorMessage: String) -> Void) {
+        currentPhase = .pendingAuth(onConnection, onFailure)
         messageExchange.sendMessage(
             message: JSONCoding.serialize(AuthMessage(accessToken: token))
         )
     }
 
-    public func populateRegistry(_ completion: @escaping () -> Void) {
+    public func requestRegistry() {
         let fetchAreasRequestId = getAndIncrementId()
         messageExchange.sendMessage(
             message: JSONCoding.serialize(RequestAreaRegistry(id: fetchAreasRequestId))
+        )
+        pendingRequests[fetchAreasRequestId] = PendingRequest(
+            id: fetchAreasRequestId,
+            type: .listAreas
         )
 
         let fetchDevicesRequestId = getAndIncrementId()
         messageExchange.sendMessage(
             message: JSONCoding.serialize(RequestDeviceRegistry(id: fetchDevicesRequestId))
         )
+        pendingRequests[fetchDevicesRequestId] = PendingRequest(
+            id: fetchDevicesRequestId,
+            type: .listDevices
+        )
 
         let fetchEntitiesRequestId = getAndIncrementId()
         messageExchange.sendMessage(
             message: JSONCoding.serialize(RequestEntityRegistry(id: fetchEntitiesRequestId))
         )
-
-        currentPhase = .pendingRegistryPopulation(
-            completion,
-            [
-                PendingRequest(id: fetchAreasRequestId, type: .listAreas),
-                PendingRequest(id: fetchDevicesRequestId, type: .listDevices),
-                PendingRequest(id: fetchEntitiesRequestId, type: .listEntities),
-            ]
+        pendingRequests[fetchEntitiesRequestId] = PendingRequest(
+            id: fetchEntitiesRequestId,
+            type: .listEntities
         )
     }
 
-    public func fetchStates(_ completion: @escaping () -> Void) {
+    public func requestStates() {
         let fetchStatesRequestId = getAndIncrementId()
         messageExchange.sendMessage(
             message: JSONCoding.serialize(RequestCurrentStates(id: fetchStatesRequestId))
         )
-
-        currentPhase = .pendingStateUpdate(
-            completion,
-            PendingRequest(id: fetchStatesRequestId, type: .currentStates)
+        pendingRequests[fetchStatesRequestId] = PendingRequest(
+            id: fetchStatesRequestId,
+            type: .currentStates
         )
     }
 
@@ -106,45 +118,16 @@ public class HAClient {
                 onFailure: onFailure
             )
 
-        case let .pendingRegistryPopulation(completion, pendingRequests):
-            switch incomingMessage {
-            case let resultMessage as BaseResultMessage:
-                guard resultMessage.success else {
-                    currentPhase = .none
-                    return
-                }
-                currentPhase = handleRegistryPopulationMessage(
-                    requestId: resultMessage.id,
-                    pendingRequests: pendingRequests,
-                    jsonData: jsonData,
-                    completion: completion
-                )
-            default:
-                break
-            }
-
-        case let .pendingStateUpdate(completion, request):
-            switch incomingMessage {
-            case let resultMessage as BaseResultMessage:
-                guard resultMessage.success else {
-                    currentPhase = .none
-                    return
-                }
-                currentPhase = handleUpdateStateMessage(
-                    request: request,
-                    jsonData: jsonData,
-                    completion: completion
-                )
-                break
-            default:
-                break
-            }
-
         case .authenticated:
-            if let message = incomingMessage {
-                print("Message while authenticated", message)
-            } else {
-                print("Received unsupported message type", jsonString)
+            switch incomingMessage {
+            case let resultMessage as BaseResultMessage:
+                guard resultMessage.success else {
+                    print("Result was not successful", jsonString)
+                    return
+                }
+                handleMessage(message: resultMessage, jsonData: jsonData)
+            default:
+                break
             }
 
         default:
@@ -162,15 +145,15 @@ public class HAClient {
             onFailure(authInvalidMessage.message)
             return nil
         default:
-            print("Ignoring message", message)
+            print("Not authenticated. Ignoring message", message)
             return currentPhase
         }
     }
 
-    private func handleRegistryPopulationMessage(requestId: Int, pendingRequests: Array<PendingRequest>, jsonData: Data, completion: @escaping VoidCompletionHandler) -> Phase? {
-        guard let matchingRequest = pendingRequests.first(where: { $0.id == requestId }) else {
-            print("No matching request found with this ID", requestId)
-            return currentPhase
+    private func handleMessage(message: BaseResultMessage, jsonData: Data) {
+        guard let matchingRequest = pendingRequests[message.id] else {
+            print("No matching request found with this ID", message.id)
+            return
         }
 
         switch matchingRequest.type {
@@ -186,31 +169,12 @@ public class HAClient {
             if let message = try? JSON.decoder.decode(ListEntitiesResultMessage.self, from: jsonData) {
                 registry.handleResultMessage(message)
             }
-        default:
-            print("Ignoring message")
-            return currentPhase
+        case .currentStates:
+            if let message = try? JSON.decoder.decode(CurrentStatesResultMessage.self, from: jsonData) {
+                registry.handleResultMessage(message)
+            }
         }
 
-        let remainingRequests = pendingRequests.filter({ $0.id != requestId })
-        if remainingRequests.isEmpty {
-            completion()
-            return .authenticated
-        } else {
-            return .pendingRegistryPopulation(completion, remainingRequests)
-        }
-    }
-
-    private func handleUpdateStateMessage(request: PendingRequest, jsonData: Data, completion: @escaping VoidCompletionHandler) -> Phase? {
-        guard request.type == .currentStates else {
-            print("Ignoring message")
-            return currentPhase
-        }
-
-        if let message = try? JSON.decoder.decode(CurrentStatesResultMessage.self, from: jsonData) {
-            registry.handleResultMessage(message)
-        }
-
-        completion()
-        return .authenticated
+        pendingRequests.removeValue(forKey: message.id)
     }
 }

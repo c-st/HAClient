@@ -36,10 +36,6 @@ extension HAClient.Phase: Equatable {
         switch (lhs, rhs) {
         case (.authenticated, .authenticated):
             return true
-        case (.pendingAuth(_, _), .pendingAuth(_, _)):
-            return true
-        case (.pendingRegistryPopulation(_, _), .pendingRegistryPopulation(_, _)):
-            return true
         default:
             return false
         }
