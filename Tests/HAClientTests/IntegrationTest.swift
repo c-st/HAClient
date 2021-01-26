@@ -1,9 +1,12 @@
+import Combine
 import Nimble
 import XCTest
 
 @testable import HAClient
 
 final class IntegrationTest: XCTestCase {
+    var cancellables: Set<AnyCancellable>! = []
+
     func skip_testAuthenticateAndDoStuff() {
         let client = HAClient(messageExchange: WebSocketConnection(endpoint: "ws://homeassistant.raspberrypi.localdomain/api/websocket"))
 
@@ -20,8 +23,16 @@ final class IntegrationTest: XCTestCase {
         client.requestRegistry()
         client.requestStates()
 
-        expect(client.registry.areas).toEventually(haveCount(4))
-        expect(client.registry.entities["light.office_lamp_light"]).toNotEventually(beNil())
-        expect(client.registry.states).toNotEventually(beNil())
+        client.registry.allAreas.sink(receiveValue: { areas in
+            expect(areas).to(haveCount(4))
+        }).store(in: &cancellables)
+        
+        client.registry.allEntities.sink(receiveValue: { entities in
+            expect(entities["light.office_lamp_light"]).toNot(beNil())
+        }).store(in: &self.cancellables)
+        
+        client.registry.allStates.sink(receiveValue: { states in
+            expect(states.values).toNot(beNil())
+        }).store(in: &self.cancellables)
     }
 }

@@ -34,57 +34,77 @@ public struct State {
 }
 
 public class Registry: ObservableObject {
-    @Published public private(set) var areas: [Area] = []
-    @Published public private(set) var devices: [String: Device] = [:]
-    @Published public private(set) var entities: [String: Entity] = [:]
-    @Published public private(set) var states: [String: State] = [:]
-
-    public func entitiesInArea(areaId: String) -> [Entity] {
-        let deviceIdsInArea = devices.values
-            .filter { $0.areaId == areaId }
-            .map { $0.id }
-
-        let entitiesFromDevices = entities.values
-            .filter { $0.deviceId != nil }
-            .filter { deviceIdsInArea.contains($0.deviceId!) }
-
-        return entitiesFromDevices
+    public var allAreas: AnyPublisher<[Area], Never> {
+        allAreasSubject.eraseToAnyPublisher()
     }
+
+    public var allDevices: AnyPublisher<[String: Device], Never> {
+        allDevicesSubject.eraseToAnyPublisher()
+    }
+
+    public var allEntities: AnyPublisher<[String: Entity], Never> {
+        allEntitiesSubject.eraseToAnyPublisher()
+    }
+
+    public var allStates: AnyPublisher<[String: State], Never> {
+        allStatesSubject.eraseToAnyPublisher()
+    }
+
+    let allAreasSubject = CurrentValueSubject<[Area], Never>([])
+    let allDevicesSubject = CurrentValueSubject<[String: Device], Never>([:])
+    let allEntitiesSubject = CurrentValueSubject<[String: Entity], Never>([:])
+    let allStatesSubject = CurrentValueSubject<[String: State], Never>([:])
+
+//    public func entitiesInArea(areaId: String) -> CurrentValueSubject<[Entity], Never> {
+//        let deviceIdsInArea = allDevicesSubject.value.values
+//            .filter { $0.areaId == areaId }
+//            .map { $0.id }
+//
+//        let entitiesFromDevices = allEntitiesSubject.value.values
+//            .filter { $0.deviceId != nil }
+//            .filter { deviceIdsInArea.contains($0.deviceId!) }
+//
+//        return CurrentValueSubject<[Entity], Never>(entitiesFromDevices)
+//    }
 
     func handleResultMessage(_ resultMessage: Any) {
         switch resultMessage {
         case let message as ListAreasResultMessage:
-            areas = message.result.map {
+            allAreasSubject.send(message.result.map {
                 Area(id: $0.areaId, name: $0.name)
-            }
+            })
+            print("\(message.result.count) areas")
 
         case let message as ListDevicesResultMessage:
-            devices = message.result.reduce(into: [String: Device]()) { deviceRegistry, device in
+            allDevicesSubject.send(message.result.reduce(into: [String: Device]()) { deviceRegistry, device in
                 deviceRegistry[device.id] = Device(
                     id: device.id,
                     name: device.nameByUser ?? device.name,
                     manufacturer: device.manufacturer,
                     areaId: device.areaId
                 )
-            }
+            })
+            print("\(message.result.count) devices")
 
         case let message as ListEntitiesResultMessage:
-            entities = message.result.reduce(into: [String: Entity]()) { entityRegistry, entity in
+            allEntitiesSubject.send(message.result.reduce(into: [String: Entity]()) { entityRegistry, entity in
                 entityRegistry[entity.id] = Entity(
                     id: entity.id,
                     areaId: entity.areaId,
                     deviceId: entity.deviceId,
                     platform: entity.platform
                 )
-            }
+            })
+            print("\(message.result.count) entities")
 
         case let message as CurrentStatesResultMessage:
-            states = message.result.reduce(into: states) { stateRegistry, state in
+            allStatesSubject.send(message.result.reduce(into: [:]) { stateRegistry, state in
                 stateRegistry[state.entityId] = State(
                     entityId: state.entityId,
                     stateText: state.state
                 )
-            }
+            })
+            print("\(message.result.count) states")
 
         default:
             break

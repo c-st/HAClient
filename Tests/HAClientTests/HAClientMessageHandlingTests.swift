@@ -1,14 +1,17 @@
-import Foundation
+import Combine
 import Nimble
 import XCTest
 
 @testable import HAClient
 
 final class HAClientMessageHandlingTests: XCTestCase {
+    var cancellables: Set<AnyCancellable>!
+    
     var mockExchange: FakeMessageExchange!
     var client: HAClient!
 
     override func setUp() {
+        cancellables = []
         mockExchange = FakeMessageExchange()
         client = HAClient(messageExchange: mockExchange)
         client.authenticate(
@@ -89,10 +92,21 @@ final class HAClientMessageHandlingTests: XCTestCase {
                 )
             )
         )
+        
+        client.registry.allAreas.sink(receiveValue: { value in
+            expect(value).to(haveCount(1))
+        }).store(in: &cancellables)
+        
+        client.registry.allDevices.sink(receiveValue: { value in
+            expect(value.values).to(haveCount(1))
+        }).store(in: &cancellables)
 
-        expect(self.client.registry.areas).toEventually(haveCount(1))
-        expect(self.client.registry.devices).toEventually(haveCount(1))
-        expect(self.client.registry.entities).toEventually(haveCount(1))
-        expect(self.client.registry.states).toEventually(haveCount(1))
+        client.registry.allEntities.sink(receiveValue: { value in
+            expect(value.values).to(haveCount(1))
+        }).store(in: &cancellables)
+
+        client.registry.allStates.sink(receiveValue: { value in
+            expect(value.values).to(haveCount(1))
+        }).store(in: &cancellables)
     }
 }

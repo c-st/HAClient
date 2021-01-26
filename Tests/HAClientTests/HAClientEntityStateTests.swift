@@ -1,14 +1,17 @@
-import Foundation
+import Combine
 import Nimble
 import XCTest
 
 @testable import HAClient
 
 final class HAClientEntityStateTests: XCTestCase {
+    var cancellables: Set<AnyCancellable>!
+    
     var mockExchange: FakeMessageExchange!
     var client: HAClient!
 
     override func setUp() {
+        cancellables = []
         mockExchange = FakeMessageExchange()
         client = HAClient(messageExchange: mockExchange)
         client.authenticate(
@@ -38,10 +41,9 @@ final class HAClientEntityStateTests: XCTestCase {
             )
         )
 
-        expect(self.client.registry.states.count)
-            .toEventually(beGreaterThan(0))
-
-        expect(self.client.registry.states["id-1"]?.stateText)
-            .toEventually(be("on"))
+        self.client.registry.allStates.sink(receiveValue: { value in
+            expect(value.values.count).to(beGreaterThan(0))
+            expect(value["id-1"]?.stateText).to(be("on"))
+        }).store(in: &cancellables)
     }
 }
