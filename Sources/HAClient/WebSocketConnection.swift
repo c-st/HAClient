@@ -50,7 +50,7 @@ public class WebSocketConnection: MessageExchange {
                         handler(text)
                     }
                 case let .data(data):
-                    print("Received binary message: \(data)")
+                    print("Ignoring binary message: \(data)")
                 @unknown default:
                     fatalError()
                 }

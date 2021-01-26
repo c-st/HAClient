@@ -1,42 +1,43 @@
+import Combine
 import Foundation
 
 public struct Area {
-    let id: String
-    let name: String
+    public let id: String
+    public let name: String
 }
 
 public struct Device: Equatable {
-    let id: String
-    let name: String
-    let manufacturer: String
-    let areaId: String?
+    public let id: String
+    public let name: String
+    public let manufacturer: String
+    public let areaId: String?
 
-    static public func == (lhs: Device, rhs: Device) -> Bool {
+    public static func == (lhs: Device, rhs: Device) -> Bool {
         return lhs.id == rhs.id
     }
 }
 
 public struct Entity: Equatable {
-    let id: String
-    let areaId: String?
-    let deviceId: String?
-    let platform: String
+    public let id: String
+    public let areaId: String?
+    public let deviceId: String?
+    public let platform: String
 
-    static public func == (lhs: Entity, rhs: Entity) -> Bool {
+    public static func == (lhs: Entity, rhs: Entity) -> Bool {
         return lhs.id == rhs.id
     }
 }
 
 public struct State {
-    let entityId: String
-    let stateText: String
+    public let entityId: String
+    public let stateText: String
 }
 
-public class Registry {
-    private(set) public var areas: [Area] = []
-    private(set) public var devices: [String: Device] = [:]
-    private(set) public var entities: [String: Entity] = [:]
-    private(set) public var states: [String: State] = [:]
+public class Registry: ObservableObject {
+    @Published public private(set) var areas: [Area] = []
+    @Published public private(set) var devices: [String: Device] = [:]
+    @Published public private(set) var entities: [String: Entity] = [:]
+    @Published public private(set) var states: [String: State] = [:]
 
     public func entitiesInArea(areaId: String) -> [Entity] {
         let deviceIdsInArea = devices.values
@@ -56,8 +57,6 @@ public class Registry {
             areas = message.result.map {
                 Area(id: $0.areaId, name: $0.name)
             }
-            print("Received \(areas.count) areas")
-            break
 
         case let message as ListDevicesResultMessage:
             devices = message.result.reduce(into: [String: Device]()) { deviceRegistry, device in
@@ -68,7 +67,6 @@ public class Registry {
                     areaId: device.areaId
                 )
             }
-            print("Received \(devices.count) devices")
 
         case let message as ListEntitiesResultMessage:
             entities = message.result.reduce(into: [String: Entity]()) { entityRegistry, entity in
@@ -79,7 +77,6 @@ public class Registry {
                     platform: entity.platform
                 )
             }
-            print("Received \(entities.count) entities")
 
         case let message as CurrentStatesResultMessage:
             states = message.result.reduce(into: states) { stateRegistry, state in
@@ -88,7 +85,6 @@ public class Registry {
                     stateText: state.state
                 )
             }
-            print("Received \(message.result.count) new states")
 
         default:
             break
