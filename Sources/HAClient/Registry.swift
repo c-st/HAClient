@@ -55,17 +55,21 @@ public class Registry: ObservableObject {
     let allEntitiesSubject = CurrentValueSubject<[String: Entity], Never>([:])
     let allStatesSubject = CurrentValueSubject<[String: State], Never>([:])
 
-//    public func entitiesInArea(areaId: String) -> CurrentValueSubject<[Entity], Never> {
-//        let deviceIdsInArea = allDevicesSubject.value.values
-//            .filter { $0.areaId == areaId }
-//            .map { $0.id }
-//
-//        let entitiesFromDevices = allEntitiesSubject.value.values
-//            .filter { $0.deviceId != nil }
-//            .filter { deviceIdsInArea.contains($0.deviceId!) }
-//
-//        return CurrentValueSubject<[Entity], Never>(entitiesFromDevices)
-//    }
+    public func entitiesInArea(areaId: String) -> AnyPublisher<[Entity], Never> {
+        return Publishers.CombineLatest(allDevices, allEntities)
+            .map { devices, entities in
+                let deviceIds = devices
+                    .map { $0.value }
+                    .filter { $0.areaId == areaId }
+                    .map { $0.id }
+
+                return entities
+                    .map { $0.value }
+                    .filter { $0.deviceId != nil }
+                    .filter { deviceIds.contains($0.deviceId!) }
+            }
+            .eraseToAnyPublisher()
+    }
 
     func handleResultMessage(_ resultMessage: Any) {
         switch resultMessage {

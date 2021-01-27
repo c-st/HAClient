@@ -78,42 +78,40 @@ final class HAClientPopulateRegistryTests: XCTestCase {
         client.requestRegistry()
         TestExamples.simulatePopulateRegistryResponses(mockExchange)
 
-//        expect(self.client.registry.entitiesInArea(areaId: "living-room").value.count).to(be(3))
+        client.registry.entitiesInArea(areaId: "living-room").sink(receiveValue: { entities in
+            expect(entities).to(haveCount(3))
+            expect(entities).to(contain([
+                Entity(
+                    id: "light.living_room_lamp",
+                    areaId: nil,
+                    deviceId: "device-id-1",
+                    platform: "mqtt"
+                ),
+                Entity(
+                    id: "sensor.living_room_humidity",
+                    areaId: nil,
+                    deviceId: "device-id-3",
+                    platform: "mqtt"
+                ),
+                Entity(
+                    id: "sensor.living_room_temperature",
+                    areaId: nil,
+                    deviceId: "device-id-3",
+                    platform: "mqtt"
+                ),
+            ]))
+        }).store(in: &cancellables)
 
-//        expect(
-//            self.client.registry.entitiesInArea(areaId: "living-room").value
-//        ).to(contain([
-//            Entity(
-//                id: "light.living_room_lamp",
-//                areaId: nil,
-//                deviceId: "device-id-1",
-//                platform: "mqtt"
-//            ),
-//            Entity(
-//                id: "sensor.living_room_humidity",
-//                areaId: nil,
-//                deviceId: "device-id-3",
-//                platform: "mqtt"
-//            ),
-//            Entity(
-//                id: "sensor.living_room_temperature",
-//                areaId: nil,
-//                deviceId: "device-id-3",
-//                platform: "mqtt"
-//            ),
-//        ]))
-//
-//        expect(self.client.registry.entitiesInArea(areaId: "bedroom").value.count).to(be(1))
-//
-//        expect(
-//            self.client.registry.entitiesInArea(areaId: "bedroom").value
-//        ).to(contain([
-//            Entity(
-//                id: "light.bedroom_lamp",
-//                areaId: nil,
-//                deviceId: "device-id-2",
-//                platform: "mqtt"
-//            ),
-//        ]))
+        client.registry.entitiesInArea(areaId: "bedroom").sink(receiveValue: { entities in
+            expect(entities).to(haveCount(1))
+            expect(entities).to(contain([
+                Entity(
+                    id: "light.bedroom_lamp",
+                    areaId: nil,
+                    deviceId: "device-id-2",
+                    platform: "mqtt"
+                ),
+            ]))
+        }).store(in: &cancellables)
     }
 }
