@@ -10,15 +10,11 @@ final class HAClientEntityStateTests: XCTestCase {
     var mockExchange: FakeMessageExchange!
     var client: HAClient!
 
-    override func setUp() {
+    override func setUp() async throws {
         cancellables = []
         mockExchange = FakeMessageExchange()
         client = HAClient(messageExchange: mockExchange)
-        client.authenticate(
-            token: "mytoken",
-            onConnection: { },
-            onFailure: { _ in }
-        )
+        try await client.authenticate(token: "mytoken")
         mockExchange.simulateIncomingMessage(
             message: JSONCoding.serialize(AuthOkMessage())
         )

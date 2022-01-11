@@ -1,38 +1,24 @@
-import Combine
 import Nimble
 import XCTest
 
 @testable import HAClient
 
 final class IntegrationTest: XCTestCase {
-    var cancellables: Set<AnyCancellable>! = []
+    let token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiI4YzI5ZGJmODdjZjE0NTUyYTJlMWVjMjFjOWU4NGM1MyIsImlhdCI6MTY0MTc0NDU3MSwiZXhwIjoxOTU3MTA0NTcxfQ.lhrtV093l7yL88l0jjfMPwSAZc1eAQpxejFzLIWry8s"
 
-    func skip_testAuthenticateAndDoStuff() {
-        let client = HAClient(messageExchange: WebSocketConnection(endpoint: "ws://homeassistant.raspberrypi.localdomain/api/websocket"))
+    func test_authentication() async throws {
+        let client = HAClient(messageExchange: WebSocketStream(url:  "ws://homeassistant.raspberrypi.localdomain/api/websocket"))
 
-        waitUntil(timeout: 1) { done in
-            client.authenticate(
-                token: "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiIzNmFmZDMyMjdkYzQ0YmNlOGZiNDRhNTFiZDA4MDdkZSIsImlhdCI6MTYxMTI3MTQ2NiwiZXhwIjoxOTI2NjMxNDY2fQ.YDRag0Hvq0lrTvu4Rt_z9NAQAJJNManAP0g4wHBFRq0",
-                onConnection: { done() },
-                onFailure: { reason in print("Authentication failure", reason) }
-            )
-        }
-
+        try await client.authenticate(token: token)
         expect(client.currentPhase) == .authenticated
+    }
 
-        client.requestRegistry()
-        client.requestStates()
+    func test_authenticationFail() async throws {
+        let client = HAClient(messageExchange: WebSocketStream(url:  "ws://homeassistant.raspberrypi.localdomain/api/websocket"))
 
-        client.registry.allAreas.sink(receiveValue: { areas in
-            expect(areas).to(haveCount(4))
-        }).store(in: &cancellables)
-        
-        client.registry.allEntities.sink(receiveValue: { entities in
-            expect(entities["light.office_lamp_light"]).toNot(beNil())
-        }).store(in: &self.cancellables)
-        
-        client.registry.allStates.sink(receiveValue: { states in
-            expect(states.values).toNot(beNil())
-        }).store(in: &self.cancellables)
+        do {
+            try await client.authenticate(token: "invalid-token")
+            fail("Method did not throw")
+        } catch {}
     }
 }

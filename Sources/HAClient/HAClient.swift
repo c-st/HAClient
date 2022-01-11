@@ -9,52 +9,68 @@ public protocol MessageExchange {
 enum HAClientError: Error {
     case authenticationFailed(String)
     case wrongPhase(String)
+    case requestTimeout
 }
 
 public protocol HAClientProtocol {
     init(messageExchange: MessageExchange)
-    func authenticate(
-        token: String,
-        onConnection: @escaping () -> Void,
-        onFailure: @escaping (_ errorMessage: String) -> Void
-    )
+    func authenticate(token: String) async throws -> Void
     func requestRegistry()
     func requestStates()
 }
 
 public class HAClient: HAClientProtocol {
-    typealias VoidCompletionHandler = () -> Void
-    typealias AuthFailureHandler = (String) -> Void
     typealias RequestID = Int
 
     struct PendingRequest {
-        let id: Int
+        let id: RequestID
         let type: ResultType
     }
 
-    enum Phase {
-        case pendingAuth(VoidCompletionHandler, AuthFailureHandler)
+    enum Phase: Equatable {
+        case initial
+        case authRequested
         case authenticated
+        case authenticationFailure(failureReason: String)
     }
-
-    var currentPhase: Phase?
+    
+    var currentPhase: Phase = .initial
+    
     public let registry: Registry
+    private let messageExchange: MessageExchange
 
-    private var messageExchange: MessageExchange
     private var lastUsedRequestId: Int?
     private var pendingRequests: [RequestID: PendingRequest] = [:]
 
     public required init(messageExchange: MessageExchange) {
-        self.messageExchange = messageExchange
         registry = Registry()
-        messageExchange.setMessageHandler(handleTextMessage(jsonString:))
+        self.messageExchange = messageExchange
+        self.messageExchange.setMessageHandler(self.handleTextMessage(jsonString:))
     }
 
-    public func authenticate(token: String, onConnection: @escaping () -> Void, onFailure: @escaping (_ errorMessage: String) -> Void) {
-        currentPhase = .pendingAuth(onConnection, onFailure)
+    public func authenticate(token: String) async throws -> Void {
+        currentPhase = .authRequested
         messageExchange.sendMessage(
             message: JSONCoding.serialize(AuthMessage(accessToken: token))
         )
+        
+        // Block until phase is updated
+        let startTime = Date()
+        let endTime = startTime.addingTimeInterval(1)
+        while currentPhase == .authRequested {
+            let nextTime = Date().addingTimeInterval(0.1)
+            RunLoop.current.run(until: nextTime)
+            if nextTime > endTime {
+                throw HAClientError.requestTimeout
+            }
+        }
+        
+        switch currentPhase {
+        case .authenticationFailure(let failureReason):
+            throw HAClientError.authenticationFailed(failureReason)
+        default:
+            return
+        }
     }
 
     public func requestRegistry() {
@@ -108,15 +124,11 @@ public class HAClient: HAClientProtocol {
         let jsonData = jsonString.data(using: .utf8)!
 
         switch currentPhase {
-        case let .pendingAuth(completion, onFailure):
+        case .authRequested:
             guard let message = incomingMessage else {
                 return
             }
-            currentPhase = handleAuthenticationMessage(
-                message: message,
-                completion: completion,
-                onFailure: onFailure
-            )
+            currentPhase = handleAuthenticationMessage(message)
 
         case .authenticated:
             switch incomingMessage {
@@ -135,15 +147,17 @@ public class HAClient: HAClientProtocol {
         }
     }
 
-    private func handleAuthenticationMessage(message: Any, completion: @escaping VoidCompletionHandler, onFailure: @escaping AuthFailureHandler) -> Phase? {
+    private func handleAuthenticationMessage(_ message: Any) -> Phase {
         switch message {
         case _ as AuthOkMessage:
-            completion()
+            NSLog("Authentication was successful")
             return .authenticated
+            
         case let authInvalidMessage as AuthInvalidMessage:
+            NSLog("Authentication failed", authInvalidMessage.message)
             messageExchange.disconnect()
-            onFailure(authInvalidMessage.message)
-            return nil
+            return .authenticationFailure(failureReason: authInvalidMessage.message)
+            
         default:
             print("Not authenticated. Ignoring message", message)
             return currentPhase

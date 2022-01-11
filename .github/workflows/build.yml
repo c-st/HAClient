@@ -1,13 +1,16 @@
-name: HAClient
+name: build
 
 on: [push]
 
 jobs:
-  build:  
+  build:
     runs-on: macos-latest
     steps:
+    - uses: maxim-lobanov/setup-xcode@v1
+      with:
+        xcode-version: '13.2.1'
     - uses: actions/checkout@v2
     - name: Build
       run: swift build
     - name: Run tests
-      run: swift test --enable-test-discovery
+      run: swift test

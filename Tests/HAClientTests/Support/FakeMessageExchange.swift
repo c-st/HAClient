@@ -2,12 +2,20 @@ import Foundation
 
 @testable import HAClient
 
+/**
+ A fake message exchange.
+ This simulates a websocket client and can fake incoming and outgoing messages.
+ */
 class FakeMessageExchange: MessageExchange {
-    private var messageHandler: ((String) -> Void)?
-
     var sentMessages: [String] = []
     var receivedMessages: [String] = []
     var successfullyAuthenticated: Bool?
+
+    // Handler for incoming messages (WebSocket endpoint -> client)
+    private var messageHandler: ((String) -> Void)?
+    
+    // Handler for outgoing messages (Client -> WebSocket endpoint)
+    var outgoingMessageHandler: ((String) -> Void)?
 
     // MARK: Fake helpers
 
@@ -20,6 +28,9 @@ class FakeMessageExchange: MessageExchange {
     // MARK: Protocol
 
     func sendMessage(message: String) {
+        if let handler = outgoingMessageHandler {
+            handler(message)
+        }
         sentMessages.append(message)
     }
 
@@ -28,16 +39,5 @@ class FakeMessageExchange: MessageExchange {
     }
 
     func disconnect() {
-    }
-}
-
-extension HAClient.Phase: Equatable {
-    public static func == (lhs: HAClient.Phase, rhs: HAClient.Phase) -> Bool {
-        switch (lhs, rhs) {
-        case (.authenticated, .authenticated):
-            return true
-        default:
-            return false
-        }
     }
 }
