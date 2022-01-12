@@ -10,7 +10,6 @@ final class IntegrationTest: XCTestCase {
         let client = HAClient(messageExchange: WebSocketStream(url:  "ws://homeassistant.raspberrypi.localdomain/api/websocket"))
 
         try await client.authenticate(token: token)
-        expect(client.currentPhase) == .authenticated
     }
 
     func test_authenticationFail() async throws {

@@ -6,47 +6,42 @@ public protocol MessageExchange {
     func disconnect()
 }
 
-enum HAClientError: Error {
-    case authenticationFailed(String)
-    case wrongPhase(String)
-    case requestTimeout
-}
-
 public protocol HAClientProtocol {
     init(messageExchange: MessageExchange)
+    
+    // Commands
     func authenticate(token: String) async throws -> Void
-    func requestRegistry()
-    func requestStates()
+    func listAreas() async throws -> [ListAreasResultMessage.Area]?
 }
 
 public class HAClient: HAClientProtocol {
-    typealias RequestID = Int
-
-    struct PendingRequest {
-        let id: RequestID
-        let type: ResultType
+    enum HAClientError: Error {
+        case authenticationFailed(String)
+        case wrongPhase(String)
+        case requestTimeout
     }
-
+    
     enum Phase: Equatable {
         case initial
         case authRequested
         case authenticated
         case authenticationFailure(failureReason: String)
     }
-    
-    var currentPhase: Phase = .initial
-    
-    public let registry: Registry
+    private var currentPhase: Phase = .initial
+
     private let messageExchange: MessageExchange
 
-    private var lastUsedRequestId: Int?
-    private var pendingRequests: [RequestID: PendingRequest] = [:]
+    typealias RequestID = Int
+    private var lastUsedRequestId: RequestID?
+    private var pendingRequests: [RequestID: CommandType] = [:]
+    private var responses: [RequestID: Any] = [:]
 
     public required init(messageExchange: MessageExchange) {
-        registry = Registry()
         self.messageExchange = messageExchange
         self.messageExchange.setMessageHandler(self.handleTextMessage(jsonString:))
     }
+    
+    // MARK: Commands
 
     public func authenticate(token: String) async throws -> Void {
         currentPhase = .authRequested
@@ -54,15 +49,8 @@ public class HAClient: HAClientProtocol {
             message: JSONCoding.serialize(AuthMessage(accessToken: token))
         )
         
-        // Block until phase is updated
-        let startTime = Date()
-        let endTime = startTime.addingTimeInterval(1)
-        while currentPhase == .authRequested {
-            let nextTime = Date().addingTimeInterval(0.1)
-            RunLoop.current.run(until: nextTime)
-            if nextTime > endTime {
-                throw HAClientError.requestTimeout
-            }
+        try waitFor() {
+            currentPhase != .authRequested
         }
         
         switch currentPhase {
@@ -72,45 +60,32 @@ public class HAClient: HAClientProtocol {
             return
         }
     }
-
-    public func requestRegistry() {
-        let fetchAreasRequestId = getAndIncrementId()
-        messageExchange.sendMessage(
-            message: JSONCoding.serialize(RequestAreaRegistry(id: fetchAreasRequestId))
+    
+    public func listAreas() async throws -> [ListAreasResultMessage.Area]? {
+        let requestId = getAndIncrementId()
+        pendingRequests[requestId] = .listAreas
+        sendCommand(
+            requestId,
+            type: .listAreas,
+            message: RequestAreaRegistry(id: requestId)
         )
-        pendingRequests[fetchAreasRequestId] = PendingRequest(
-            id: fetchAreasRequestId,
-            type: .listAreas
-        )
-
-        let fetchDevicesRequestId = getAndIncrementId()
-        messageExchange.sendMessage(
-            message: JSONCoding.serialize(RequestDeviceRegistry(id: fetchDevicesRequestId))
-        )
-        pendingRequests[fetchDevicesRequestId] = PendingRequest(
-            id: fetchDevicesRequestId,
-            type: .listDevices
-        )
-
-        let fetchEntitiesRequestId = getAndIncrementId()
-        messageExchange.sendMessage(
-            message: JSONCoding.serialize(RequestEntityRegistry(id: fetchEntitiesRequestId))
-        )
-        pendingRequests[fetchEntitiesRequestId] = PendingRequest(
-            id: fetchEntitiesRequestId,
-            type: .listEntities
-        )
+        
+        try waitFor() {
+            responses[requestId] != nil
+        }
+        
+        if let response = responses[requestId], let message = response as? ListAreasResultMessage {
+            return message.result
+        }
+        
+        return nil
     }
-
-    public func requestStates() {
-        let fetchStatesRequestId = getAndIncrementId()
+    
+    private func sendCommand(_ requestId: RequestID, type: CommandType, message: Encodable) {
         messageExchange.sendMessage(
-            message: JSONCoding.serialize(RequestCurrentStates(id: fetchStatesRequestId))
+            message: JSONCoding.serialize(message)
         )
-        pendingRequests[fetchStatesRequestId] = PendingRequest(
-            id: fetchStatesRequestId,
-            type: .currentStates
-        )
+        pendingRequests[requestId] = type
     }
 
     private func getAndIncrementId() -> Int {
@@ -118,6 +93,20 @@ public class HAClient: HAClientProtocol {
         lastUsedRequestId = id
         return id
     }
+    
+    private func waitFor(_ condition: () -> Bool) throws {
+        let startTime = Date()
+        let endTime = startTime.addingTimeInterval(1)
+        while !condition() {
+            let nextTime = Date().addingTimeInterval(0.1)
+            RunLoop.current.run(until: nextTime)
+            if nextTime > endTime {
+                throw HAClientError.requestTimeout
+            }
+        }
+    }
+    
+    // MARK: Message handling
 
     private func handleTextMessage(jsonString: String) {
         let incomingMessage = JSONCoding.deserialize(jsonString)
@@ -146,7 +135,19 @@ public class HAClient: HAClientProtocol {
             print("Ignoring text message", jsonString)
         }
     }
-
+    
+    private func handleMessage(message: BaseResultMessage, jsonData: Data) {
+        guard let matchingRequestType = pendingRequests[message.id] else {
+            print("No matching request found with this ID", message.id)
+            return
+        }
+        responses[message.id] = JSONCoding.deserializeCommandResponse(
+            type: matchingRequestType,
+            jsonData: jsonData
+        )
+        pendingRequests.removeValue(forKey: message.id)
+    }
+    
     private func handleAuthenticationMessage(_ message: Any) -> Phase {
         switch message {
         case _ as AuthOkMessage:
@@ -159,36 +160,7 @@ public class HAClient: HAClientProtocol {
             return .authenticationFailure(failureReason: authInvalidMessage.message)
             
         default:
-            print("Not authenticated. Ignoring message", message)
             return currentPhase
         }
-    }
-
-    private func handleMessage(message: BaseResultMessage, jsonData: Data) {
-        guard let matchingRequest = pendingRequests[message.id] else {
-            print("No matching request found with this ID", message.id)
-            return
-        }
-
-        switch matchingRequest.type {
-        case .listAreas:
-            if let message = try? JSON.decoder.decode(ListAreasResultMessage.self, from: jsonData) {
-                registry.handleResultMessage(message)
-            }
-        case .listDevices:
-            if let message = try? JSON.decoder.decode(ListDevicesResultMessage.self, from: jsonData) {
-                registry.handleResultMessage(message)
-            }
-        case .listEntities:
-            if let message = try? JSON.decoder.decode(ListEntitiesResultMessage.self, from: jsonData) {
-                registry.handleResultMessage(message)
-            }
-        case .currentStates:
-            if let message = try? JSON.decoder.decode(CurrentStatesResultMessage.self, from: jsonData) {
-                registry.handleResultMessage(message)
-            }
-        }
-
-        pendingRequests.removeValue(forKey: message.id)
     }
 }

@@ -6,7 +6,6 @@ final class JSONCoding {
             withJSONObject: message.asDictionary,
             options: .sortedKeys
         )
-
         return String(decoding: data, as: UTF8.self)
     }
 
@@ -27,6 +26,28 @@ final class JSONCoding {
         case .result:
             return try? JSON.decoder.decode(BaseResultMessage.self, from: jsonData)
         }
+    }
+    
+    static func deserializeCommandResponse(type: CommandType, jsonData: Data) -> Any? {
+        switch type {
+        case .listAreas:
+            if let message = try? JSON.decoder.decode(ListAreasResultMessage.self, from: jsonData) {
+                return message
+            }
+        case .listDevices:
+            if let message = try? JSON.decoder.decode(ListDevicesResultMessage.self, from: jsonData) {
+                return message
+            }
+        case .listEntities:
+            if let message = try? JSON.decoder.decode(ListEntitiesResultMessage.self, from: jsonData) {
+                return message
+            }
+        case .retrieveStates:
+            if let message = try? JSON.decoder.decode(CurrentStatesResultMessage.self, from: jsonData) {
+                return message
+            }
+        }
+        return nil
     }
 }
 

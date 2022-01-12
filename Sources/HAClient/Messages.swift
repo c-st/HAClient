@@ -72,23 +72,23 @@ struct BaseResultMessage: Codable {
 
 // MARK: Result payloads
 
-enum ResultType {
+enum CommandType {
     case listAreas
     case listDevices
     case listEntities
-    case currentStates
+    case retrieveStates
 }
 
-struct ListAreasResultMessage: Codable {
+public struct ListAreasResultMessage: Codable {
     var type: String = IncomingMessageType.result.rawValue
     let id: Int
     let success: Bool
     let result: [Area]
 
-    struct Area: Codable {
+    public struct Area: Codable {
         let name: String
         let areaId: String
-
+        
         private enum CodingKeys: String, CodingKey {
             case name
             case areaId = "area_id"
