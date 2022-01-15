@@ -8,10 +8,13 @@ public protocol MessageExchange {
 
 public protocol HAClientProtocol {
     init(messageExchange: MessageExchange)
-    
     // Commands
     func authenticate(token: String) async throws -> Void
+    
     func listAreas() async throws -> [Area]?
+    func listDevices() async throws -> [Device]?
+    func listEntities() async throws -> [Entity]?
+    func retrieveStates() async throws -> [State]?
 }
 
 public class HAClient: HAClientProtocol {
@@ -19,7 +22,7 @@ public class HAClient: HAClientProtocol {
     
     enum HAClientError: Error {
         case authenticationFailed(String)
-        case wrongPhase(String)
+        case authenticationRequired
         case requestTimeout
     }
     
@@ -69,34 +72,45 @@ public class HAClient: HAClientProtocol {
     }
     
     public func listAreas() async throws -> [Area]? {
+        return try await sendCommandAndAwaitResponse(.listAreas)
+    }
+    
+    public func listDevices() async throws -> [Device]? {
+        return try await sendCommandAndAwaitResponse(.listDevices)
+    }
+    
+    public func listEntities() async throws -> [Entity]? {
+        return try await sendCommandAndAwaitResponse(.listEntities)
+    }
+    
+    public func retrieveStates() async throws -> [State]? {
+        return try await sendCommandAndAwaitResponse(.retrieveStates)
+    }
+    
+    private func sendCommandAndAwaitResponse<T: Codable>(_ type: CommandType) async throws -> [T]? {
+        guard self.currentPhase == .authenticated else {
+            throw HAClientError.authenticationRequired
+        }
+        
         let requestId = getAndIncrementId()
-        pendingRequests[requestId] = .listAreas
-        sendCommand(
-            requestId,
-            type: .listAreas,
-            message: ListAreasMessage(id: requestId)
+        pendingRequests[requestId] = type
+        
+        messageExchange.sendMessage(
+            message: JSONCoding.serialize(Message(type: type, id: requestId))
         )
         
         try waitFor() {
             responses[requestId] != nil
         }
         
-        if let response = responses[requestId], let message = response as? ResultMessage<Area> {
+        if
+            let response = responses[requestId],
+            let message = response as? ResultMessage<T> {
             return message.result
         }
         
+        NSLog("Response could not be decoded %@", responses[requestId].debugDescription)
         return nil
-    }
-    
-    // listDevices
-    // listEntities
-    // retrieveStates
-    
-    private func sendCommand(_ requestId: RequestID, type: CommandType, message: Encodable) {
-        messageExchange.sendMessage(
-            message: JSONCoding.serialize(message)
-        )
-        pendingRequests[requestId] = type
     }
 
     private func getAndIncrementId() -> Int {
@@ -134,7 +148,7 @@ public class HAClient: HAClientProtocol {
             switch incomingMessage {
             case let resultMessage as BaseResultMessage:
                 guard resultMessage.success else {
-                    print("Command processing failed", jsonString)
+                    NSLog("Command processing failed. JSON: %@", jsonString)
                     return
                 }
                 handleMessage(message: resultMessage, jsonData: jsonData)
@@ -143,14 +157,14 @@ public class HAClient: HAClientProtocol {
             }
 
         default:
-            print("Not handling message", jsonString)
+            NSLog("Not handling message. JSON: %s", jsonString)
             return
         }
     }
     
     private func handleMessage(message: BaseResultMessage, jsonData: Data) {
         guard let matchingRequestType = pendingRequests[message.id] else {
-            print("No matching request found with this ID", message.id)
+            NSLog("No matching request found with ID %@", message.id)
             return
         }
         responses[message.id] = JSONCoding.deserializeCommandResponse(

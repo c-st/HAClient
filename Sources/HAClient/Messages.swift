@@ -2,6 +2,20 @@ import Foundation
 
 // MARK: Outgoing messages
 
+// See https://developers.home-assistant.io/docs/api/websocket/
+
+enum CommandType: String, Codable {
+    case listAreas = "config/area_registry/list"
+    case listDevices = "config/device_registry/list"
+    case listEntities = "config/entity_registry/list"
+    case retrieveStates = "get_states"
+}
+
+struct Message: Codable {
+    let type: CommandType
+    let id: Int
+}
+
 struct AuthMessage: Codable {
     var type: String = "auth"
     let accessToken: String
@@ -10,26 +24,6 @@ struct AuthMessage: Codable {
         case type
         case accessToken = "access_token"
     }
-}
-
-struct ListAreasMessage: Codable {
-    var type: String = "config/area_registry/list"
-    let id: Int
-}
-
-struct ListDevicesMessage: Codable {
-    var type: String = "config/device_registry/list"
-    let id: Int
-}
-
-struct ListEntitiesMessage: Codable {
-    var type: String = "config/entity_registry/list"
-    let id: Int
-}
-
-struct RequestCurrentStates: Codable {
-    var type: String = "get_states"
-    let id: Int
 }
 
 // MARK: Incoming messages
@@ -72,14 +66,7 @@ struct BaseResultMessage: Codable {
 
 // MARK: Result payloads
 
-enum CommandType {
-    case listAreas
-    case listDevices
-    case listEntities
-    case retrieveStates
-}
-
-public struct ResultMessage<T: Codable>: Codable {
+struct ResultMessage<T: Codable>: Codable {
     var type: String = IncomingMessageType.result.rawValue
     let id: Int
     let success: Bool
@@ -98,7 +85,7 @@ public struct Area: Codable {
     }
 }
 
-struct Device: Codable {
+public struct Device: Codable {
     let id: String
     var areaId: String? = nil
     let name: String
@@ -122,7 +109,7 @@ struct Device: Codable {
     }
 }
 
-struct Entity: Codable {
+public struct Entity: Codable {
     let entityId: String
     var areaId: String? = nil
     var name: String? = nil
@@ -140,7 +127,7 @@ struct Entity: Codable {
     }
 }
 
-struct State: Codable {
+public struct State: Codable {
     let entityId: String
     let state: String
     let lastChanged: String

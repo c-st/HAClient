@@ -12,7 +12,7 @@ final class JSONCoding {
     static func deserialize(_ jsonString: String) -> Any? {
         let jsonData = jsonString.data(using: .utf8)!
         guard let messageWithType = try? JSON.decoder.decode(BaseMessage.self, from: jsonData) else {
-            print("Attempting to deserialize a message without type", jsonString)
+            NSLog("Attempting to deserialize a message without type. JSON: %@", jsonString)
             return nil
         }
 

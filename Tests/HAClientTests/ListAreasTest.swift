@@ -8,6 +8,7 @@ final class ListAreasTest: XCTestCase {
     var client: HAClient!
 
     override func setUp() async throws {
+        // Perform authentication
         mockExchange = FakeMessageExchange()
         client = HAClient(messageExchange: mockExchange!)
         mockExchange.outgoingMessageHandler = { msg in
@@ -16,9 +17,21 @@ final class ListAreasTest: XCTestCase {
         try await client.authenticate(token: "mytoken")
     }
     
+    func test_failsWhenNotAuthenticated() async throws {
+        let exchange = FakeMessageExchange()
+        let unauthenticatedClient = HAClient(messageExchange: exchange)
+        
+        do {
+            try await _ = unauthenticatedClient.listAreas()
+            fail("Did not throw")
+        } catch {
+            expect(error).to(matchError(HAClient.HAClientError.authenticationRequired))
+        }
+    }
+    
     func test_requestsAreas() async throws {
         mockExchange.outgoingMessageHandler = { msg in
-            let expectedMsg = JSONCoding.serialize(ListAreasMessage(id: 1))
+            let expectedMsg = JSONCoding.serialize(Message(type: .listAreas, id: 1))
             expect(msg).to(equal(expectedMsg))
             
             // respond with area response

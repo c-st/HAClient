@@ -8,7 +8,7 @@ class WebSocketStream: AsyncSequence, MessageExchange {
     private let socket: URLSessionWebSocketTask
     private var continuation: AsyncThrowingStream<Element, Error>.Continuation?
     
-    init(url: String, session: URLSession = URLSession.shared) {
+    init(_ url: String, session: URLSession = URLSession.shared) {
         socket = session.webSocketTask(with: URL(string: url)!)
         stream = AsyncThrowingStream { continuation in
            self.continuation = continuation

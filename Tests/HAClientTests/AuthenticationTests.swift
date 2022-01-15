@@ -34,6 +34,8 @@ final class HAClientAuthenticationTests: XCTestCase {
         do {
             try await client?.authenticate(token: "invalid_token")
             fail("Method did not throw")
-        } catch {}
+        } catch {
+            expect(error).to(matchError(HAClient.HAClientError.authenticationFailed("Invalid token")))
+        }
     }
 }
