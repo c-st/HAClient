@@ -1,0 +1,121 @@
+{
+  "records" : [
+    {
+      "data" : {
+        "body" : {
+          "data" : {
+            "id" : "AB4A6E41-E5E3-4870-9580-5D8E934E4E0F",
+            "text" : "{\n\t\"type\": \"config\/area_registry\/list\",\n\t\"id\": \"1\"\n}"
+          },
+          "type" : "com.lostmoa.record.type.TextBody",
+          "version" : 0
+        },
+        "id" : "8A8951DC-11C8-4A0B-A857-3C5180738783",
+        "name" : "List areas",
+        "order" : 1,
+        "parent" : "6E06EB57-8580-4E02-BF19-99E61EBBD3FF"
+      },
+      "type" : "com.lostmoa.record.type.TemplateMessage",
+      "version" : 3
+    },
+    {
+      "data" : {
+        "body" : null,
+        "headers" : [
+
+        ],
+        "id" : "6E06EB57-8580-4E02-BF19-99E61EBBD3FF",
+        "method" : "GET",
+        "order" : 0,
+        "parent" : "5B55FED2-44FF-488D-A9A5-71EB080379EA",
+        "query" : [
+
+        ],
+        "scheme" : "WS",
+        "url" : "homeassistant.raspberrypi.localdomain\/api\/websocket"
+      },
+      "type" : "com.lostmoa.record.type.WSRequest",
+      "version" : 4
+    },
+    {
+      "data" : {
+        "body" : {
+          "data" : {
+            "id" : "CF203834-C289-45AD-BDF5-EDAEA17ACC01",
+            "text" : "{\n\t\"type\": \"get_states\",\n\t\"id\": \"4\"\n}"
+          },
+          "type" : "com.lostmoa.record.type.TextBody",
+          "version" : 0
+        },
+        "id" : "B47EDCC1-C3AC-45A3-A5C0-386D71FE50E8",
+        "name" : "Get states",
+        "order" : 1,
+        "parent" : "6E06EB57-8580-4E02-BF19-99E61EBBD3FF"
+      },
+      "type" : "com.lostmoa.record.type.TemplateMessage",
+      "version" : 3
+    },
+    {
+      "data" : {
+        "body" : {
+          "data" : {
+            "id" : "C70FC087-E0BF-4380-86AE-39E9F56B17EA",
+            "text" : "{\n\t\"type\": \"config\/entity_registry\/list\",\n\t\"id\": \"3\"\n}"
+          },
+          "type" : "com.lostmoa.record.type.TextBody",
+          "version" : 0
+        },
+        "id" : "225B7A48-9F28-47F2-A954-38DDC7F91813",
+        "name" : "List entities",
+        "order" : 1,
+        "parent" : "6E06EB57-8580-4E02-BF19-99E61EBBD3FF"
+      },
+      "type" : "com.lostmoa.record.type.TemplateMessage",
+      "version" : 3
+    },
+    {
+      "data" : {
+        "id" : "5B55FED2-44FF-488D-A9A5-71EB080379EA"
+      },
+      "type" : "com.lostmoa.record.type.Root",
+      "version" : 0
+    },
+    {
+      "data" : {
+        "body" : {
+          "data" : {
+            "id" : "4036F4D0-3401-4125-9795-31A4C107735D",
+            "text" : "{\n\t\"type\": \"config\/device_registry\/list\",\n\t\"id\": \"2\"\n}"
+          },
+          "type" : "com.lostmoa.record.type.TextBody",
+          "version" : 0
+        },
+        "id" : "8AC1065F-0F15-4B5D-A091-3B3F276069CE",
+        "name" : "List devices",
+        "order" : 1,
+        "parent" : "6E06EB57-8580-4E02-BF19-99E61EBBD3FF"
+      },
+      "type" : "com.lostmoa.record.type.TemplateMessage",
+      "version" : 3
+    },
+    {
+      "data" : {
+        "body" : {
+          "data" : {
+            "id" : "D07B57A2-FAF9-4F8B-B437-36D09FFB4AB6",
+            "text" : "{\n\t\"type\": \"auth\",\n\t\"access_token\": \"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiI4YzI5ZGJmODdjZjE0NTUyYTJlMWVjMjFjOWU4NGM1MyIsImlhdCI6MTY0MTc0NDU3MSwiZXhwIjoxOTU3MTA0NTcxfQ.lhrtV093l7yL88l0jjfMPwSAZc1eAQpxejFzLIWry8s\"\n}"
+          },
+          "type" : "com.lostmoa.record.type.TextBody",
+          "version" : 0
+        },
+        "id" : "456DA2AD-550B-4ABF-B233-1B43E460C8ED",
+        "name" : "Auth",
+        "order" : 0,
+        "parent" : "6E06EB57-8580-4E02-BF19-99E61EBBD3FF"
+      },
+      "type" : "com.lostmoa.record.type.TemplateMessage",
+      "version" : 3
+    }
+  ],
+  "version" : 1
+}
