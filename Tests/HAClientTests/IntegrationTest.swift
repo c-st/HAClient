@@ -20,4 +20,19 @@ final class IntegrationTest: XCTestCase {
             fail("Method did not throw")
         } catch {}
     }
+    
+    func test_retrieveRegistry() async throws {
+        let client = HAClient(messageExchange: WebSocketStream("ws://homeassistant.raspberrypi.localdomain/api/websocket"))
+
+        try await client.authenticate(token: token)
+        
+        let areas = try await client.listAreas()
+        expect(areas).to(haveCount(4))
+        
+        let devices = try await client.listDevices()
+        expect(devices).to(haveCount(38))
+        
+        let entities = try await client.listEntities()
+        expect(entities).to(haveCount(293))
+    }
 }

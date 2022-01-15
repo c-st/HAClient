@@ -114,7 +114,7 @@ public struct Entity: Codable {
     var areaId: String? = nil
     var name: String? = nil
     var icon: String? = nil
-    let deviceId: String
+    var deviceId: String? = nil
     let platform: String
 
     private enum CodingKeys: String, CodingKey {

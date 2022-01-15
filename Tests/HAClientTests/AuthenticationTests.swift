@@ -19,7 +19,7 @@ final class HAClientAuthenticationTests: XCTestCase {
             
             // reply with auth_ok
             let authOk = JSONCoding.serialize(AuthOkMessage())
-            self.mockExchange.simulateIncomingMessage(message: authOk)
+            await self.mockExchange.simulateIncomingMessage(message: authOk)
         }
         
         try await client.authenticate(token: "mytoken")
@@ -28,7 +28,7 @@ final class HAClientAuthenticationTests: XCTestCase {
     func test_throwsOnFailedAuthentication() async throws {
         mockExchange.outgoingMessageHandler = { msg in
             let authFailed = JSONCoding.serialize(AuthInvalidMessage(message: "Invalid token"))
-            self.mockExchange.simulateIncomingMessage(message: authFailed)
+            await self.mockExchange.simulateIncomingMessage(message: authFailed)
         }
         
         do {

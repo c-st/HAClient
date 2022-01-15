@@ -27,13 +27,13 @@ class WebSocketStream: AsyncSequence, MessageExchange {
         return stream.makeAsyncIterator()
     }
     
-    func setMessageHandler(_ messageHandler: @escaping ((String) -> Void)) {
+    func setMessageHandler(_ messageHandler: @escaping ((String) async -> Void)) {
         Task {
             do {
                 for try await message in self {
                     switch message {
                     case let .string(text):
-                        messageHandler(text)
+                        await messageHandler(text)
                     case let .data(data):
                         NSLog("Ignoring binary message \(data)")
                     @unknown default:

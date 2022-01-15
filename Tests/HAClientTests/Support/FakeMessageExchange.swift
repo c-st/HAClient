@@ -6,36 +6,37 @@ import Foundation
  A fake message exchange.
  This simulates a websocket client and can fake incoming and outgoing messages.
  */
-class FakeMessageExchange: MessageExchange {
-    var sentMessages: [String] = []
-    var receivedMessages: [String] = []
+class FakeMessageExchange: MessageExchange {    
+//    var sentMessages: [String] = []
+//    var receivedMessages: [String] = []
+    
     var successfullyAuthenticated: Bool?
-
-    // Handler for incoming messages (WebSocket endpoint -> client)
-    private var messageHandler: ((String) -> Void)?
+   
+    // MARK: Fake helpers
     
     // Handler for outgoing messages (Client -> WebSocket endpoint)
-    var outgoingMessageHandler: ((String) -> Void)?
+    var outgoingMessageHandler: ((String) async -> Void)?
 
-    // MARK: Fake helpers
-
-    func simulateIncomingMessage(message: String) {
+    func simulateIncomingMessage(message: String) async {
         if let handler = messageHandler {
-            handler(message)
+            await handler(message)
         }
     }
 
-    // MARK: Protocol
+    // MARK: Protocol implementation
+    
+    // Handler for incoming messages (WebSocket endpoint -> client)
+    private var messageHandler: ((String) async -> Void)?
 
-    func sendMessage(message: String) {
-        if let handler = outgoingMessageHandler {
-            handler(message)
-        }
-        sentMessages.append(message)
-    }
-
-    func setMessageHandler(_ messageHandler: @escaping ((String) -> Void)) {
+    func setMessageHandler(_ messageHandler: @escaping ((String) async -> Void)) {
         self.messageHandler = messageHandler
+    }
+    
+    func sendMessage(message: String) async {
+        if let handler = outgoingMessageHandler {
+            await handler(message)
+        }
+//        sentMessages.append(message)
     }
 
     func disconnect() {

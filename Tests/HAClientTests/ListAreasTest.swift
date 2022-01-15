@@ -8,11 +8,10 @@ final class ListAreasTest: XCTestCase {
     var client: HAClient!
 
     override func setUp() async throws {
-        // Perform authentication
         mockExchange = FakeMessageExchange()
         client = HAClient(messageExchange: mockExchange!)
         mockExchange.outgoingMessageHandler = { msg in
-            self.mockExchange.simulateIncomingMessage(message: JSONCoding.serialize(AuthOkMessage()))
+            await self.mockExchange.simulateIncomingMessage(message: JSONCoding.serialize(AuthOkMessage()))
         }
         try await client.authenticate(token: "mytoken")
     }
@@ -34,7 +33,6 @@ final class ListAreasTest: XCTestCase {
             let expectedMsg = JSONCoding.serialize(Message(type: .listAreas, id: 1))
             expect(msg).to(equal(expectedMsg))
             
-            // respond with area response
             let areasResponse = JSONCoding.serialize(
                 ResultMessage<Area>(
                     id: 1,
@@ -42,7 +40,7 @@ final class ListAreasTest: XCTestCase {
                     result: TestExamples.areas
                 )
             )
-            self.mockExchange.simulateIncomingMessage(message: areasResponse)
+            await self.mockExchange.simulateIncomingMessage(message: areasResponse)
         }
         
         let areas = try await client.listAreas()
