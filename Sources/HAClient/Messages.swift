@@ -79,82 +79,79 @@ enum CommandType {
     case retrieveStates
 }
 
+public struct ResultMessage<T: Codable>: Codable {
+    var type: String = IncomingMessageType.result.rawValue
+    let id: Int
+    let success: Bool
+    let result: [T]
+}
+
 public struct Area: Codable {
     let name: String
     let areaId: String
+    var picture: String? = nil
     
     private enum CodingKeys: String, CodingKey {
         case name
         case areaId = "area_id"
+        case picture
     }
 }
 
 struct Device: Codable {
     let id: String
+    var areaId: String? = nil
     let name: String
-    let nameByUser: String?
-    let manufacturer: String
-    let areaId: String?
+    var nameByUser: String? = nil
+    var entryType: String? = nil
+    var manufacturer: String? = nil
+    var model: String? = nil
+    var swVersion: String? = nil
+    var viaDeviceId: String? = nil
 
     private enum CodingKeys: String, CodingKey {
         case id
+        case areaId = "area_id"
         case name
         case nameByUser = "name_by_user"
+        case entryType = "entry_type"
         case manufacturer
-        case areaId = "area_id"
+        case model
+        case swVersion = "sw_version"
+        case viaDeviceId = "via_device_id"
     }
 }
 
 struct Entity: Codable {
-    let id: String
-    let areaId: String?
-    let deviceId: String?
+    let entityId: String
+    var areaId: String? = nil
+    var name: String? = nil
+    var icon: String? = nil
+    let deviceId: String
     let platform: String
 
     private enum CodingKeys: String, CodingKey {
-        case id = "entity_id"
+        case entityId = "entity_id"
         case areaId = "area_id"
+        case name
+        case icon
         case deviceId = "device_id"
         case platform
     }
 }
 
-public struct ListAreasResultMessage: Codable {
-    var type: String = IncomingMessageType.result.rawValue
-    let id: Int
-    let success: Bool
-    let result: [Area]
-}
+struct State: Codable {
+    let entityId: String
+    let state: String
+    let lastChanged: String
+    let lastUpdated: String
+    let attributes: Dictionary<String, JSONProperty>
 
-struct ListDevicesResultMessage: Codable {
-    var type: String = IncomingMessageType.result.rawValue
-    let id: Int
-    let success: Bool
-    let result: [Device]
-}
-
-struct ListEntitiesResultMessage: Codable {
-    var type: String = IncomingMessageType.result.rawValue
-    let id: Int
-    let success: Bool
-    let result: [Entity]
-
-    
-}
-
-struct CurrentStatesResultMessage: Codable {
-    var type: String = IncomingMessageType.result.rawValue
-    let id: Int
-    let success: Bool
-    let result: [State]
-
-    struct State: Codable {
-        let entityId: String
-        let state: String
-
-        private enum CodingKeys: String, CodingKey {
-            case entityId = "entity_id"
-            case state
-        }
+    private enum CodingKeys: String, CodingKey {
+        case entityId = "entity_id"
+        case state
+        case lastChanged = "last_changed"
+        case lastUpdated = "last_updated"
+        case attributes
     }
 }

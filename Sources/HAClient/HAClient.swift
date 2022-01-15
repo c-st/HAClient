@@ -81,7 +81,7 @@ public class HAClient: HAClientProtocol {
             responses[requestId] != nil
         }
         
-        if let response = responses[requestId], let message = response as? ListAreasResultMessage {
+        if let response = responses[requestId], let message = response as? ResultMessage<Area> {
             return message.result
         }
         

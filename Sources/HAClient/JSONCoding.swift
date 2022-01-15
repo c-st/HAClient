@@ -31,19 +31,19 @@ final class JSONCoding {
     static func deserializeCommandResponse(type: CommandType, jsonData: Data) -> Any? {
         switch type {
         case .listAreas:
-            if let message = try? JSON.decoder.decode(ListAreasResultMessage.self, from: jsonData) {
+            if let message = try? JSON.decoder.decode(ResultMessage<Area>.self, from: jsonData) {
                 return message
             }
         case .listDevices:
-            if let message = try? JSON.decoder.decode(ListDevicesResultMessage.self, from: jsonData) {
+            if let message = try? JSON.decoder.decode(ResultMessage<Device>.self, from: jsonData) {
                 return message
             }
         case .listEntities:
-            if let message = try? JSON.decoder.decode(ListEntitiesResultMessage.self, from: jsonData) {
+            if let message = try? JSON.decoder.decode(ResultMessage<Entity>.self, from: jsonData) {
                 return message
             }
         case .retrieveStates:
-            if let message = try? JSON.decoder.decode(CurrentStatesResultMessage.self, from: jsonData) {
+            if let message = try? JSON.decoder.decode(ResultMessage<State>.self, from: jsonData) {
                 return message
             }
         }
@@ -71,4 +71,36 @@ struct JSON {
         let decoder = JSONDecoder()
         return decoder
     }()
+}
+
+enum JSONProperty: Codable {
+    case double(Double)
+    case string(String)
+    case bool(Bool)
+    
+    init(from decoder: Decoder) throws {
+        let container = try decoder.singleValueContainer()
+        
+        if let doubleVal = try? container.decode(Double.self) {
+            self = .double(doubleVal)
+        } else if let stringVal = try? container.decode(String.self) {
+            self = .string(stringVal)
+        } else if let boolVal = try? container.decode(Bool.self) {
+            self = .bool(boolVal)
+        }
+        
+        fatalError("Failed to decode JSON property")
+    }
+    
+    func encode(to encoder: Encoder) throws {
+        var container = encoder.singleValueContainer()
+        switch self {
+        case .double(let value):
+            try container.encode(value)
+        case .string(let value):
+            try container.encode(value)
+        case .bool(let value):
+            try container.encode(value)
+        }
+    }
 }
