@@ -17,7 +17,7 @@ final class HAClientAuthenticationTests: XCTestCase {
             let expectedMsg = JSONCoding.serialize(AuthMessage(accessToken: "mytoken"))
             expect(msg).to(equal(expectedMsg))
             
-            // send auth ok response
+            // reply with auth_ok
             let authOk = JSONCoding.serialize(AuthOkMessage())
             self.mockExchange.simulateIncomingMessage(message: authOk)
         }

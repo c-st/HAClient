@@ -18,7 +18,7 @@ final class ListAreasTest: XCTestCase {
     
     func test_requestsAreas() async throws {
         mockExchange.outgoingMessageHandler = { msg in
-            let expectedMsg = JSONCoding.serialize(RequestAreaRegistry(id: 1))
+            let expectedMsg = JSONCoding.serialize(ListAreasMessage(id: 1))
             expect(msg).to(equal(expectedMsg))
             
             // respond with area response
@@ -27,11 +27,11 @@ final class ListAreasTest: XCTestCase {
                     id: 1,
                     success: true,
                     result: [
-                        ListAreasResultMessage.Area(
+                        Area(
                             name: "Living room",
                             areaId: "living-room"
                         ),
-                        ListAreasResultMessage.Area(
+                        Area(
                             name: "Bedroom",
                             areaId: "bedroom"
                         )

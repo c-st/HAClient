@@ -11,10 +11,12 @@ public protocol HAClientProtocol {
     
     // Commands
     func authenticate(token: String) async throws -> Void
-    func listAreas() async throws -> [ListAreasResultMessage.Area]?
+    func listAreas() async throws -> [Area]?
 }
 
 public class HAClient: HAClientProtocol {
+    typealias RequestID = Int
+    
     enum HAClientError: Error {
         case authenticationFailed(String)
         case wrongPhase(String)
@@ -27,11 +29,10 @@ public class HAClient: HAClientProtocol {
         case authenticated
         case authenticationFailure(failureReason: String)
     }
-    private var currentPhase: Phase = .initial
-
+    
     private let messageExchange: MessageExchange
-
-    typealias RequestID = Int
+    
+    private var currentPhase: Phase = .initial
     private var lastUsedRequestId: RequestID?
     private var pendingRequests: [RequestID: CommandType] = [:]
     private var responses: [RequestID: Any] = [:]
@@ -41,12 +42,15 @@ public class HAClient: HAClientProtocol {
         self.messageExchange.setMessageHandler(self.handleTextMessage(jsonString:))
     }
     
-    // MARK: Commands
+    // MARK: Send commands
 
     public func authenticate(token: String) async throws -> Void {
+        let authCommand = AuthMessage(accessToken: token)
+        
         currentPhase = .authRequested
+        
         messageExchange.sendMessage(
-            message: JSONCoding.serialize(AuthMessage(accessToken: token))
+            message: JSONCoding.serialize(authCommand)
         )
         
         try waitFor() {
@@ -54,6 +58,9 @@ public class HAClient: HAClientProtocol {
         }
         
         switch currentPhase {
+        case .authenticated:
+            NSLog("Auth successful")
+            return
         case .authenticationFailure(let failureReason):
             throw HAClientError.authenticationFailed(failureReason)
         default:
@@ -61,13 +68,13 @@ public class HAClient: HAClientProtocol {
         }
     }
     
-    public func listAreas() async throws -> [ListAreasResultMessage.Area]? {
+    public func listAreas() async throws -> [Area]? {
         let requestId = getAndIncrementId()
         pendingRequests[requestId] = .listAreas
         sendCommand(
             requestId,
             type: .listAreas,
-            message: RequestAreaRegistry(id: requestId)
+            message: ListAreasMessage(id: requestId)
         )
         
         try waitFor() {
@@ -80,6 +87,10 @@ public class HAClient: HAClientProtocol {
         
         return nil
     }
+    
+    // listDevices
+    // listEntities
+    // retrieveStates
     
     private func sendCommand(_ requestId: RequestID, type: CommandType, message: Encodable) {
         messageExchange.sendMessage(
@@ -123,7 +134,7 @@ public class HAClient: HAClientProtocol {
             switch incomingMessage {
             case let resultMessage as BaseResultMessage:
                 guard resultMessage.success else {
-                    print("Result was not successful", jsonString)
+                    print("Command processing failed", jsonString)
                     return
                 }
                 handleMessage(message: resultMessage, jsonData: jsonData)
@@ -132,7 +143,8 @@ public class HAClient: HAClientProtocol {
             }
 
         default:
-            print("Ignoring text message", jsonString)
+            print("Not handling message", jsonString)
+            return
         }
     }
     

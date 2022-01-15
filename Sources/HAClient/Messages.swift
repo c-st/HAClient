@@ -12,17 +12,17 @@ struct AuthMessage: Codable {
     }
 }
 
-struct RequestAreaRegistry: Codable {
+struct ListAreasMessage: Codable {
     var type: String = "config/area_registry/list"
     let id: Int
 }
 
-struct RequestDeviceRegistry: Codable {
+struct ListDevicesMessage: Codable {
     var type: String = "config/device_registry/list"
     let id: Int
 }
 
-struct RequestEntityRegistry: Codable {
+struct ListEntitiesMessage: Codable {
     var type: String = "config/entity_registry/list"
     let id: Int
 }
@@ -79,21 +79,51 @@ enum CommandType {
     case retrieveStates
 }
 
+public struct Area: Codable {
+    let name: String
+    let areaId: String
+    
+    private enum CodingKeys: String, CodingKey {
+        case name
+        case areaId = "area_id"
+    }
+}
+
+struct Device: Codable {
+    let id: String
+    let name: String
+    let nameByUser: String?
+    let manufacturer: String
+    let areaId: String?
+
+    private enum CodingKeys: String, CodingKey {
+        case id
+        case name
+        case nameByUser = "name_by_user"
+        case manufacturer
+        case areaId = "area_id"
+    }
+}
+
+struct Entity: Codable {
+    let id: String
+    let areaId: String?
+    let deviceId: String?
+    let platform: String
+
+    private enum CodingKeys: String, CodingKey {
+        case id = "entity_id"
+        case areaId = "area_id"
+        case deviceId = "device_id"
+        case platform
+    }
+}
+
 public struct ListAreasResultMessage: Codable {
     var type: String = IncomingMessageType.result.rawValue
     let id: Int
     let success: Bool
     let result: [Area]
-
-    public struct Area: Codable {
-        let name: String
-        let areaId: String
-        
-        private enum CodingKeys: String, CodingKey {
-            case name
-            case areaId = "area_id"
-        }
-    }
 }
 
 struct ListDevicesResultMessage: Codable {
@@ -101,22 +131,6 @@ struct ListDevicesResultMessage: Codable {
     let id: Int
     let success: Bool
     let result: [Device]
-
-    struct Device: Codable {
-        let id: String
-        let name: String
-        let nameByUser: String?
-        let manufacturer: String
-        let areaId: String?
-
-        private enum CodingKeys: String, CodingKey {
-            case id
-            case name
-            case nameByUser = "name_by_user"
-            case manufacturer
-            case areaId = "area_id"
-        }
-    }
 }
 
 struct ListEntitiesResultMessage: Codable {
@@ -125,19 +139,7 @@ struct ListEntitiesResultMessage: Codable {
     let success: Bool
     let result: [Entity]
 
-    struct Entity: Codable {
-        let id: String
-        let areaId: String?
-        let deviceId: String?
-        let platform: String
-
-        private enum CodingKeys: String, CodingKey {
-            case id = "entity_id"
-            case areaId = "area_id"
-            case deviceId = "device_id"
-            case platform
-        }
-    }
+    
 }
 
 struct CurrentStatesResultMessage: Codable {

@@ -2,6 +2,8 @@ import XCTest
 
 @testable import HAClient
 
+// TODO: fix sample data
+
 struct TestExamples {
     static func simulatePopulateRegistryResponses(_ mockExchange: FakeMessageExchange) {
         mockExchange.simulateIncomingMessage(
@@ -10,11 +12,11 @@ struct TestExamples {
                     id: 1,
                     success: true,
                     result: [
-                        ListAreasResultMessage.Area(
+                        Area(
                             name: "Living room",
                             areaId: "living-room"
                         ),
-                        ListAreasResultMessage.Area(
+                        Area(
                             name: "Bedroom",
                             areaId: "bedroom"
                         ),
@@ -28,24 +30,24 @@ struct TestExamples {
                     id: 2,
                     success: true,
                     result: [
-                        ListDevicesResultMessage.Device(
+                        Device(
                             id: "device-id-1",
                             name: "living_room_lamp",
-                            nameByUser: nil,
+                            nameByUser: "",
                             manufacturer: "Lamp Manufacturer",
                             areaId: "living-room"
                         ),
-                        ListDevicesResultMessage.Device(
+                        Device(
                             id: "device-id-2",
                             name: "bedroom_lamp",
-                            nameByUser: nil,
+                            nameByUser: "",
                             manufacturer: "Lamp Manufacturer",
                             areaId: "bedroom"
                         ),
-                        ListDevicesResultMessage.Device(
+                        Device(
                             id: "device-id-3",
                             name: "Sensor",
-                            nameByUser: nil,
+                            nameByUser: "",
                             manufacturer: "Sensor Manufacturer",
                             areaId: "living-room"
                         ),
@@ -59,27 +61,27 @@ struct TestExamples {
                     id: 3,
                     success: true,
                     result: [
-                        ListEntitiesResultMessage.Entity(
+                        Entity(
                             id: "light.living_room_lamp",
-                            areaId: nil,
+                            areaId: "",
                             deviceId: "device-id-1",
                             platform: "mqtt"
                         ),
-                        ListEntitiesResultMessage.Entity(
+                        Entity(
                             id: "light.bedroom_lamp",
-                            areaId: nil,
+                            areaId: "",
                             deviceId: "device-id-2",
                             platform: "mqtt"
                         ),
-                        ListEntitiesResultMessage.Entity(
+                        Entity(
                             id: "sensor.living_room_humidity",
-                            areaId: nil,
+                            areaId: "",
                             deviceId: "device-id-3",
                             platform: "mqtt"
                         ),
-                        ListEntitiesResultMessage.Entity(
+                        Entity(
                             id: "sensor.living_room_temperature",
-                            areaId: nil,
+                            areaId: "",
                             deviceId: "device-id-3",
                             platform: "mqtt"
                         ),
