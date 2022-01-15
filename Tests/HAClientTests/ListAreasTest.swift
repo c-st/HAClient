@@ -23,19 +23,10 @@ final class ListAreasTest: XCTestCase {
             
             // respond with area response
             let areasResponse = JSONCoding.serialize(
-                ListAreasResultMessage(
+                ResultMessage<Area>(
                     id: 1,
                     success: true,
-                    result: [
-                        Area(
-                            name: "Living room",
-                            areaId: "living-room"
-                        ),
-                        Area(
-                            name: "Bedroom",
-                            areaId: "bedroom"
-                        )
-                    ]
+                    result: TestExamples.areas
                 )
             )
             self.mockExchange.simulateIncomingMessage(message: areasResponse)
