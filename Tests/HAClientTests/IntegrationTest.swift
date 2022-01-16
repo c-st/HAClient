@@ -1,38 +1,39 @@
-import Combine
 import Nimble
 import XCTest
 
 @testable import HAClient
 
 final class IntegrationTest: XCTestCase {
-    var cancellables: Set<AnyCancellable>! = []
+    let url = "ws://homeassistant.raspberrypi.localdomain/api/websocket"
+    let token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiI4YzI5ZGJmODdjZjE0NTUyYTJlMWVjMjFjOWU4NGM1MyIsImlhdCI6MTY0MTc0NDU3MSwiZXhwIjoxOTU3MTA0NTcxfQ.lhrtV093l7yL88l0jjfMPwSAZc1eAQpxejFzLIWry8s"
 
-    func skip_testAuthenticateAndDoStuff() {
-        let client = HAClient(messageExchange: WebSocketConnection(endpoint: "ws://homeassistant.raspberrypi.localdomain/api/websocket"))
+    func test_authentication() async throws {
+        let client = HAClient(messageExchange: WebSocketStream(url))
+        try await client.authenticate(token: token)
+    }
 
-        waitUntil(timeout: 1) { done in
-            client.authenticate(
-                token: "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiIzNmFmZDMyMjdkYzQ0YmNlOGZiNDRhNTFiZDA4MDdkZSIsImlhdCI6MTYxMTI3MTQ2NiwiZXhwIjoxOTI2NjMxNDY2fQ.YDRag0Hvq0lrTvu4Rt_z9NAQAJJNManAP0g4wHBFRq0",
-                onConnection: { done() },
-                onFailure: { reason in print("Authentication failure", reason) }
-            )
-        }
-
-        expect(client.currentPhase) == .authenticated
-
-        client.requestRegistry()
-        client.requestStates()
-
-        client.registry.allAreas.sink(receiveValue: { areas in
-            expect(areas).to(haveCount(4))
-        }).store(in: &cancellables)
+    func test_authenticationFail() async throws {
+        let client = HAClient(messageExchange: WebSocketStream(url))
+        do {
+            try await client.authenticate(token: "invalid-token")
+            fail("Method did not throw")
+        } catch {}
+    }
+    
+    func test_retrieveRegistry() async throws {
+        let client = HAClient(messageExchange: WebSocketStream(url))
+        try await client.authenticate(token: token)
         
-        client.registry.allEntities.sink(receiveValue: { entities in
-            expect(entities["light.office_lamp_light"]).toNot(beNil())
-        }).store(in: &self.cancellables)
+        let areas = try await client.listAreas()
+        expect(areas).to(haveCount(4))
         
-        client.registry.allStates.sink(receiveValue: { states in
-            expect(states.values).toNot(beNil())
-        }).store(in: &self.cancellables)
+        let devices = try await client.listDevices()
+        expect(devices).to(haveCount(38))
+        
+        let entities = try await client.listEntities()
+        expect(entities).to(haveCount(293))
+        
+        let states = try await client.retrieveStates()
+        expect(states).to(haveCount(230))
     }
 }

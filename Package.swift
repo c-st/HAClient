@@ -1,14 +1,14 @@
-// swift-tools-version:5.3
+// swift-tools-version:5.5
 
 import PackageDescription
 
 let package = Package(
     name: "HAClient",
     platforms: [
-        .macOS(.v10_15),
-        .iOS(.v13),
-        .watchOS(.v6),
-        .tvOS(.v13)
+        .macOS(.v12),
+        .iOS(.v15),
+        .watchOS(.v8),
+        .tvOS(.v15)
     ],
     products: [
         .library(
@@ -17,11 +17,7 @@ let package = Package(
         )
     ],
     dependencies: [
-        .package(
-            name: "Nimble",
-            url: "https://github.com/Quick/Nimble.git",
-            .upToNextMajor(from: "8.0.1")
-        )
+        .package(url: "https://github.com/Quick/Nimble.git", from: "9.2.1")
     ],
     targets: [
         .target(

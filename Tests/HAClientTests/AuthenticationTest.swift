@@ -1,0 +1,41 @@
+import Nimble
+import XCTest
+
+@testable import HAClient
+
+final class HAClientAuthenticationTest: XCTestCase {
+    var mockExchange: FakeMessageExchange!
+    var client: HAClient!
+
+    override func setUp() async throws {
+        mockExchange = FakeMessageExchange()
+        client = HAClient(messageExchange: mockExchange!)
+    }
+
+    func test_sendsTokenAndHandlesResponse() async throws {
+        mockExchange.outgoingMessageHandler = { msg in
+            let expectedMsg = JSONCoding.serialize(AuthMessage(accessToken: "mytoken"))
+            expect(msg).to(equal(expectedMsg))
+            
+            // reply with auth_ok
+            let authOk = JSONCoding.serialize(AuthOkMessage())
+            await self.mockExchange.simulateIncomingMessage(message: authOk)
+        }
+        
+        try await client.authenticate(token: "mytoken")
+    }
+
+    func test_throwsOnFailedAuthentication() async throws {
+        mockExchange.outgoingMessageHandler = { msg in
+            let authFailed = JSONCoding.serialize(AuthInvalidMessage(message: "Invalid token"))
+            await self.mockExchange.simulateIncomingMessage(message: authFailed)
+        }
+        
+        do {
+            try await client?.authenticate(token: "invalid_token")
+            fail("Method did not throw")
+        } catch {
+            expect(error).to(matchError(HAClient.HAClientError.authenticationFailed("Invalid token")))
+        }
+    }
+}

@@ -6,14 +6,13 @@ final class JSONCoding {
             withJSONObject: message.asDictionary,
             options: .sortedKeys
         )
-
         return String(decoding: data, as: UTF8.self)
     }
 
     static func deserialize(_ jsonString: String) -> Any? {
         let jsonData = jsonString.data(using: .utf8)!
         guard let messageWithType = try? JSON.decoder.decode(BaseMessage.self, from: jsonData) else {
-            print("Attempting to deserialize a message without type", jsonString)
+            NSLog("Cannot deserialize message. JSON: %@", jsonString)
             return nil
         }
 
@@ -27,6 +26,28 @@ final class JSONCoding {
         case .result:
             return try? JSON.decoder.decode(BaseResultMessage.self, from: jsonData)
         }
+    }
+    
+    static func deserializeCommandResponse(type: CommandType, jsonData: Data) -> Any? {
+        switch type {
+        case .listAreas:
+            if let message = try? JSON.decoder.decode(ResultMessage<Area>.self, from: jsonData) {
+                return message
+            }
+        case .listDevices:
+            if let message = try? JSON.decoder.decode(ResultMessage<Device>.self, from: jsonData) {
+                return message
+            }
+        case .listEntities:
+            if let message = try? JSON.decoder.decode(ResultMessage<Entity>.self, from: jsonData) {
+                return message
+            }
+        case .retrieveStates:
+            if let message = try? JSON.decoder.decode(ResultMessage<State>.self, from: jsonData) {
+                return message
+            }
+        }
+        return nil
     }
 }
 
@@ -50,4 +71,57 @@ struct JSON {
         let decoder = JSONDecoder()
         return decoder
     }()
+}
+
+enum JSONProperty: Codable {
+    case double(Double)
+    case string(String)
+    case bool(Bool)
+    case null
+    case array([JSONProperty])
+    case record([String:JSONProperty])
+    
+    init(from decoder: Decoder) throws {
+        let container = try decoder.singleValueContainer()
+        
+        if container.decodeNil() {
+            self = .null
+            return
+        } else if let doubleVal = try? container.decode(Double.self) {
+            self = .double(doubleVal)
+            return
+        } else if let stringVal = try? container.decode(String?.self) {
+            self = .string(stringVal)
+            return
+        } else if let boolVal = try? container.decode(Bool.self) {
+            self = .bool(boolVal)
+            return
+        } else if let arrayVal = try? container.decode([JSONProperty].self) {
+            self = .array(arrayVal)
+            return
+        } else if let recordVal = try? container.decode([String:JSONProperty].self) {
+            self = .record(recordVal)
+            return
+        }
+        
+        fatalError("Failed to decode JSON property")
+    }
+    
+    func encode(to encoder: Encoder) throws {
+        var container = encoder.singleValueContainer()
+        switch self {
+        case .null:
+            try container.encodeNil()
+        case .double(let value):
+            try container.encode(value)
+        case .string(let value):
+            try container.encode(value)
+        case .bool(let value):
+            try container.encode(value)
+        case .array(let value):
+            try container.encode(value)
+        case .record(let value):
+            try container.encode(value)
+        }
+    }
 }

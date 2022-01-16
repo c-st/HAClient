@@ -1,0 +1,4330 @@
+{
+  "id": 4,
+  "type": "result",
+  "success": true,
+  "result": [
+    {
+      "entity_id": "sun.sun",
+      "state": "above_horizon",
+      "attributes": {
+        "next_dawn": "2022-01-16T06:45:21.705041+00:00",
+        "next_dusk": "2022-01-15T16:13:04.414351+00:00",
+        "next_midnight": "2022-01-15T23:29:45+00:00",
+        "next_noon": "2022-01-16T11:29:35+00:00",
+        "next_rising": "2022-01-16T07:26:45.771347+00:00",
+        "next_setting": "2022-01-15T15:31:29.055804+00:00",
+        "elevation": 15.06,
+        "azimuth": 186.72,
+        "rising": false,
+        "friendly_name": "Sun"
+      },
+      "last_changed": "2022-01-15T07:27:45.029868+00:00",
+      "last_updated": "2022-01-15T11:57:14.016953+00:00",
+      "context": {
+        "id": "504ecb927388eaef6aa1ba24b2ad2203",
+        "parent_id": null,
+        "user_id": null
+      }
+    },
+    {
+      "entity_id": "binary_sensor.workday",
+      "state": "off",
+      "attributes": {
+        "workdays": ["mon", "tue", "wed", "thu", "fri"],
+        "excludes": ["sat", "sun", "holiday"],
+        "days_offset": 0,
+        "friendly_name": "workday"
+      },
+      "last_changed": "2022-01-15T00:00:03.339877+00:00",
+      "last_updated": "2022-01-15T00:00:03.339877+00:00",
+      "context": {
+        "id": "5b406044b9ec6c3a9007d767c2aa63fa",
+        "parent_id": null,
+        "user_id": null
+      }
+    },
+    {
+      "entity_id": "binary_sensor.remote_ui",
+      "state": "on",
+      "attributes": {
+        "device_class": "connectivity",
+        "friendly_name": "Remote UI"
+      },
+      "last_changed": "2022-01-11T10:55:01.893469+00:00",
+      "last_updated": "2022-01-11T10:55:01.893469+00:00",
+      "context": {
+        "id": "7dbb1169d649f27f6f4449d3e20d6e07",
+        "parent_id": null,
+        "user_id": null
+      }
+    },
+    {
+      "entity_id": "binary_sensor.updater",
+      "state": "on",
+      "attributes": {
+        "release_notes": "https://www.home-assistant.io/blog/2021/12/11/release-202112/",
+        "newest_version": "2021.12.9",
+        "device_class": "update",
+        "friendly_name": "Updater"
+      },
+      "last_changed": "2022-01-11T10:54:53.280114+00:00",
+      "last_updated": "2022-01-11T10:54:53.280114+00:00",
+      "context": {
+        "id": "5419c12d2d48f9b05fef0e5b2fa8c838",
+        "parent_id": null,
+        "user_id": null
+      }
+    },
+    {
+      "entity_id": "sensor.openweathermap_weather",
+      "state": "scattered clouds",
+      "attributes": {
+        "attribution": "Data provided by OpenWeatherMap",
+        "friendly_name": "OpenWeatherMap Weather"
+      },
+      "last_changed": "2022-01-15T11:34:51.303056+00:00",
+      "last_updated": "2022-01-15T11:34:51.303056+00:00",
+      "context": {
+        "id": "c30676da4b14d63c3f987a7724760775",
+        "parent_id": null,
+        "user_id": null
+      }
+    },
+    {
+      "entity_id": "sensor.openweathermap_dew_point",
+      "state": "3.2",
+      "attributes": {
+        "state_class": "measurement",
+        "attribution": "Data provided by OpenWeatherMap",
+        "unit_of_measurement": "\u00b0C",
+        "device_class": "temperature",
+        "friendly_name": "OpenWeatherMap Dew Point"
+      },
+      "last_changed": "2022-01-15T11:54:51.270381+00:00",
+      "last_updated": "2022-01-15T11:54:51.270381+00:00",
+      "context": {
+        "id": "61fedd7af104df193ca9d30564b08fb4",
+        "parent_id": null,
+        "user_id": null
+      }
+    },
+    {
+      "entity_id": "sensor.openweathermap_temperature",
+      "state": "5.23",
+      "attributes": {
+        "state_class": "measurement",
+        "attribution": "Data provided by OpenWeatherMap",
+        "unit_of_measurement": "\u00b0C",
+        "device_class": "temperature",
+        "friendly_name": "OpenWeatherMap Temperature"
+      },
+      "last_changed": "2022-01-15T11:54:51.270661+00:00",
+      "last_updated": "2022-01-15T11:54:51.270661+00:00",
+      "context": {
+        "id": "1c410697c26fa054a42b01576aaf619f",
+        "parent_id": null,
+        "user_id": null
+      }
+    },
+    {
+      "entity_id": "sensor.openweathermap_feels_like_temperature",
+      "state": "5.23",
+      "attributes": {
+        "state_class": "measurement",
+        "attribution": "Data provided by OpenWeatherMap",
+        "unit_of_measurement": "\u00b0C",
+        "device_class": "temperature",
+        "friendly_name": "OpenWeatherMap Feels like temperature"
+      },
+      "last_changed": "2022-01-15T11:54:51.270863+00:00",
+      "last_updated": "2022-01-15T11:54:51.270863+00:00",
+      "context": {
+        "id": "b3da72dfd39a42985ce4abbf49ed988c",
+        "parent_id": null,
+        "user_id": null
+      }
+    },
+    {
+      "entity_id": "sensor.openweathermap_wind_speed",
+      "state": "1.03",
+      "attributes": {
+        "state_class": "measurement",
+        "attribution": "Data provided by OpenWeatherMap",
+        "unit_of_measurement": "m/s",
+        "friendly_name": "OpenWeatherMap Wind speed"
+      },
+      "last_changed": "2022-01-15T11:34:51.304356+00:00",
+      "last_updated": "2022-01-15T11:34:51.304356+00:00",
+      "context": {
+        "id": "8ef03e000ed9a9bf0c1a8df250a0d21b",
+        "parent_id": null,
+        "user_id": null
+      }
+    },
+    {
+      "entity_id": "sensor.openweathermap_wind_bearing",
+      "state": "0",
+      "attributes": {
+        "state_class": "measurement",
+        "attribution": "Data provided by OpenWeatherMap",
+        "unit_of_measurement": "\u00b0",
+        "friendly_name": "OpenWeatherMap Wind bearing"
+      },
+      "last_changed": "2022-01-15T11:34:51.304681+00:00",
+      "last_updated": "2022-01-15T11:34:51.304681+00:00",
+      "context": {
+        "id": "05d45257863176924018d974fbfc7818",
+        "parent_id": null,
+        "user_id": null
+      }
+    },
+    {
+      "entity_id": "sensor.openweathermap_humidity",
+      "state": "87",
+      "attributes": {
+        "state_class": "measurement",
+        "attribution": "Data provided by OpenWeatherMap",
+        "unit_of_measurement": "%",
+        "device_class": "humidity",
+        "friendly_name": "OpenWeatherMap Humidity"
+      },
+      "last_changed": "2022-01-15T11:54:51.271183+00:00",
+      "last_updated": "2022-01-15T11:54:51.271183+00:00",
+      "context": {
+        "id": "b0398122d23a5a7f784bc755278038b8",
+        "parent_id": null,
+        "user_id": null
+      }
+    },
+    {
+      "entity_id": "sensor.openweathermap_pressure",
+      "state": "1027",
+      "attributes": {
+        "state_class": "measurement",
+        "attribution": "Data provided by OpenWeatherMap",
+        "unit_of_measurement": "hPa",
+        "device_class": "pressure",
+        "friendly_name": "OpenWeatherMap Pressure"
+      },
+      "last_changed": "2022-01-15T11:34:51.305323+00:00",
+      "last_updated": "2022-01-15T11:34:51.305323+00:00",
+      "context": {
+        "id": "1d2d264ee2343ac5f1e507ce3f3288e9",
+        "parent_id": null,
+        "user_id": null
+      }
+    },
+    {
+      "entity_id": "sensor.openweathermap_cloud_coverage",
+      "state": "40",
+      "attributes": {
+        "state_class": "measurement",
+        "attribution": "Data provided by OpenWeatherMap",
+        "unit_of_measurement": "%",
+        "friendly_name": "OpenWeatherMap Cloud coverage"
+      },
+      "last_changed": "2022-01-15T11:34:51.305639+00:00",
+      "last_updated": "2022-01-15T11:34:51.305639+00:00",
+      "context": {
+        "id": "6ad87f15f88c5de09953d9af403b25d0",
+        "parent_id": null,
+        "user_id": null
+      }
+    },
+    {
+      "entity_id": "sensor.openweathermap_rain",
+      "state": "0",
+      "attributes": {
+        "state_class": "measurement",
+        "attribution": "Data provided by OpenWeatherMap",
+        "unit_of_measurement": "mm",
+        "friendly_name": "OpenWeatherMap Rain"
+      },
+      "last_changed": "2022-01-15T00:34:51.552676+00:00",
+      "last_updated": "2022-01-15T00:34:51.552676+00:00",
+      "context": {
+        "id": "f14b72fec8042cbc51bb9e0cbbfb19fe",
+        "parent_id": null,
+        "user_id": null
+      }
+    },
+    {
+      "entity_id": "sensor.openweathermap_snow",
+      "state": "0",
+      "attributes": {
+        "state_class": "measurement",
+        "attribution": "Data provided by OpenWeatherMap",
+        "unit_of_measurement": "mm",
+        "friendly_name": "OpenWeatherMap Snow"
+      },
+      "last_changed": "2022-01-11T10:54:51.044255+00:00",
+      "last_updated": "2022-01-11T10:54:51.044255+00:00",
+      "context": {
+        "id": "2e6c05df71c4a1bdd92a2c089cfa1a99",
+        "parent_id": null,
+        "user_id": null
+      }
+    },
+    {
+      "entity_id": "sensor.openweathermap_precipitation_kind",
+      "state": "None",
+      "attributes": {
+        "attribution": "Data provided by OpenWeatherMap",
+        "friendly_name": "OpenWeatherMap Precipitation kind"
+      },
+      "last_changed": "2022-01-15T00:34:51.553213+00:00",
+      "last_updated": "2022-01-15T00:34:51.553213+00:00",
+      "context": {
+        "id": "e3283e60cefe2afade7bd151acdb2042",
+        "parent_id": null,
+        "user_id": null
+      }
+    },
+    {
+      "entity_id": "sensor.openweathermap_uv_index",
+      "state": "0.49",
+      "attributes": {
+        "state_class": "measurement",
+        "attribution": "Data provided by OpenWeatherMap",
+        "unit_of_measurement": "UV index",
+        "friendly_name": "OpenWeatherMap UV Index"
+      },
+      "last_changed": "2022-01-15T11:34:51.306285+00:00",
+      "last_updated": "2022-01-15T11:34:51.306285+00:00",
+      "context": {
+        "id": "bf48165b87e07fb01650d3870b513e13",
+        "parent_id": null,
+        "user_id": null
+      }
+    },
+    {
+      "entity_id": "sensor.openweathermap_condition",
+      "state": "partlycloudy",
+      "attributes": {
+        "attribution": "Data provided by OpenWeatherMap",
+        "friendly_name": "OpenWeatherMap Condition"
+      },
+      "last_changed": "2022-01-15T11:34:51.306600+00:00",
+      "last_updated": "2022-01-15T11:34:51.306600+00:00",
+      "context": {
+        "id": "810539ff0cbb138f94fe66921df7fc21",
+        "parent_id": null,
+        "user_id": null
+      }
+    },
+    {
+      "entity_id": "sensor.openweathermap_weather_code",
+      "state": "802",
+      "attributes": {
+        "attribution": "Data provided by OpenWeatherMap",
+        "friendly_name": "OpenWeatherMap Weather Code"
+      },
+      "last_changed": "2022-01-15T11:34:51.306913+00:00",
+      "last_updated": "2022-01-15T11:34:51.306913+00:00",
+      "context": {
+        "id": "971f8f56fe03b8c93327c8454ecf78d0",
+        "parent_id": null,
+        "user_id": null
+      }
+    },
+    {
+      "entity_id": "sensor.openweathermap_forecast_condition",
+      "state": "partlycloudy",
+      "attributes": {
+        "attribution": "Data provided by OpenWeatherMap",
+        "friendly_name": "OpenWeatherMap Forecast Condition"
+      },
+      "last_changed": "2022-01-15T11:34:51.307255+00:00",
+      "last_updated": "2022-01-15T11:34:51.307255+00:00",
+      "context": {
+        "id": "c4d7553b273afea9cb6a45c1c12ec9f6",
+        "parent_id": null,
+        "user_id": null
+      }
+    },
+    {
+      "entity_id": "sensor.openweathermap_forecast_precipitation",
+      "state": "0",
+      "attributes": {
+        "attribution": "Data provided by OpenWeatherMap",
+        "unit_of_measurement": "mm",
+        "friendly_name": "OpenWeatherMap Forecast Precipitation"
+      },
+      "last_changed": "2022-01-11T20:14:51.449869+00:00",
+      "last_updated": "2022-01-11T20:14:51.449869+00:00",
+      "context": {
+        "id": "3383c61286e32fd01ca081c2ba85a0b6",
+        "parent_id": null,
+        "user_id": null
+      }
+    },
+    {
+      "entity_id": "sensor.openweathermap_forecast_precipitation_probability",
+      "state": "0",
+      "attributes": {
+        "attribution": "Data provided by OpenWeatherMap",
+        "unit_of_measurement": "%",
+        "friendly_name": "OpenWeatherMap Forecast Precipitation probability"
+      },
+      "last_changed": "2022-01-12T06:14:51.254925+00:00",
+      "last_updated": "2022-01-12T06:14:51.254925+00:00",
+      "context": {
+        "id": "24e5d53a5e0e08b957a2a04741f336ff",
+        "parent_id": null,
+        "user_id": null
+      }
+    },
+    {
+      "entity_id": "sensor.openweathermap_forecast_pressure",
+      "state": "1027",
+      "attributes": {
+        "attribution": "Data provided by OpenWeatherMap",
+        "unit_of_measurement": "hPa",
+        "device_class": "pressure",
+        "friendly_name": "OpenWeatherMap Forecast Pressure"
+      },
+      "last_changed": "2022-01-15T11:34:51.307797+00:00",
+      "last_updated": "2022-01-15T11:34:51.307797+00:00",
+      "context": {
+        "id": "5ef2fd5ca8e4097f750555d3b278586f",
+        "parent_id": null,
+        "user_id": null
+      }
+    },
+    {
+      "entity_id": "sensor.openweathermap_forecast_temperature",
+      "state": "5.23",
+      "attributes": {
+        "attribution": "Data provided by OpenWeatherMap",
+        "unit_of_measurement": "\u00b0C",
+        "device_class": "temperature",
+        "friendly_name": "OpenWeatherMap Forecast Temperature"
+      },
+      "last_changed": "2022-01-15T11:54:51.272162+00:00",
+      "last_updated": "2022-01-15T11:54:51.272162+00:00",
+      "context": {
+        "id": "73721680c7075233b9548a6a65e48906",
+        "parent_id": null,
+        "user_id": null
+      }
+    },
+    {
+      "entity_id": "sensor.openweathermap_forecast_temperature_low",
+      "state": "0.59",
+      "attributes": {
+        "attribution": "Data provided by OpenWeatherMap",
+        "unit_of_measurement": "\u00b0C",
+        "device_class": "temperature",
+        "friendly_name": "OpenWeatherMap Forecast Temperature Low"
+      },
+      "last_changed": "2022-01-15T11:34:51.308481+00:00",
+      "last_updated": "2022-01-15T11:34:51.308481+00:00",
+      "context": {
+        "id": "8fa537b2ac87b2fe9b71d1d891225e38",
+        "parent_id": null,
+        "user_id": null
+      }
+    },
+    {
+      "entity_id": "sensor.openweathermap_forecast_time",
+      "state": "2022-01-15T11:00:00+00:00",
+      "attributes": {
+        "attribution": "Data provided by OpenWeatherMap",
+        "device_class": "timestamp",
+        "friendly_name": "OpenWeatherMap Forecast Time"
+      },
+      "last_changed": "2022-01-14T23:04:51.448620+00:00",
+      "last_updated": "2022-01-14T23:04:51.448620+00:00",
+      "context": {
+        "id": "69ab9efc79e44db40023efb32466ebaa",
+        "parent_id": null,
+        "user_id": null
+      }
+    },
+    {
+      "entity_id": "sensor.openweathermap_forecast_wind_bearing",
+      "state": "290",
+      "attributes": {
+        "attribution": "Data provided by OpenWeatherMap",
+        "unit_of_measurement": "\u00b0",
+        "friendly_name": "OpenWeatherMap Forecast Wind bearing"
+      },
+      "last_changed": "2022-01-15T00:24:51.426936+00:00",
+      "last_updated": "2022-01-15T00:24:51.426936+00:00",
+      "context": {
+        "id": "dc3d6b44a366ffc206b838e0abb1cac7",
+        "parent_id": null,
+        "user_id": null
+      }
+    },
+    {
+      "entity_id": "sensor.openweathermap_forecast_wind_speed",
+      "state": "2.27",
+      "attributes": {
+        "attribution": "Data provided by OpenWeatherMap",
+        "unit_of_measurement": "m/s",
+        "friendly_name": "OpenWeatherMap Forecast Wind speed"
+      },
+      "last_changed": "2022-01-15T00:24:51.427137+00:00",
+      "last_updated": "2022-01-15T00:24:51.427137+00:00",
+      "context": {
+        "id": "92d1d110a1dd4db752295133e7b7e817",
+        "parent_id": null,
+        "user_id": null
+      }
+    },
+    {
+      "entity_id": "sensor.openweathermap_forecast_cloud_coverage",
+      "state": "36",
+      "attributes": {
+        "attribution": "Data provided by OpenWeatherMap",
+        "unit_of_measurement": "%",
+        "friendly_name": "OpenWeatherMap Forecast Cloud coverage"
+      },
+      "last_changed": "2022-01-15T11:34:51.309215+00:00",
+      "last_updated": "2022-01-15T11:34:51.309215+00:00",
+      "context": {
+        "id": "a45c531aa51d0f9e05ca0156ac0a77e5",
+        "parent_id": null,
+        "user_id": null
+      }
+    },
+    {
+      "entity_id": "zone.weidestrasse",
+      "state": "zoning",
+      "attributes": {
+        "latitude": 53.581176,
+        "longitude": 10.021,
+        "radius": 50.0,
+        "passive": false,
+        "editable": true,
+        "icon": "mdi:home",
+        "friendly_name": "Home"
+      },
+      "last_changed": "2022-01-11T10:54:51.068011+00:00",
+      "last_updated": "2022-01-11T10:54:51.068011+00:00",
+      "context": {
+        "id": "497e0ac379eca3b2674881d85544511b",
+        "parent_id": null,
+        "user_id": null
+      }
+    },
+    {
+      "entity_id": "weather.openweathermap",
+      "state": "partlycloudy",
+      "attributes": {
+        "temperature": 5.2,
+        "humidity": 87,
+        "pressure": 1027,
+        "wind_bearing": 0,
+        "wind_speed": 3.71,
+        "forecast": [
+          {
+            "datetime": "2022-01-15T11:00:00+00:00",
+            "precipitation": 0,
+            "precipitation_probability": 0,
+            "pressure": 1027,
+            "wind_speed": 2.27,
+            "wind_bearing": 290,
+            "condition": "partlycloudy",
+            "clouds": 36,
+            "temperature": 5.2,
+            "templow": 0.6
+          },
+          {
+            "datetime": "2022-01-16T11:00:00+00:00",
+            "precipitation": 0,
+            "precipitation_probability": 0,
+            "pressure": 1018,
+            "wind_speed": 6.36,
+            "wind_bearing": 284,
+            "condition": "cloudy",
+            "clouds": 100,
+            "temperature": 6.1,
+            "templow": 1.4
+          },
+          {
+            "datetime": "2022-01-17T11:00:00+00:00",
+            "precipitation": 0,
+            "precipitation_probability": 8,
+            "pressure": 1025,
+            "wind_speed": 9.18,
+            "wind_bearing": 289,
+            "condition": "cloudy",
+            "clouds": 100,
+            "temperature": 8.3,
+            "templow": 4.6
+          },
+          {
+            "datetime": "2022-01-18T11:00:00+00:00",
+            "precipitation": 0,
+            "precipitation_probability": 0,
+            "pressure": 1036,
+            "wind_speed": 3.77,
+            "wind_bearing": 304,
+            "condition": "partlycloudy",
+            "clouds": 19,
+            "temperature": 7.7,
+            "templow": 3.6
+          },
+          {
+            "datetime": "2022-01-19T11:00:00+00:00",
+            "precipitation": 0,
+            "precipitation_probability": 3,
+            "pressure": 1025,
+            "wind_speed": 6.47,
+            "wind_bearing": 237,
+            "condition": "cloudy",
+            "clouds": 100,
+            "temperature": 5.0,
+            "templow": 1.7
+          },
+          {
+            "datetime": "2022-01-20T11:00:00+00:00",
+            "precipitation": 3.03,
+            "precipitation_probability": 96,
+            "pressure": 1011,
+            "wind_speed": 9.34,
+            "wind_bearing": 303,
+            "condition": "snowy-rainy",
+            "clouds": 89,
+            "temperature": 3.4,
+            "templow": -0.5
+          },
+          {
+            "datetime": "2022-01-21T11:00:00+00:00",
+            "precipitation": 0,
+            "precipitation_probability": 0,
+            "pressure": 1026,
+            "wind_speed": 4.93,
+            "wind_bearing": 312,
+            "condition": "partlycloudy",
+            "clouds": 45,
+            "temperature": 2.8,
+            "templow": -1.4
+          },
+          {
+            "datetime": "2022-01-22T11:00:00+00:00",
+            "precipitation": 0.22,
+            "precipitation_probability": 23,
+            "pressure": 1030,
+            "wind_speed": 4.52,
+            "wind_bearing": 295,
+            "condition": "rainy",
+            "clouds": 80,
+            "temperature": 5.3,
+            "templow": -0.3
+          }
+        ],
+        "attribution": "Data provided by OpenWeatherMap",
+        "friendly_name": "OpenWeatherMap"
+      },
+      "last_changed": "2022-01-15T11:34:51.310143+00:00",
+      "last_updated": "2022-01-15T11:54:51.273025+00:00",
+      "context": {
+        "id": "835bdd093d050ffd579c6155e08e94bf",
+        "parent_id": null,
+        "user_id": null
+      }
+    },
+    {
+      "entity_id": "sensor.last_boot",
+      "state": "2021-10-23T19:59:49+00:00",
+      "attributes": {
+        "device_class": "timestamp",
+        "friendly_name": "Last boot"
+      },
+      "last_changed": "2022-01-11T10:54:51.285876+00:00",
+      "last_updated": "2022-01-11T10:54:51.285876+00:00",
+      "context": {
+        "id": "bf2abd59dcc8f0e104f72615920b80ea",
+        "parent_id": null,
+        "user_id": null
+      }
+    },
+    {
+      "entity_id": "sensor.memory_free",
+      "state": "3043.2",
+      "attributes": {
+        "state_class": "measurement",
+        "unit_of_measurement": "MiB",
+        "icon": "mdi:memory",
+        "friendly_name": "Memory free"
+      },
+      "last_changed": "2022-01-15T11:57:48.355428+00:00",
+      "last_updated": "2022-01-15T11:57:48.355428+00:00",
+      "context": {
+        "id": "437b3622cab499314ddf9ecc640e8991",
+        "parent_id": null,
+        "user_id": null
+      }
+    },
+    {
+      "entity_id": "sensor.memory_use",
+      "state": "845.5",
+      "attributes": {
+        "state_class": "measurement",
+        "unit_of_measurement": "MiB",
+        "icon": "mdi:memory",
+        "friendly_name": "Memory use"
+      },
+      "last_changed": "2022-01-15T11:57:48.355986+00:00",
+      "last_updated": "2022-01-15T11:57:48.355986+00:00",
+      "context": {
+        "id": "d63f0ebfa053d5f87ca721f6efcc909d",
+        "parent_id": null,
+        "user_id": null
+      }
+    },
+    {
+      "entity_id": "sensor.processor_use_percent",
+      "state": "10",
+      "attributes": {
+        "state_class": "measurement",
+        "unit_of_measurement": "%",
+        "icon": "mdi:cpu-32-bit",
+        "friendly_name": "Processor use"
+      },
+      "last_changed": "2022-01-15T11:57:48.356444+00:00",
+      "last_updated": "2022-01-15T11:57:48.356444+00:00",
+      "context": {
+        "id": "99c75716edf5666e7503aac764469aaa",
+        "parent_id": null,
+        "user_id": null
+      }
+    },
+    {
+      "entity_id": "sensor.processor_temperature",
+      "state": "48.2",
+      "attributes": {
+        "state_class": "measurement",
+        "unit_of_measurement": "\u00b0C",
+        "device_class": "temperature",
+        "friendly_name": "Processor temperature"
+      },
+      "last_changed": "2022-01-15T11:57:48.356906+00:00",
+      "last_updated": "2022-01-15T11:57:48.356906+00:00",
+      "context": {
+        "id": "264c900d5e241618164141f59fed8096",
+        "parent_id": null,
+        "user_id": null
+      }
+    },
+    {
+      "entity_id": "zone.home",
+      "state": "zoning",
+      "attributes": {
+        "latitude": 53.68724,
+        "longitude": 9.998259,
+        "radius": 100,
+        "passive": false,
+        "editable": true,
+        "icon": "mdi:home",
+        "friendly_name": "\ud83c\udfe1 Casita"
+      },
+      "last_changed": "2022-01-11T10:54:51.295425+00:00",
+      "last_updated": "2022-01-11T10:54:51.295425+00:00",
+      "context": {
+        "id": "bf06525eb00d4813bc19ce8b8eca031a",
+        "parent_id": null,
+        "user_id": null
+      }
+    },
+    {
+      "entity_id": "switch.adaptive_lighting_default",
+      "state": "on",
+      "attributes": {
+        "brightness_pct": 100,
+        "color_temp_kelvin": 5456.494911277852,
+        "color_temp_mired": 183,
+        "rgb_color": [255, 236.7031359756905, 220.89978211206687],
+        "xy_color": [0.355, 0.344],
+        "hs_color": [27.429, 13.725],
+        "sun_position": 0.9875699746508151,
+        "manual_control": [],
+        "icon": "mdi:theme-light-dark",
+        "friendly_name": "Adaptive Lighting: default"
+      },
+      "last_changed": "2022-01-11T10:54:51.682025+00:00",
+      "last_updated": "2022-01-15T11:55:03.264586+00:00",
+      "context": {
+        "id": "6c0f3adb0b6be1bb2057996b0d8109b6",
+        "parent_id": null,
+        "user_id": null
+      }
+    },
+    {
+      "entity_id": "switch.adaptive_lighting_sleep_mode_default",
+      "state": "off",
+      "attributes": {
+        "icon": "mdi:theme-light-dark",
+        "friendly_name": "Adaptive Lighting Sleep Mode: default"
+      },
+      "last_changed": "2022-01-11T10:54:51.682532+00:00",
+      "last_updated": "2022-01-11T10:54:51.682532+00:00",
+      "context": {
+        "id": "d9e8ce4f52c6ab3c08f6c6a2964e992c",
+        "parent_id": null,
+        "user_id": null
+      }
+    },
+    {
+      "entity_id": "switch.adaptive_lighting_adapt_color_default",
+      "state": "on",
+      "attributes": {
+        "icon": "mdi:theme-light-dark",
+        "friendly_name": "Adaptive Lighting Adapt Color: default"
+      },
+      "last_changed": "2022-01-11T10:54:51.683128+00:00",
+      "last_updated": "2022-01-11T10:54:51.683128+00:00",
+      "context": {
+        "id": "6916f5838bf97a3c46a179c5d8f23913",
+        "parent_id": null,
+        "user_id": null
+      }
+    },
+    {
+      "entity_id": "switch.adaptive_lighting_adapt_brightness_default",
+      "state": "on",
+      "attributes": {
+        "icon": "mdi:theme-light-dark",
+        "friendly_name": "Adaptive Lighting Adapt Brightness: default"
+      },
+      "last_changed": "2022-01-11T10:54:51.683394+00:00",
+      "last_updated": "2022-01-11T10:54:51.683394+00:00",
+      "context": {
+        "id": "8eba57893925ec992bde361aeaef27c4",
+        "parent_id": null,
+        "user_id": null
+      }
+    },
+    {
+      "entity_id": "calendar.deliveries_deliveries_today",
+      "state": "off",
+      "attributes": {
+        "offset_reached": false,
+        "friendly_name": "Deliveries today"
+      },
+      "last_changed": "2022-01-14T18:00:00.205623+00:00",
+      "last_updated": "2022-01-14T18:06:00.635709+00:00",
+      "context": {
+        "id": "438e0eb282272acd81d59c56c43a645e",
+        "parent_id": null,
+        "user_id": null
+      }
+    },
+    {
+      "entity_id": "sensor.plex_mac_mini",
+      "state": "0",
+      "attributes": {
+        "unit_of_measurement": "Watching",
+        "icon": "mdi:plex",
+        "friendly_name": "Plex (Mac Mini)"
+      },
+      "last_changed": "2022-01-11T10:55:03.445601+00:00",
+      "last_updated": "2022-01-11T10:55:03.445601+00:00",
+      "context": {
+        "id": "026e6444ff0bfbcff2fe22a4ddc27537",
+        "parent_id": null,
+        "user_id": null
+      }
+    },
+    {
+      "entity_id": "sensor.adguard_dns_queries",
+      "state": "1095272",
+      "attributes": {
+        "unit_of_measurement": "queries",
+        "icon": "mdi:magnify",
+        "friendly_name": "AdGuard DNS Queries"
+      },
+      "last_changed": "2022-01-15T11:55:01.498356+00:00",
+      "last_updated": "2022-01-15T11:55:01.498356+00:00",
+      "context": {
+        "id": "70dc4ab7f6a8e18599e426feb334d232",
+        "parent_id": null,
+        "user_id": null
+      }
+    },
+    {
+      "entity_id": "switch.office_desk",
+      "state": "off",
+      "attributes": {
+        "outlet_in_use": true,
+        "friendly_name": "Office Desk lamp"
+      },
+      "last_changed": "2022-01-14T17:28:20.686600+00:00",
+      "last_updated": "2022-01-14T17:28:20.686600+00:00",
+      "context": {
+        "id": "ab11cc3d2e8037d3215cb6f46811b07f",
+        "parent_id": null,
+        "user_id": "2c4410119be7410cb601c043c7af2aba"
+      }
+    },
+    {
+      "entity_id": "sensor.koogeek_p1_1efe76_real_time_energy_2",
+      "state": "0.0",
+      "attributes": {
+        "state_class": "measurement",
+        "unit_of_measurement": "W",
+        "device_class": "power",
+        "friendly_name": "Koogeek-P1-1EFE76 - Real Time Energy"
+      },
+      "last_changed": "2022-01-14T17:28:34.489727+00:00",
+      "last_updated": "2022-01-14T17:28:34.489727+00:00",
+      "context": {
+        "id": "0a66819e2ba3548cf3be2a8aabfd05cd",
+        "parent_id": null,
+        "user_id": null
+      }
+    },
+    {
+      "entity_id": "switch.kitchen_coffee_machine",
+      "state": "off",
+      "attributes": {
+        "outlet_in_use": true,
+        "friendly_name": "Coffee machine"
+      },
+      "last_changed": "2022-01-15T11:02:34.963958+00:00",
+      "last_updated": "2022-01-15T11:02:34.963958+00:00",
+      "context": {
+        "id": "577a98bf26b2cf93eeb60eda3d9c72f7",
+        "parent_id": null,
+        "user_id": null
+      }
+    },
+    {
+      "entity_id": "sensor.koogeek_p1_1f1cd8_real_time_energy_2",
+      "state": "0.0",
+      "attributes": {
+        "state_class": "measurement",
+        "unit_of_measurement": "W",
+        "device_class": "power",
+        "friendly_name": "Koogeek-P1-1F1CD8 - Real Time Energy"
+      },
+      "last_changed": "2022-01-15T11:02:49.241653+00:00",
+      "last_updated": "2022-01-15T11:02:49.241653+00:00",
+      "context": {
+        "id": "5b6ad3643eb40344b3af39225aa7feb2",
+        "parent_id": null,
+        "user_id": null
+      }
+    },
+    {
+      "entity_id": "sensor.chinese_air_quality_index",
+      "state": "8",
+      "attributes": {
+        "state_class": "measurement",
+        "city": null,
+        "state": null,
+        "country": null,
+        "latitude": 53.68724,
+        "longitude": 9.998259,
+        "unit_of_measurement": "AQI",
+        "device_class": "aqi",
+        "friendly_name": "Chinese Air Quality Index"
+      },
+      "last_changed": "2022-01-15T11:11:06.091899+00:00",
+      "last_updated": "2022-01-15T11:11:06.091899+00:00",
+      "context": {
+        "id": "d993e30933816d01f1d9bf608301a04c",
+        "parent_id": null,
+        "user_id": null
+      }
+    },
+    {
+      "entity_id": "sensor.chinese_main_pollutant",
+      "state": "p2",
+      "attributes": {
+        "city": null,
+        "state": null,
+        "country": null,
+        "pollutant_symbol": "p2",
+        "pollutant_unit": "\u00b5g/m\u00b3",
+        "latitude": 53.68724,
+        "longitude": 9.998259,
+        "device_class": "airvisual__pollutant_label",
+        "icon": "mdi:chemical-weapon",
+        "friendly_name": "Chinese Main Pollutant"
+      },
+      "last_changed": "2022-01-14T13:13:27.145113+00:00",
+      "last_updated": "2022-01-14T13:13:27.145113+00:00",
+      "context": {
+        "id": "bbcfdbc12a078febfed74edc0c111459",
+        "parent_id": null,
+        "user_id": null
+      }
+    },
+    {
+      "entity_id": "sensor.u_s_air_pollution_level",
+      "state": "good",
+      "attributes": {
+        "city": null,
+        "state": null,
+        "country": null,
+        "latitude": 53.68724,
+        "longitude": 9.998259,
+        "device_class": "airvisual__pollutant_level",
+        "icon": "mdi:emoticon-excited",
+        "friendly_name": "U.S. Air Pollution Level"
+      },
+      "last_changed": "2022-01-14T21:14:47.136905+00:00",
+      "last_updated": "2022-01-14T21:14:47.136905+00:00",
+      "context": {
+        "id": "3fd64f1568c569c99d7e63444ba3af39",
+        "parent_id": null,
+        "user_id": null
+      }
+    },
+    {
+      "entity_id": "sensor.u_s_air_quality_index",
+      "state": "24",
+      "attributes": {
+        "state_class": "measurement",
+        "city": null,
+        "state": null,
+        "country": null,
+        "latitude": 53.68724,
+        "longitude": 9.998259,
+        "unit_of_measurement": "AQI",
+        "device_class": "aqi",
+        "friendly_name": "U.S. Air Quality Index"
+      },
+      "last_changed": "2022-01-15T11:11:06.092655+00:00",
+      "last_updated": "2022-01-15T11:11:06.092655+00:00",
+      "context": {
+        "id": "5fc66f22b3270291e291ccc6e98f192c",
+        "parent_id": null,
+        "user_id": null
+      }
+    },
+    {
+      "entity_id": "sensor.u_s_main_pollutant",
+      "state": "p2",
+      "attributes": {
+        "city": null,
+        "state": null,
+        "country": null,
+        "pollutant_symbol": "p2",
+        "pollutant_unit": "\u00b5g/m\u00b3",
+        "latitude": 53.68724,
+        "longitude": 9.998259,
+        "device_class": "airvisual__pollutant_label",
+        "icon": "mdi:chemical-weapon",
+        "friendly_name": "U.S. Main Pollutant"
+      },
+      "last_changed": "2022-01-14T13:13:27.146083+00:00",
+      "last_updated": "2022-01-14T13:13:27.146083+00:00",
+      "context": {
+        "id": "1000c68a23e15dedc1ae16e82d5a16c5",
+        "parent_id": null,
+        "user_id": null
+      }
+    },
+    {
+      "entity_id": "sensor.chris_ipad_battery_level",
+      "state": "87",
+      "attributes": {
+        "unit_of_measurement": "%",
+        "friendly_name": "Chris\u2019 iPad Battery Level",
+        "icon": "mdi:battery-charging-80",
+        "device_class": "battery"
+      },
+      "last_changed": "2022-01-11T10:54:58.323172+00:00",
+      "last_updated": "2022-01-11T10:54:58.323172+00:00",
+      "context": {
+        "id": "35403d452b60d4b2a5ee66540fb30e01",
+        "parent_id": null,
+        "user_id": null
+      }
+    },
+    {
+      "entity_id": "sensor.chris_ipad_battery_state",
+      "state": "Charging",
+      "attributes": {
+        "Low Power Mode": false,
+        "friendly_name": "Chris\u2019 iPad Battery State",
+        "icon": "mdi:battery-charging-80",
+        "device_class": "battery"
+      },
+      "last_changed": "2022-01-11T10:54:58.324167+00:00",
+      "last_updated": "2022-01-11T10:54:58.324167+00:00",
+      "context": {
+        "id": "b8f9c38a1dbe96259539358dc6b40a4d",
+        "parent_id": null,
+        "user_id": null
+      }
+    },
+    {
+      "entity_id": "sensor.chris_ipad_storage",
+      "state": "60.93",
+      "attributes": {
+        "Available": "64,53 GB",
+        "Available (Important)": "160,90 GB",
+        "Available (Opportunistic)": "155,94 GB",
+        "Total": "255,94 GB",
+        "unit_of_measurement": "% available",
+        "friendly_name": "Chris\u2019 iPad Storage",
+        "icon": "mdi:database"
+      },
+      "last_changed": "2022-01-11T10:54:58.324749+00:00",
+      "last_updated": "2022-01-11T10:54:58.324749+00:00",
+      "context": {
+        "id": "8d565ec95b09e7e13f53efb3e2f38d1c",
+        "parent_id": null,
+        "user_id": null
+      }
+    },
+    {
+      "entity_id": "sensor.chris_ipad_ssid",
+      "state": "Pinchy",
+      "attributes": {
+        "friendly_name": "Chris\u2019 iPad SSID",
+        "icon": "mdi:wifi"
+      },
+      "last_changed": "2022-01-11T10:54:58.325285+00:00",
+      "last_updated": "2022-01-11T10:54:58.325285+00:00",
+      "context": {
+        "id": "ba0f1eba7d4d476818bf452be49e89f4",
+        "parent_id": null,
+        "user_id": null
+      }
+    },
+    {
+      "entity_id": "sensor.chris_ipad_bssid",
+      "state": "1e:e8:29:6b:e0:a4",
+      "attributes": {
+        "friendly_name": "Chris\u2019 iPad BSSID",
+        "icon": "mdi:wifi-star"
+      },
+      "last_changed": "2022-01-11T10:54:58.325887+00:00",
+      "last_updated": "2022-01-11T10:54:58.325887+00:00",
+      "context": {
+        "id": "4c2592ed5d93ec48d8884d4ad6f03865",
+        "parent_id": null,
+        "user_id": null
+      }
+    },
+    {
+      "entity_id": "sensor.chris_ipad_connection_type",
+      "state": "Wi-Fi",
+      "attributes": {
+        "friendly_name": "Chris\u2019 iPad Connection Type",
+        "icon": "mdi:wifi"
+      },
+      "last_changed": "2022-01-11T10:54:58.326661+00:00",
+      "last_updated": "2022-01-11T10:54:58.326661+00:00",
+      "context": {
+        "id": "4d942ed76dcbfa06d37a84c7b832c2f1",
+        "parent_id": null,
+        "user_id": null
+      }
+    },
+    {
+      "entity_id": "sensor.chris_ipad_sim_1",
+      "state": "o2 - de",
+      "attributes": {
+        "Allows VoIP": true,
+        "Carrier ID": "0000000100000001",
+        "Carrier Name": "o2 - de",
+        "ISO Country Code": "de",
+        "Mobile Country Code": "262",
+        "Mobile Network Code": "07",
+        "friendly_name": "Chris\u2019 iPad SIM 1",
+        "icon": "mdi:sim"
+      },
+      "last_changed": "2022-01-11T10:54:58.327250+00:00",
+      "last_updated": "2022-01-11T10:54:58.327250+00:00",
+      "context": {
+        "id": "47490b0d0d292c53ce0d4a6ce509e03b",
+        "parent_id": null,
+        "user_id": null
+      }
+    },
+    {
+      "entity_id": "sensor.chris_ipad_last_update_trigger",
+      "state": "Background Fetch",
+      "attributes": {
+        "friendly_name": "Chris\u2019 iPad Last Update Trigger",
+        "icon": "mdi:cellphone-wireless"
+      },
+      "last_changed": "2022-01-11T10:54:58.328746+00:00",
+      "last_updated": "2022-01-11T10:54:58.328746+00:00",
+      "context": {
+        "id": "0c8d08489842324798e95d2ec564f87c",
+        "parent_id": null,
+        "user_id": null
+      }
+    },
+    {
+      "entity_id": "device_tracker.chris_ipad",
+      "state": "Home",
+      "attributes": {
+        "source_type": "gps",
+        "battery_level": 87,
+        "latitude": 53.581115634641726,
+        "longitude": 10.021039438811883,
+        "gps_accuracy": 35,
+        "altitude": 8.387864589691162,
+        "vertical_accuracy": 5,
+        "friendly_name": "Chris\u2019 iPad"
+      },
+      "last_changed": "2022-01-11T10:54:58.330343+00:00",
+      "last_updated": "2022-01-11T10:54:58.330343+00:00",
+      "context": {
+        "id": "3b3dd9db83e86d570ed768ca4c851974",
+        "parent_id": null,
+        "user_id": null
+      }
+    },
+    {
+      "entity_id": "sensor.asb612x_activity",
+      "state": "Stationary",
+      "attributes": {
+        "Confidence": "High",
+        "Types": ["Stationary"],
+        "icon": "mdi:human-male",
+        "friendly_name": "asb612X Activity"
+      },
+      "last_changed": "2022-01-15T08:16:42.895943+00:00",
+      "last_updated": "2022-01-15T08:16:42.895943+00:00",
+      "context": {
+        "id": "bbb9549dc0bb2f8d1be6e821008b018c",
+        "parent_id": null,
+        "user_id": null
+      }
+    },
+    {
+      "entity_id": "sensor.asb612x_distance",
+      "state": "0",
+      "attributes": {
+        "unit_of_measurement": "m",
+        "icon": "mdi:hiking",
+        "friendly_name": "asb612X Distance"
+      },
+      "last_changed": "2022-01-14T23:44:25.862840+00:00",
+      "last_updated": "2022-01-14T23:44:25.862840+00:00",
+      "context": {
+        "id": "3efd6c4080df2fdd2bdc048362256d35",
+        "parent_id": null,
+        "user_id": null
+      }
+    },
+    {
+      "entity_id": "sensor.asb612x_floors_descended",
+      "state": "0",
+      "attributes": {
+        "unit_of_measurement": "floors",
+        "icon": "mdi:stairs-down",
+        "friendly_name": "asb612X Floors Descended"
+      },
+      "last_changed": "2022-01-14T23:44:25.864871+00:00",
+      "last_updated": "2022-01-14T23:44:25.864871+00:00",
+      "context": {
+        "id": "322e7d4261af65f444cc9547d37299fd",
+        "parent_id": null,
+        "user_id": null
+      }
+    },
+    {
+      "entity_id": "sensor.asb612x_steps",
+      "state": "0",
+      "attributes": {
+        "unit_of_measurement": "steps",
+        "icon": "mdi:walk",
+        "friendly_name": "asb612X Steps"
+      },
+      "last_changed": "2022-01-14T23:44:25.865818+00:00",
+      "last_updated": "2022-01-14T23:44:25.865818+00:00",
+      "context": {
+        "id": "5af1bf4926959dd796ed1df67d9e1cc1",
+        "parent_id": null,
+        "user_id": null
+      }
+    },
+    {
+      "entity_id": "sensor.asb612x_floors_ascended",
+      "state": "0",
+      "attributes": {
+        "unit_of_measurement": "floors",
+        "icon": "mdi:stairs-up",
+        "friendly_name": "asb612X Floors Ascended"
+      },
+      "last_changed": "2022-01-14T23:44:25.863937+00:00",
+      "last_updated": "2022-01-14T23:44:25.863937+00:00",
+      "context": {
+        "id": "ea11ffd79ea91f1375b6ebc240d17f7b",
+        "parent_id": null,
+        "user_id": null
+      }
+    },
+    {
+      "entity_id": "sensor.asb612x_average_active_pace",
+      "state": "0",
+      "attributes": {
+        "unit_of_measurement": "m/s",
+        "icon": "mdi:speedometer",
+        "friendly_name": "asb612X Average Active Pace"
+      },
+      "last_changed": "2022-01-14T21:51:57.901478+00:00",
+      "last_updated": "2022-01-14T21:51:57.901478+00:00",
+      "context": {
+        "id": "d0aacd3e2ad84b91fdf588cdd9ad676f",
+        "parent_id": null,
+        "user_id": null
+      }
+    },
+    {
+      "entity_id": "sensor.asb612x_battery_level",
+      "state": "100",
+      "attributes": {
+        "unit_of_measurement": "%",
+        "icon": "mdi:battery",
+        "friendly_name": "asb612X Battery Level"
+      },
+      "last_changed": "2022-01-15T07:52:45.215558+00:00",
+      "last_updated": "2022-01-15T07:52:45.215558+00:00",
+      "context": {
+        "id": "0d0abfd584f9f902d0b440364db7d333",
+        "parent_id": null,
+        "user_id": null
+      }
+    },
+    {
+      "entity_id": "sensor.asb612x_battery_state",
+      "state": "Full",
+      "attributes": {
+        "Low Power Mode": false,
+        "icon": "mdi:battery",
+        "friendly_name": "asb612X Battery State"
+      },
+      "last_changed": "2022-01-15T07:52:45.216484+00:00",
+      "last_updated": "2022-01-15T07:52:45.216484+00:00",
+      "context": {
+        "id": "29d4b12ccbe29f432e01b0cd77e74ee1",
+        "parent_id": null,
+        "user_id": null
+      }
+    },
+    {
+      "entity_id": "sensor.asb612x_storage",
+      "state": "67.95",
+      "attributes": {
+        "Available": "108,18 GB",
+        "Available (Important)": "183,74 GB",
+        "Available (Opportunistic)": "173,87 GB",
+        "Total": "255,88 GB",
+        "unit_of_measurement": "% available",
+        "icon": "mdi:database",
+        "friendly_name": "asb612X Storage"
+      },
+      "last_changed": "2022-01-15T08:58:55.525457+00:00",
+      "last_updated": "2022-01-15T08:58:55.525457+00:00",
+      "context": {
+        "id": "bf80d1dc5f1729a7908b6ea874fcfa6b",
+        "parent_id": null,
+        "user_id": null
+      }
+    },
+    {
+      "entity_id": "sensor.asb612x_ssid",
+      "state": "Not Connected",
+      "attributes": { "icon": "mdi:wifi-off", "friendly_name": "asb612X SSID" },
+      "last_changed": "2022-01-14T08:48:15.837884+00:00",
+      "last_updated": "2022-01-14T08:48:15.837884+00:00",
+      "context": {
+        "id": "6b2796120c10f8546fd82f9eeee6bf50",
+        "parent_id": null,
+        "user_id": null
+      }
+    },
+    {
+      "entity_id": "sensor.asb612x_bssid",
+      "state": "Not Connected",
+      "attributes": {
+        "icon": "mdi:wifi-off",
+        "friendly_name": "asb612X BSSID"
+      },
+      "last_changed": "2022-01-14T08:48:15.838854+00:00",
+      "last_updated": "2022-01-14T08:48:15.838854+00:00",
+      "context": {
+        "id": "09890ff6675a6cbde61d13cdb1feda19",
+        "parent_id": null,
+        "user_id": null
+      }
+    },
+    {
+      "entity_id": "sensor.asb612x_connection_type",
+      "state": "Wi-Fi",
+      "attributes": {
+        "icon": "mdi:wifi",
+        "friendly_name": "asb612X Connection Type"
+      },
+      "last_changed": "2022-01-11T21:45:04.398686+00:00",
+      "last_updated": "2022-01-11T21:45:04.398686+00:00",
+      "context": {
+        "id": "96de9e514ee335480fd1b765d9340adb",
+        "parent_id": null,
+        "user_id": null
+      }
+    },
+    {
+      "entity_id": "sensor.asb612x_sim_1",
+      "state": "Telekom.de",
+      "attributes": {
+        "Allows VoIP": true,
+        "Carrier ID": "0000000100000001",
+        "Carrier Name": "Telekom.de",
+        "Current Radio Technology": "Long-Term Evolution (LTE)",
+        "ISO Country Code": "de",
+        "Mobile Country Code": "262",
+        "Mobile Network Code": "01",
+        "friendly_name": "asb612X SIM 1",
+        "icon": "mdi:sim"
+      },
+      "last_changed": "2022-01-11T10:54:58.336338+00:00",
+      "last_updated": "2022-01-11T10:54:58.336338+00:00",
+      "context": {
+        "id": "4437336b546683093c4b9e3563572244",
+        "parent_id": null,
+        "user_id": null
+      }
+    },
+    {
+      "entity_id": "sensor.asb612x_last_update_trigger",
+      "state": "Launch",
+      "attributes": {
+        "icon": "mdi:cellphone-wireless",
+        "friendly_name": "asb612X Last Update Trigger"
+      },
+      "last_changed": "2022-01-15T08:58:55.832139+00:00",
+      "last_updated": "2022-01-15T08:58:55.832139+00:00",
+      "context": {
+        "id": "716bf99340d41cb97bc83914a2cc480d",
+        "parent_id": null,
+        "user_id": null
+      }
+    },
+    {
+      "entity_id": "binary_sensor.asb612x_focus",
+      "state": "on",
+      "attributes": {
+        "icon": "mdi:moon-waning-crescent",
+        "friendly_name": "asb612X Focus"
+      },
+      "last_changed": "2022-01-15T08:43:30.089958+00:00",
+      "last_updated": "2022-01-15T08:43:30.089958+00:00",
+      "context": {
+        "id": "a86cdf71c35b13150a4467d6b112ae4f",
+        "parent_id": null,
+        "user_id": null
+      }
+    },
+    {
+      "entity_id": "device_tracker.asb612x",
+      "state": "Home",
+      "attributes": {
+        "source_type": "gps",
+        "battery_level": 100,
+        "latitude": 53.580902099609375,
+        "longitude": 10.02132957648314,
+        "gps_accuracy": 35,
+        "altitude": 6.6968384981155396,
+        "vertical_accuracy": 11,
+        "friendly_name": "asb612X"
+      },
+      "last_changed": "2022-01-14T08:30:57.763369+00:00",
+      "last_updated": "2022-01-14T08:30:57.763369+00:00",
+      "context": {
+        "id": "6940ec6fd7bdc85a01f5fbfe3f639778",
+        "parent_id": null,
+        "user_id": null
+      }
+    },
+    {
+      "entity_id": "sensor.ipad_activity",
+      "state": "unknown",
+      "attributes": {
+        "friendly_name": "iPad Activity",
+        "icon": "mdi:human-male"
+      },
+      "last_changed": "2022-01-11T10:54:58.339732+00:00",
+      "last_updated": "2022-01-11T10:54:58.339732+00:00",
+      "context": {
+        "id": "15319a133c8e4fff8cfd3121c08baf23",
+        "parent_id": null,
+        "user_id": null
+      }
+    },
+    {
+      "entity_id": "sensor.ipad_battery_level",
+      "state": "unknown",
+      "attributes": {
+        "unit_of_measurement": "%",
+        "friendly_name": "iPad Battery Level",
+        "icon": "mdi:battery",
+        "device_class": "battery"
+      },
+      "last_changed": "2022-01-11T10:54:58.340291+00:00",
+      "last_updated": "2022-01-11T10:54:58.340291+00:00",
+      "context": {
+        "id": "86ba90f66ce22bebe9e82f6fe23de1ca",
+        "parent_id": null,
+        "user_id": null
+      }
+    },
+    {
+      "entity_id": "sensor.ipad_battery_state",
+      "state": "unknown",
+      "attributes": {
+        "friendly_name": "iPad Battery State",
+        "icon": "mdi:battery",
+        "device_class": "battery"
+      },
+      "last_changed": "2022-01-11T10:54:58.340753+00:00",
+      "last_updated": "2022-01-11T10:54:58.340753+00:00",
+      "context": {
+        "id": "76caaf09f4f4f7e4ab85700ea155d4b1",
+        "parent_id": null,
+        "user_id": null
+      }
+    },
+    {
+      "entity_id": "sensor.ipad_storage",
+      "state": "unknown",
+      "attributes": {
+        "unit_of_measurement": "% available",
+        "friendly_name": "iPad Storage",
+        "icon": "mdi:database"
+      },
+      "last_changed": "2022-01-11T10:54:58.341132+00:00",
+      "last_updated": "2022-01-11T10:54:58.341132+00:00",
+      "context": {
+        "id": "5d7201f5c717cf15caf0add0d1710f68",
+        "parent_id": null,
+        "user_id": null
+      }
+    },
+    {
+      "entity_id": "sensor.ipad_ssid",
+      "state": "unknown",
+      "attributes": { "friendly_name": "iPad SSID", "icon": "mdi:wifi" },
+      "last_changed": "2022-01-11T10:54:58.341555+00:00",
+      "last_updated": "2022-01-11T10:54:58.341555+00:00",
+      "context": {
+        "id": "b23803281e8693310cd9f8d7c4c0fef3",
+        "parent_id": null,
+        "user_id": null
+      }
+    },
+    {
+      "entity_id": "sensor.ipad_bssid",
+      "state": "unknown",
+      "attributes": { "friendly_name": "iPad BSSID", "icon": "mdi:wifi-star" },
+      "last_changed": "2022-01-11T10:54:58.341893+00:00",
+      "last_updated": "2022-01-11T10:54:58.341893+00:00",
+      "context": {
+        "id": "c96281a5017c064e06e1631d11768347",
+        "parent_id": null,
+        "user_id": null
+      }
+    },
+    {
+      "entity_id": "sensor.ipad_connection_type",
+      "state": "unknown",
+      "attributes": {
+        "friendly_name": "iPad Connection Type",
+        "icon": "mdi:wifi"
+      },
+      "last_changed": "2022-01-11T10:54:58.342250+00:00",
+      "last_updated": "2022-01-11T10:54:58.342250+00:00",
+      "context": {
+        "id": "40f315ec2e9292b62679fc7431d4cadf",
+        "parent_id": null,
+        "user_id": null
+      }
+    },
+    {
+      "entity_id": "sensor.ipad_last_update_trigger",
+      "state": "unknown",
+      "attributes": {
+        "friendly_name": "iPad Last Update Trigger",
+        "icon": "mdi:cellphone-wireless"
+      },
+      "last_changed": "2022-01-11T10:54:58.343042+00:00",
+      "last_updated": "2022-01-11T10:54:58.343042+00:00",
+      "context": {
+        "id": "e6300e5452c8e556c0d2c65cd1c715e0",
+        "parent_id": null,
+        "user_id": null
+      }
+    },
+    {
+      "entity_id": "device_tracker.ipad_2",
+      "state": "Home",
+      "attributes": {
+        "source_type": "gps",
+        "battery_level": 100,
+        "latitude": 53.58131495587294,
+        "longitude": 10.021023044968741,
+        "gps_accuracy": 65,
+        "altitude": 2.3652663230895996,
+        "vertical_accuracy": 10,
+        "friendly_name": "iPad"
+      },
+      "last_changed": "2022-01-11T10:54:58.343737+00:00",
+      "last_updated": "2022-01-11T10:54:58.343737+00:00",
+      "context": {
+        "id": "e6bd2279243664c79d7104226694aaf5",
+        "parent_id": null,
+        "user_id": null
+      }
+    },
+    {
+      "entity_id": "sensor.iphone_13_mini_activity",
+      "state": "Stationary",
+      "attributes": {
+        "Confidence": "High",
+        "Types": ["Stationary"],
+        "icon": "mdi:human-male",
+        "friendly_name": "iPhone 13 mini Activity"
+      },
+      "last_changed": "2022-01-15T10:51:52.914475+00:00",
+      "last_updated": "2022-01-15T10:51:52.914475+00:00",
+      "context": {
+        "id": "2703d165483e61d80721da10c129c7c8",
+        "parent_id": null,
+        "user_id": null
+      }
+    },
+    {
+      "entity_id": "sensor.iphone_13_mini_distance",
+      "state": "184",
+      "attributes": {
+        "unit_of_measurement": "m",
+        "icon": "mdi:hiking",
+        "friendly_name": "iPhone 13 mini Distance"
+      },
+      "last_changed": "2022-01-15T11:25:57.354125+00:00",
+      "last_updated": "2022-01-15T11:25:57.354125+00:00",
+      "context": {
+        "id": "32fbbfc25e76261583fbe8220baca5ec",
+        "parent_id": null,
+        "user_id": null
+      }
+    },
+    {
+      "entity_id": "sensor.iphone_13_mini_floors_ascended",
+      "state": "0",
+      "attributes": {
+        "unit_of_measurement": "floors",
+        "icon": "mdi:stairs-up",
+        "friendly_name": "iPhone 13 mini Floors Ascended"
+      },
+      "last_changed": "2022-01-14T23:00:25.837070+00:00",
+      "last_updated": "2022-01-14T23:00:25.837070+00:00",
+      "context": {
+        "id": "adb52ba9340c303e7faf455645db8218",
+        "parent_id": null,
+        "user_id": null
+      }
+    },
+    {
+      "entity_id": "sensor.iphone_13_mini_floors_descended",
+      "state": "0",
+      "attributes": {
+        "unit_of_measurement": "floors",
+        "icon": "mdi:stairs-down",
+        "friendly_name": "iPhone 13 mini Floors Descended"
+      },
+      "last_changed": "2022-01-14T23:00:25.838141+00:00",
+      "last_updated": "2022-01-14T23:00:25.838141+00:00",
+      "context": {
+        "id": "0832c4fe1ebd6ebcebf8c98dc2a6df95",
+        "parent_id": null,
+        "user_id": null
+      }
+    },
+    {
+      "entity_id": "sensor.iphone_13_mini_steps",
+      "state": "233",
+      "attributes": {
+        "unit_of_measurement": "steps",
+        "icon": "mdi:walk",
+        "friendly_name": "iPhone 13 mini Steps"
+      },
+      "last_changed": "2022-01-15T11:25:57.357882+00:00",
+      "last_updated": "2022-01-15T11:25:57.357882+00:00",
+      "context": {
+        "id": "2f2d113c017d67a2c67fc8e425bbbb07",
+        "parent_id": null,
+        "user_id": null
+      }
+    },
+    {
+      "entity_id": "sensor.iphone_13_mini_battery_level",
+      "state": "62",
+      "attributes": {
+        "unit_of_measurement": "%",
+        "icon": "mdi:battery-60",
+        "friendly_name": "iPhone 13 mini Battery Level"
+      },
+      "last_changed": "2022-01-15T11:42:28.462783+00:00",
+      "last_updated": "2022-01-15T11:42:28.462783+00:00",
+      "context": {
+        "id": "2f37a12cda4c9ce98025375976d64cd1",
+        "parent_id": null,
+        "user_id": null
+      }
+    },
+    {
+      "entity_id": "sensor.iphone_13_mini_battery_state",
+      "state": "Not Charging",
+      "attributes": {
+        "Low Power Mode": false,
+        "icon": "mdi:battery-60",
+        "friendly_name": "iPhone 13 mini Battery State"
+      },
+      "last_changed": "2022-01-15T03:11:51.100700+00:00",
+      "last_updated": "2022-01-15T10:27:17.735506+00:00",
+      "context": {
+        "id": "62a5d53b3c4f8f7b3d27870ff02c29d9",
+        "parent_id": null,
+        "user_id": null
+      }
+    },
+    {
+      "entity_id": "sensor.iphone_13_mini_average_active_pace",
+      "state": "1",
+      "attributes": {
+        "unit_of_measurement": "m/s",
+        "icon": "mdi:speedometer",
+        "friendly_name": "iPhone 13 mini Average Active Pace"
+      },
+      "last_changed": "2022-01-14T23:35:24.045385+00:00",
+      "last_updated": "2022-01-14T23:35:24.045385+00:00",
+      "context": {
+        "id": "1eeb71badc3c67aefa879936e5953963",
+        "parent_id": null,
+        "user_id": null
+      }
+    },
+    {
+      "entity_id": "sensor.iphone_13_mini_storage",
+      "state": "68.28",
+      "attributes": {
+        "Available": "143,15 GB",
+        "Available (Important)": "184,17 GB",
+        "Available (Opportunistic)": "174,70 GB",
+        "Total": "255,87 GB",
+        "unit_of_measurement": "% available",
+        "icon": "mdi:database",
+        "friendly_name": "iPhone 13 mini Storage"
+      },
+      "last_changed": "2022-01-15T11:50:33.013516+00:00",
+      "last_updated": "2022-01-15T11:50:33.013516+00:00",
+      "context": {
+        "id": "af5e091763f021dcd5a3ac4ce6e9f255",
+        "parent_id": null,
+        "user_id": null
+      }
+    },
+    {
+      "entity_id": "sensor.iphone_13_mini_ssid",
+      "state": "Pinchy",
+      "attributes": {
+        "icon": "mdi:wifi",
+        "friendly_name": "iPhone 13 mini SSID"
+      },
+      "last_changed": "2022-01-14T18:46:49.328974+00:00",
+      "last_updated": "2022-01-14T18:46:49.328974+00:00",
+      "context": {
+        "id": "611010864b4352f0f13eaedd2a03f78e",
+        "parent_id": null,
+        "user_id": null
+      }
+    },
+    {
+      "entity_id": "sensor.iphone_13_mini_bssid",
+      "state": "1e:e8:29:6b:e0:a4",
+      "attributes": {
+        "icon": "mdi:wifi-star",
+        "friendly_name": "iPhone 13 mini BSSID"
+      },
+      "last_changed": "2022-01-14T18:46:49.330093+00:00",
+      "last_updated": "2022-01-14T18:46:49.330093+00:00",
+      "context": {
+        "id": "d3b03650869bef95f8c69fcd0754d6cf",
+        "parent_id": null,
+        "user_id": null
+      }
+    },
+    {
+      "entity_id": "sensor.iphone_13_mini_connection_type",
+      "state": "Wi-Fi",
+      "attributes": {
+        "icon": "mdi:wifi",
+        "friendly_name": "iPhone 13 mini Connection Type"
+      },
+      "last_changed": "2022-01-14T18:46:49.331158+00:00",
+      "last_updated": "2022-01-14T18:46:49.331158+00:00",
+      "context": {
+        "id": "5870309466e641edf641c817dfc2c40a",
+        "parent_id": null,
+        "user_id": null
+      }
+    },
+    {
+      "entity_id": "sensor.iphone_13_mini_sim_2",
+      "state": "N/A",
+      "attributes": {
+        "Allows VoIP": true,
+        "Carrier ID": "0000000100000002",
+        "Carrier Name": "N/A",
+        "ISO Country Code": "N/A",
+        "Mobile Country Code": "N/A",
+        "Mobile Network Code": "N/A",
+        "friendly_name": "iPhone 13 mini SIM 2",
+        "icon": "mdi:sim"
+      },
+      "last_changed": "2022-01-11T10:54:58.349120+00:00",
+      "last_updated": "2022-01-11T10:54:58.349120+00:00",
+      "context": {
+        "id": "16659cc83381914c8c5945e3146bb655",
+        "parent_id": null,
+        "user_id": null
+      }
+    },
+    {
+      "entity_id": "sensor.iphone_13_mini_sim_1",
+      "state": "Telekom.de",
+      "attributes": {
+        "Allows VoIP": true,
+        "Carrier ID": "0000000100000001",
+        "Carrier Name": "Telekom.de",
+        "Current Radio Technology": "Long-Term Evolution (LTE)",
+        "ISO Country Code": "de",
+        "Mobile Country Code": "262",
+        "Mobile Network Code": "01",
+        "icon": "mdi:sim",
+        "friendly_name": "iPhone 13 mini SIM 1"
+      },
+      "last_changed": "2022-01-11T10:54:58.349793+00:00",
+      "last_updated": "2022-01-14T14:02:53.937151+00:00",
+      "context": {
+        "id": "c8edfb45d5edbfd3a697a65603e43c4c",
+        "parent_id": null,
+        "user_id": null
+      }
+    },
+    {
+      "entity_id": "sensor.iphone_13_mini_last_update_trigger",
+      "state": "Background Fetch",
+      "attributes": {
+        "icon": "mdi:cellphone-wireless",
+        "friendly_name": "iPhone 13 mini Last Update Trigger"
+      },
+      "last_changed": "2022-01-15T10:51:52.923926+00:00",
+      "last_updated": "2022-01-15T10:51:52.923926+00:00",
+      "context": {
+        "id": "21d80568a080346210fcd903b14e609e",
+        "parent_id": null,
+        "user_id": null
+      }
+    },
+    {
+      "entity_id": "binary_sensor.chris_iphone_focus",
+      "state": "off",
+      "attributes": {
+        "icon": "mdi:moon-waning-crescent",
+        "friendly_name": "Chris iPhone Focus"
+      },
+      "last_changed": "2022-01-11T10:54:58.351037+00:00",
+      "last_updated": "2022-01-11T10:54:58.351037+00:00",
+      "context": {
+        "id": "9b6042f828cd950ccab3a5a56bdc26e9",
+        "parent_id": null,
+        "user_id": null
+      }
+    },
+    {
+      "entity_id": "device_tracker.iphone_13_mini_2",
+      "state": "Home",
+      "attributes": {
+        "source_type": "gps",
+        "battery_level": 62,
+        "latitude": 53.5810546875,
+        "longitude": 10.021103897006745,
+        "gps_accuracy": 10,
+        "altitude": 7.745502948760986,
+        "vertical_accuracy": 25,
+        "friendly_name": "Chris iPhone"
+      },
+      "last_changed": "2022-01-15T11:50:32.898692+00:00",
+      "last_updated": "2022-01-15T11:50:32.898692+00:00",
+      "context": {
+        "id": "1e3dd8ecdae9883cb003a91b50464fad",
+        "parent_id": null,
+        "user_id": null
+      }
+    },
+    {
+      "entity_id": "sensor.hamacl00327_internal_battery_level",
+      "state": "100",
+      "attributes": {
+        "Battery Provides Time Remaining": true,
+        "BatteryHealth": "Check Battery",
+        "BatteryHealthCondition": "",
+        "Current": 0,
+        "Current Capacity": 100,
+        "DesignCycleCount": 1000,
+        "Hardware Serial Number": "D861085A3VCL4D6EG",
+        "Is Charged": true,
+        "Is Charging": false,
+        "Is Present": true,
+        "Max Capacity": 100,
+        "Name": "InternalBattery-0",
+        "Optimized Battery Charging Engaged": false,
+        "Power Source ID": 33947747,
+        "Power Source State": "AC Power",
+        "Time to Empty": 0,
+        "Time to Full Charge": 0,
+        "Transport Type": "Internal",
+        "Type": "InternalBattery",
+        "unit_of_measurement": "%",
+        "icon": "mdi:battery",
+        "friendly_name": "HAMACL00327 Internal Battery Level"
+      },
+      "last_changed": "2022-01-11T10:54:58.352201+00:00",
+      "last_updated": "2022-01-11T10:54:58.352201+00:00",
+      "context": {
+        "id": "d7f53f5ed3e050e1137ea6cfc9b10716",
+        "parent_id": null,
+        "user_id": null
+      }
+    },
+    {
+      "entity_id": "sensor.hamacl00327_internal_battery_state",
+      "state": "Full",
+      "attributes": {
+        "Battery Provides Time Remaining": true,
+        "BatteryHealth": "Check Battery",
+        "BatteryHealthCondition": "",
+        "Current": 0,
+        "Current Capacity": 100,
+        "DesignCycleCount": 1000,
+        "Hardware Serial Number": "D861085A3VCL4D6EG",
+        "Is Charged": true,
+        "Is Charging": false,
+        "Is Present": true,
+        "Low Power Mode": false,
+        "Max Capacity": 100,
+        "Name": "InternalBattery-0",
+        "Optimized Battery Charging Engaged": false,
+        "Power Source ID": 33947747,
+        "Power Source State": "AC Power",
+        "Time to Empty": 0,
+        "Time to Full Charge": 0,
+        "Transport Type": "Internal",
+        "Type": "InternalBattery",
+        "icon": "mdi:battery",
+        "friendly_name": "HAMACL00327 Internal Battery State"
+      },
+      "last_changed": "2022-01-11T10:54:58.352658+00:00",
+      "last_updated": "2022-01-11T10:54:58.352658+00:00",
+      "context": {
+        "id": "cfdb4a6ebfc56ceb0eb398df70139448",
+        "parent_id": null,
+        "user_id": null
+      }
+    },
+    {
+      "entity_id": "sensor.hamacl00327_storage",
+      "state": "74.94",
+      "attributes": {
+        "Available": "707,00 GB",
+        "Available (Important)": "799,62 GB",
+        "Available (Opportunistic)": "745,39 GB",
+        "Total": "994,66 GB",
+        "unit_of_measurement": "% available",
+        "icon": "mdi:database",
+        "friendly_name": "HAMACL00327 Storage"
+      },
+      "last_changed": "2022-01-11T10:54:58.353114+00:00",
+      "last_updated": "2022-01-11T10:54:58.353114+00:00",
+      "context": {
+        "id": "df16f8afee3f698b94f1a3bf79683686",
+        "parent_id": null,
+        "user_id": null
+      }
+    },
+    {
+      "entity_id": "sensor.hamacl00327_ssid",
+      "state": "Pinchy",
+      "attributes": { "friendly_name": "HAMACL00327 SSID", "icon": "mdi:wifi" },
+      "last_changed": "2022-01-11T10:54:58.353465+00:00",
+      "last_updated": "2022-01-11T10:54:58.353465+00:00",
+      "context": {
+        "id": "e8a15dd8c48c4b5cb45bfbfddecef652",
+        "parent_id": null,
+        "user_id": null
+      }
+    },
+    {
+      "entity_id": "sensor.hamacl00327_connection_type",
+      "state": "Wi-Fi",
+      "attributes": {
+        "Hardware Address": "a0:78:17:8d:4a:9d",
+        "Name": "Wi-Fi",
+        "friendly_name": "HAMACL00327 Connection Type",
+        "icon": "mdi:wifi"
+      },
+      "last_changed": "2022-01-11T10:54:58.353876+00:00",
+      "last_updated": "2022-01-11T10:54:58.353876+00:00",
+      "context": {
+        "id": "92058b48a9edea6cc1f989f63986a601",
+        "parent_id": null,
+        "user_id": null
+      }
+    },
+    {
+      "entity_id": "sensor.hamacl00327_bssid",
+      "state": "1e:e8:29:6b:e0:a4",
+      "attributes": {
+        "friendly_name": "HAMACL00327 BSSID",
+        "icon": "mdi:wifi-star"
+      },
+      "last_changed": "2022-01-11T10:54:58.354720+00:00",
+      "last_updated": "2022-01-11T10:54:58.354720+00:00",
+      "context": {
+        "id": "c87f9f24c1e16fedad139225bcd868c0",
+        "parent_id": null,
+        "user_id": null
+      }
+    },
+    {
+      "entity_id": "sensor.hamacl00327_displays",
+      "state": "3",
+      "attributes": {
+        "Display IDs": [
+          "37D8832A-2D66-02CA-B9F7-8F30A301B230",
+          "91DDC608-7907-7846-0857-D6964E3302DB",
+          "CF64A3CC-70DC-9713-C90B-A2661D91F570"
+        ],
+        "Display Names": [
+          "Built-in Retina Display",
+          "DELL P2715Q",
+          "Sidecar Display (AirPlay)"
+        ],
+        "icon": "mdi:monitor-multiple",
+        "friendly_name": "HAMACL00327 Displays"
+      },
+      "last_changed": "2022-01-11T10:54:58.355493+00:00",
+      "last_updated": "2022-01-11T10:54:58.355493+00:00",
+      "context": {
+        "id": "46f84c2d850b74c07472809b369fffd7",
+        "parent_id": null,
+        "user_id": null
+      }
+    },
+    {
+      "entity_id": "sensor.hamacl00327_active_microphone",
+      "state": "Inactive",
+      "attributes": {
+        "Active Audio Input": [],
+        "All Audio Input": ["MacBook Pro Microphone", "ZoomAudioDevice"],
+        "icon": "mdi:microphone-off",
+        "friendly_name": "HAMACL00327 Active Microphone"
+      },
+      "last_changed": "2022-01-11T10:54:58.355858+00:00",
+      "last_updated": "2022-01-11T10:54:58.355858+00:00",
+      "context": {
+        "id": "79ab4fdd36a090e4221c8878fd7db454",
+        "parent_id": null,
+        "user_id": null
+      }
+    },
+    {
+      "entity_id": "sensor.hamacl00327_active_camera",
+      "state": "Inactive",
+      "attributes": {
+        "Active Camera": [],
+        "All Camera": ["FaceTime HD Camera"],
+        "icon": "mdi:camera-off",
+        "friendly_name": "HAMACL00327 Active Camera"
+      },
+      "last_changed": "2022-01-11T10:54:58.356203+00:00",
+      "last_updated": "2022-01-11T10:54:58.356203+00:00",
+      "context": {
+        "id": "4b7d4bd9f3f082e4ef6dda0ac7711d38",
+        "parent_id": null,
+        "user_id": null
+      }
+    },
+    {
+      "entity_id": "sensor.hamacl00327_primary_display_name",
+      "state": "Built-in Retina Display",
+      "attributes": {
+        "icon": "mdi:monitor-star",
+        "friendly_name": "HAMACL00327 Primary Display Name"
+      },
+      "last_changed": "2022-01-11T10:54:58.356640+00:00",
+      "last_updated": "2022-01-11T10:54:58.356640+00:00",
+      "context": {
+        "id": "0a1def9e0cb15f7f76676973b30fffa1",
+        "parent_id": null,
+        "user_id": null
+      }
+    },
+    {
+      "entity_id": "sensor.hamacl00327_primary_display_id",
+      "state": "37D8832A-2D66-02CA-B9F7-8F30A301B230",
+      "attributes": {
+        "icon": "mdi:monitor-star",
+        "friendly_name": "HAMACL00327 Primary Display ID"
+      },
+      "last_changed": "2022-01-11T10:54:58.357050+00:00",
+      "last_updated": "2022-01-11T10:54:58.357050+00:00",
+      "context": {
+        "id": "81d90d026adf5a1eafd3179198915b6d",
+        "parent_id": null,
+        "user_id": null
+      }
+    },
+    {
+      "entity_id": "sensor.hamacl00327_frontmost_app",
+      "state": "Google Chrome",
+      "attributes": {
+        "Bundle Identifier": "com.google.Chrome",
+        "Is Hidden": false,
+        "Launch Date": "2021-12-23T03:22:19Z",
+        "Owns Menu Bar": true,
+        "icon": "mdi:traffic-light",
+        "friendly_name": "HAMACL00327 Frontmost App"
+      },
+      "last_changed": "2022-01-11T10:54:58.357647+00:00",
+      "last_updated": "2022-01-11T10:54:58.357647+00:00",
+      "context": {
+        "id": "54d01260389ee922ebf727c2cc737af5",
+        "parent_id": null,
+        "user_id": null
+      }
+    },
+    {
+      "entity_id": "sensor.hamacl00327_last_update_trigger",
+      "state": "Signaled",
+      "attributes": {
+        "icon": "mdi:laptop",
+        "friendly_name": "HAMACL00327 Last Update Trigger"
+      },
+      "last_changed": "2022-01-11T10:54:58.358124+00:00",
+      "last_updated": "2022-01-11T10:54:58.358124+00:00",
+      "context": {
+        "id": "50defc633695247abd0722eba61d280c",
+        "parent_id": null,
+        "user_id": null
+      }
+    },
+    {
+      "entity_id": "sensor.hamacl00327_active_audio_output",
+      "state": "MacBook Pro Speakers",
+      "attributes": {
+        "Active Audio Output": ["MacBook Pro Speakers"],
+        "All Audio Output": [
+          "DELL P2715Q",
+          "MacBook Pro Speakers",
+          "ZoomAudioDevice"
+        ],
+        "icon": "mdi:volume-high",
+        "friendly_name": "HAMACL00327 Active Audio Output"
+      },
+      "last_changed": "2022-01-11T10:54:58.358500+00:00",
+      "last_updated": "2022-01-11T10:54:58.358500+00:00",
+      "context": {
+        "id": "be75e2aa8208ac106dcdf9a257d583ca",
+        "parent_id": null,
+        "user_id": null
+      }
+    },
+    {
+      "entity_id": "binary_sensor.hamacl00327_camera_in_use",
+      "state": "off",
+      "attributes": {
+        "icon": "mdi:camera-off",
+        "friendly_name": "HAMACL00327 Camera In Use"
+      },
+      "last_changed": "2022-01-11T10:54:58.358843+00:00",
+      "last_updated": "2022-01-11T10:54:58.358843+00:00",
+      "context": {
+        "id": "16b28165844904220bbf6a6f36dc0300",
+        "parent_id": null,
+        "user_id": null
+      }
+    },
+    {
+      "entity_id": "binary_sensor.hamacl00327_microphone_in_use",
+      "state": "off",
+      "attributes": {
+        "friendly_name": "HAMACL00327 Microphone In Use",
+        "icon": "mdi:microphone-off"
+      },
+      "last_changed": "2022-01-11T10:54:58.359162+00:00",
+      "last_updated": "2022-01-11T10:54:58.359162+00:00",
+      "context": {
+        "id": "49bca45e510584167b00d74113d3f295",
+        "parent_id": null,
+        "user_id": null
+      }
+    },
+    {
+      "entity_id": "binary_sensor.hamacl00327_active",
+      "state": "on",
+      "attributes": {
+        "Fast User Switched": false,
+        "Idle": false,
+        "Locked": false,
+        "Screen Off": false,
+        "Screensaver": false,
+        "Sleeping": false,
+        "Terminating": false,
+        "icon": "mdi:monitor",
+        "friendly_name": "HAMACL00327 Active"
+      },
+      "last_changed": "2022-01-11T10:54:58.359525+00:00",
+      "last_updated": "2022-01-11T10:54:58.359525+00:00",
+      "context": {
+        "id": "38687e20a18a68c7362be0ba9a03d2e9",
+        "parent_id": null,
+        "user_id": null
+      }
+    },
+    {
+      "entity_id": "binary_sensor.hamacl00327_audio_output_in_use",
+      "state": "on",
+      "attributes": {
+        "icon": "mdi:volume-high",
+        "friendly_name": "HAMACL00327 Audio Output In Use"
+      },
+      "last_changed": "2022-01-11T10:54:58.359859+00:00",
+      "last_updated": "2022-01-11T10:54:58.359859+00:00",
+      "context": {
+        "id": "dc1c7cad10d75d382f31372d19804767",
+        "parent_id": null,
+        "user_id": null
+      }
+    },
+    {
+      "entity_id": "binary_sensor.hamacl00327_focus",
+      "state": "off",
+      "attributes": {
+        "icon": "mdi:moon-waning-crescent",
+        "friendly_name": "HAMACL00327 Focus"
+      },
+      "last_changed": "2022-01-11T10:54:58.360204+00:00",
+      "last_updated": "2022-01-11T10:54:58.360204+00:00",
+      "context": {
+        "id": "8ac391fc2f3b963fde13912c947b0cd1",
+        "parent_id": null,
+        "user_id": null
+      }
+    },
+    {
+      "entity_id": "device_tracker.hamacl00327",
+      "state": "Home",
+      "attributes": {
+        "source_type": "gps",
+        "battery_level": 100,
+        "latitude": 53.58138360948112,
+        "longitude": 10.020891596935595,
+        "gps_accuracy": 35,
+        "altitude": 2.750143527984619,
+        "vertical_accuracy": 29,
+        "friendly_name": "HAMACL00327"
+      },
+      "last_changed": "2022-01-11T10:54:58.360902+00:00",
+      "last_updated": "2022-01-11T10:54:58.360902+00:00",
+      "context": {
+        "id": "37df477e17c96d71890087bd5a9f59e1",
+        "parent_id": null,
+        "user_id": null
+      }
+    },
+    {
+      "entity_id": "sensor.dwd_weather_warnings_current_warning_level",
+      "state": "0",
+      "attributes": {
+        "attribution": "Data provided by DWD",
+        "region_name": "Hansestadt Hamburg",
+        "region_id": 102000000,
+        "last_update": "2022-01-15T11:39:59.404000+00:00",
+        "warning_count": 0,
+        "icon": "mdi:close-octagon-outline",
+        "friendly_name": "DWD-Weather-Warnings Current Warning Level"
+      },
+      "last_changed": "2022-01-15T10:09:59.351838+00:00",
+      "last_updated": "2022-01-15T11:39:59.899546+00:00",
+      "context": {
+        "id": "9e373b9a0579c3aa4da64b34e5eb9592",
+        "parent_id": null,
+        "user_id": null
+      }
+    },
+    {
+      "entity_id": "binary_sensor.area_presence_living_room",
+      "state": "on",
+      "attributes": {
+        "device_class": "occupancy",
+        "friendly_name": "Area Presence Living Room"
+      },
+      "last_changed": "2022-01-15T09:00:26.801463+00:00",
+      "last_updated": "2022-01-15T09:00:26.801463+00:00",
+      "context": {
+        "id": "ac5aa671c6ec4e6d2802c34ebd4b502e",
+        "parent_id": null,
+        "user_id": null
+      }
+    },
+    {
+      "entity_id": "binary_sensor.area_presence_kitchen",
+      "state": "off",
+      "attributes": {
+        "device_class": "occupancy",
+        "friendly_name": "Area Presence Kitchen"
+      },
+      "last_changed": "2022-01-11T10:54:58.446670+00:00",
+      "last_updated": "2022-01-11T10:54:58.446670+00:00",
+      "context": {
+        "id": "e03bd01750ba8ddbc13eb297fbb0a1cd",
+        "parent_id": null,
+        "user_id": null
+      }
+    },
+    {
+      "entity_id": "binary_sensor.area_presence_bedroom",
+      "state": "on",
+      "attributes": {
+        "device_class": "occupancy",
+        "friendly_name": "Area Presence Bedroom"
+      },
+      "last_changed": "2022-01-15T11:43:19.251821+00:00",
+      "last_updated": "2022-01-15T11:43:19.251821+00:00",
+      "context": {
+        "id": "db0c4d0a434df2504590aec37c24a412",
+        "parent_id": null,
+        "user_id": null
+      }
+    },
+    {
+      "entity_id": "binary_sensor.area_presence_office",
+      "state": "on",
+      "attributes": {
+        "device_class": "occupancy",
+        "friendly_name": "Area Presence Office"
+      },
+      "last_changed": "2022-01-15T11:43:04.814261+00:00",
+      "last_updated": "2022-01-15T11:43:04.814261+00:00",
+      "context": {
+        "id": "fb6f37cb31f8cb47fcb86b0f75e2396b",
+        "parent_id": null,
+        "user_id": null
+      }
+    },
+    {
+      "entity_id": "switch.area_presence_lock_living_room",
+      "state": "off",
+      "attributes": {
+        "device_class": "switch",
+        "friendly_name": "Area Presence Lock Living Room"
+      },
+      "last_changed": "2022-01-11T10:54:58.452520+00:00",
+      "last_updated": "2022-01-11T10:54:58.452520+00:00",
+      "context": {
+        "id": "a394a20ed279a9ffbbc105d9961c19bb",
+        "parent_id": null,
+        "user_id": null
+      }
+    },
+    {
+      "entity_id": "switch.area_presence_lock_kitchen",
+      "state": "off",
+      "attributes": {
+        "device_class": "switch",
+        "friendly_name": "Area Presence Lock Kitchen"
+      },
+      "last_changed": "2022-01-11T10:54:58.453227+00:00",
+      "last_updated": "2022-01-11T10:54:58.453227+00:00",
+      "context": {
+        "id": "a476e24fa1785b01db0b4cf8c8f4e39b",
+        "parent_id": null,
+        "user_id": null
+      }
+    },
+    {
+      "entity_id": "switch.area_presence_lock_bedroom",
+      "state": "off",
+      "attributes": {
+        "device_class": "switch",
+        "friendly_name": "Area Presence Lock Bedroom"
+      },
+      "last_changed": "2022-01-14T23:49:23.475473+00:00",
+      "last_updated": "2022-01-14T23:49:23.475473+00:00",
+      "context": {
+        "id": "03a33f0d4fafcafb847df9f4c9f1d255",
+        "parent_id": null,
+        "user_id": "2c4410119be7410cb601c043c7af2aba"
+      }
+    },
+    {
+      "entity_id": "switch.area_sleep_mode_bedroom",
+      "state": "on",
+      "attributes": {
+        "device_class": "switch",
+        "friendly_name": "Area Sleep Mode Bedroom"
+      },
+      "last_changed": "2022-01-14T22:13:58.297190+00:00",
+      "last_updated": "2022-01-14T22:13:58.297190+00:00",
+      "context": {
+        "id": "134c660243e4a135730a6f50d269fee0",
+        "parent_id": null,
+        "user_id": "2c4410119be7410cb601c043c7af2aba"
+      }
+    },
+    {
+      "entity_id": "switch.area_presence_lock_office",
+      "state": "off",
+      "attributes": {
+        "device_class": "switch",
+        "friendly_name": "Area Presence Lock Office"
+      },
+      "last_changed": "2022-01-11T10:54:58.455094+00:00",
+      "last_updated": "2022-01-11T10:54:58.455094+00:00",
+      "context": {
+        "id": "88b270197517ad39496581a0e3aebca9",
+        "parent_id": null,
+        "user_id": null
+      }
+    },
+    {
+      "entity_id": "sensor.adguard_dns_queries_blocked_ratio",
+      "state": "8.66",
+      "attributes": {
+        "unit_of_measurement": "%",
+        "icon": "mdi:magnify-close",
+        "friendly_name": "AdGuard DNS Queries Blocked Ratio"
+      },
+      "last_changed": "2022-01-15T10:05:01.643701+00:00",
+      "last_updated": "2022-01-15T10:05:01.643701+00:00",
+      "context": {
+        "id": "55166755a1260e85914a15f8cec1f8fe",
+        "parent_id": null,
+        "user_id": null
+      }
+    },
+    {
+      "entity_id": "sensor.adguard_parental_control_blocked",
+      "state": "0",
+      "attributes": {
+        "unit_of_measurement": "requests",
+        "icon": "mdi:human-male-girl",
+        "friendly_name": "AdGuard Parental Control Blocked"
+      },
+      "last_changed": "2022-01-11T10:54:58.505749+00:00",
+      "last_updated": "2022-01-11T10:54:58.505749+00:00",
+      "context": {
+        "id": "f7ee50cbceebddfde7fe4749cb3f34af",
+        "parent_id": null,
+        "user_id": null
+      }
+    },
+    {
+      "entity_id": "sensor.dwd_weather_warnings_advance_warning_level",
+      "state": "0",
+      "attributes": {
+        "attribution": "Data provided by DWD",
+        "region_name": "Hansestadt Hamburg",
+        "region_id": 102000000,
+        "last_update": "2022-01-15T11:39:59.404000+00:00",
+        "warning_count": 0,
+        "icon": "mdi:close-octagon-outline",
+        "friendly_name": "DWD-Weather-Warnings Advance Warning Level"
+      },
+      "last_changed": "2022-01-11T10:54:58.573979+00:00",
+      "last_updated": "2022-01-15T11:39:59.903025+00:00",
+      "context": {
+        "id": "274b8beee9eae4d57e9eb4b79ecc7b43",
+        "parent_id": null,
+        "user_id": null
+      }
+    },
+    {
+      "entity_id": "light.living_room_lights",
+      "state": "on",
+      "attributes": {
+        "supported_color_modes": ["brightness"],
+        "color_mode": "brightness",
+        "brightness": 254,
+        "friendly_name": "Living Room Lights",
+        "supported_features": 41
+      },
+      "last_changed": "2022-01-15T09:00:26.855891+00:00",
+      "last_updated": "2022-01-15T09:00:26.855891+00:00",
+      "context": {
+        "id": "41901b8cec0707ed0f1cc39a4505ec40",
+        "parent_id": null,
+        "user_id": null
+      }
+    },
+    {
+      "entity_id": "switch.daytime_mode",
+      "state": "on",
+      "attributes": {
+        "icon": "mdi:electric-switch-closed",
+        "friendly_name": "daytime_mode"
+      },
+      "last_changed": "2022-01-15T07:27:45.060634+00:00",
+      "last_updated": "2022-01-15T07:27:45.060634+00:00",
+      "context": {
+        "id": "92d87dd430f8143408e517a5afda60b6",
+        "parent_id": null,
+        "user_id": "2c4410119be7410cb601c043c7af2aba"
+      }
+    },
+    {
+      "entity_id": "switch.adguard_protection",
+      "state": "on",
+      "attributes": {
+        "icon": "mdi:shield-check",
+        "friendly_name": "AdGuard Protection"
+      },
+      "last_changed": "2022-01-11T10:54:58.641856+00:00",
+      "last_updated": "2022-01-11T10:54:58.641856+00:00",
+      "context": {
+        "id": "e27ac5a7f245ee51b8f8e558447f8f36",
+        "parent_id": null,
+        "user_id": null
+      }
+    },
+    {
+      "entity_id": "switch.evening_mode",
+      "state": "off",
+      "attributes": {
+        "icon": "mdi:electric-switch-closed",
+        "friendly_name": "evening_mode"
+      },
+      "last_changed": "2022-01-15T07:27:45.112918+00:00",
+      "last_updated": "2022-01-15T07:27:45.112918+00:00",
+      "context": {
+        "id": "2c292df36a4204c35e0edecda1654949",
+        "parent_id": null,
+        "user_id": "2c4410119be7410cb601c043c7af2aba"
+      }
+    },
+    {
+      "entity_id": "switch.dinner_mode",
+      "state": "off",
+      "attributes": {
+        "icon": "mdi:silverware-fork-knife",
+        "friendly_name": "Dinner mode"
+      },
+      "last_changed": "2022-01-11T10:54:58.684495+00:00",
+      "last_updated": "2022-01-11T10:54:58.684495+00:00",
+      "context": {
+        "id": "bd5f027a983da8494d3227a1e14390d9",
+        "parent_id": null,
+        "user_id": null
+      }
+    },
+    {
+      "entity_id": "switch.movie_mode",
+      "state": "off",
+      "attributes": { "icon": "mdi:movie-roll", "friendly_name": "Movie mode" },
+      "last_changed": "2022-01-11T10:54:58.702467+00:00",
+      "last_updated": "2022-01-11T10:54:58.702467+00:00",
+      "context": {
+        "id": "f5e8c4b55e7c9126e7f1f8f8973b77b3",
+        "parent_id": null,
+        "user_id": null
+      }
+    },
+    {
+      "entity_id": "sensor.chinese_air_pollution_level",
+      "state": "good",
+      "attributes": {
+        "city": null,
+        "state": null,
+        "country": null,
+        "latitude": 53.68724,
+        "longitude": 9.998259,
+        "device_class": "airvisual__pollutant_level",
+        "icon": "mdi:emoticon-excited",
+        "friendly_name": "Chinese Air Pollution Level"
+      },
+      "last_changed": "2022-01-11T10:54:58.706415+00:00",
+      "last_updated": "2022-01-11T10:54:58.706415+00:00",
+      "context": {
+        "id": "058b0de34d6c4263f46cd32b304c47b9",
+        "parent_id": null,
+        "user_id": null
+      }
+    },
+    {
+      "entity_id": "sensor.hacs",
+      "state": "1",
+      "attributes": {
+        "repositories": [
+          {
+            "name": "hacs/integration",
+            "display_name": "HACS",
+            "installed_version": "1.19.2",
+            "available_version": "1.19.3"
+          }
+        ],
+        "unit_of_measurement": "pending update(s)",
+        "icon": "hacs:hacs",
+        "friendly_name": "hacs"
+      },
+      "last_changed": "2022-01-11T16:55:27.996873+00:00",
+      "last_updated": "2022-01-11T16:55:27.996873+00:00",
+      "context": {
+        "id": "58514e4cc6f4d8dc7f7a5ad80fcacfec",
+        "parent_id": null,
+        "user_id": null
+      }
+    },
+    {
+      "entity_id": "switch.mail_detected",
+      "state": "off",
+      "attributes": {
+        "icon": "mdi:mailbox-up",
+        "friendly_name": "Mail detected"
+      },
+      "last_changed": "2022-01-11T10:54:58.725994+00:00",
+      "last_updated": "2022-01-11T10:54:58.725994+00:00",
+      "context": {
+        "id": "0c33a6a6efeef97da089ef2b085387e1",
+        "parent_id": null,
+        "user_id": null
+      }
+    },
+    {
+      "entity_id": "sensor.office_motionsensor_temperature",
+      "state": "23.67",
+      "attributes": {
+        "state_class": "measurement",
+        "battery": 53.5,
+        "illuminance": 12927,
+        "illuminance_lux": 20,
+        "last_seen": "2022-01-15T11:57:49.524Z",
+        "led_indication": true,
+        "linkquality": 93,
+        "motion_sensitivity": "high",
+        "occupancy": true,
+        "occupancy_timeout": 1200,
+        "temperature": 23.67,
+        "update": { "state": "idle" },
+        "update_available": false,
+        "unit_of_measurement": "\u00b0C",
+        "device_class": "temperature",
+        "friendly_name": "office_motionsensor_temperature"
+      },
+      "last_changed": "2022-01-15T04:35:07.459478+00:00",
+      "last_updated": "2022-01-15T11:57:49.531895+00:00",
+      "context": {
+        "id": "da9550e23009452f6d64d38080b3de04",
+        "parent_id": null,
+        "user_id": null
+      }
+    },
+    {
+      "entity_id": "sensor.office_motionsensor_battery",
+      "state": "53.5",
+      "attributes": {
+        "state_class": "measurement",
+        "battery": 53.5,
+        "illuminance": 12927,
+        "illuminance_lux": 20,
+        "last_seen": "2022-01-15T11:57:49.524Z",
+        "led_indication": true,
+        "linkquality": 93,
+        "motion_sensitivity": "high",
+        "occupancy": true,
+        "occupancy_timeout": 1200,
+        "temperature": 23.67,
+        "update": { "state": "idle" },
+        "update_available": false,
+        "unit_of_measurement": "%",
+        "device_class": "battery",
+        "friendly_name": "office_motionsensor_battery"
+      },
+      "last_changed": "2022-01-11T10:54:59.550517+00:00",
+      "last_updated": "2022-01-15T11:57:49.532726+00:00",
+      "context": {
+        "id": "51c4c734e65e4d4350d796808e73df9b",
+        "parent_id": null,
+        "user_id": null
+      }
+    },
+    {
+      "entity_id": "sensor.office_motionsensor_illuminance_lux",
+      "state": "20",
+      "attributes": {
+        "state_class": "measurement",
+        "battery": 53.5,
+        "illuminance": 12927,
+        "illuminance_lux": 20,
+        "last_seen": "2022-01-15T11:57:49.524Z",
+        "led_indication": true,
+        "linkquality": 93,
+        "motion_sensitivity": "high",
+        "occupancy": true,
+        "occupancy_timeout": 1200,
+        "temperature": 23.67,
+        "update": { "state": "idle" },
+        "update_available": false,
+        "unit_of_measurement": "lx",
+        "device_class": "illuminance",
+        "friendly_name": "office_motionsensor_illuminance_lux"
+      },
+      "last_changed": "2022-01-15T11:57:24.289603+00:00",
+      "last_updated": "2022-01-15T11:57:49.533455+00:00",
+      "context": {
+        "id": "79b72ac0d2d5d2302f408b92ecd9da05",
+        "parent_id": null,
+        "user_id": null
+      }
+    },
+    {
+      "entity_id": "sensor.livingroom_motionsensor_temperature",
+      "state": "23.24",
+      "attributes": {
+        "state_class": "measurement",
+        "battery": 19.5,
+        "illuminance": 17707,
+        "illuminance_lux": 59,
+        "last_seen": "2022-01-15T11:57:42.894Z",
+        "led_indication": false,
+        "linkquality": 99,
+        "motion_sensitivity": "high",
+        "occupancy": true,
+        "occupancy_timeout": 1200,
+        "temperature": 23.24,
+        "update": { "state": "idle" },
+        "update_available": false,
+        "unit_of_measurement": "\u00b0C",
+        "device_class": "temperature",
+        "friendly_name": "livingroom_motionsensor_temperature"
+      },
+      "last_changed": "2022-01-15T11:15:40.868059+00:00",
+      "last_updated": "2022-01-15T11:57:42.900427+00:00",
+      "context": {
+        "id": "b8565e6b5c68617abf0d108574de3981",
+        "parent_id": null,
+        "user_id": null
+      }
+    },
+    {
+      "entity_id": "sensor.livingroom_motionsensor_battery",
+      "state": "19.5",
+      "attributes": {
+        "state_class": "measurement",
+        "battery": 19.5,
+        "illuminance": 17707,
+        "illuminance_lux": 59,
+        "last_seen": "2022-01-15T11:57:42.894Z",
+        "led_indication": false,
+        "linkquality": 99,
+        "motion_sensitivity": "high",
+        "occupancy": true,
+        "occupancy_timeout": 1200,
+        "temperature": 23.24,
+        "update": { "state": "idle" },
+        "update_available": false,
+        "unit_of_measurement": "%",
+        "device_class": "battery",
+        "friendly_name": "livingroom_motionsensor_battery"
+      },
+      "last_changed": "2022-01-11T10:55:00.113526+00:00",
+      "last_updated": "2022-01-15T11:57:42.901095+00:00",
+      "context": {
+        "id": "379f5d2069acc02d74ec7102a3bc2513",
+        "parent_id": null,
+        "user_id": null
+      }
+    },
+    {
+      "entity_id": "sensor.livingroom_motionsensor_illuminance_lux",
+      "state": "59",
+      "attributes": {
+        "state_class": "measurement",
+        "battery": 19.5,
+        "illuminance": 17707,
+        "illuminance_lux": 59,
+        "last_seen": "2022-01-15T11:57:42.894Z",
+        "led_indication": false,
+        "linkquality": 99,
+        "motion_sensitivity": "high",
+        "occupancy": true,
+        "occupancy_timeout": 1200,
+        "temperature": 23.24,
+        "update": { "state": "idle" },
+        "update_available": false,
+        "unit_of_measurement": "lx",
+        "device_class": "illuminance",
+        "friendly_name": "livingroom_motionsensor_illuminance_lux"
+      },
+      "last_changed": "2022-01-15T11:57:41.935477+00:00",
+      "last_updated": "2022-01-15T11:57:42.901689+00:00",
+      "context": {
+        "id": "a60cdb560e83ee4cdd0804723dceea25",
+        "parent_id": null,
+        "user_id": null
+      }
+    },
+    {
+      "entity_id": "sensor.bedroom_motionsensor_temperature",
+      "state": "22.28",
+      "attributes": {
+        "state_class": "measurement",
+        "battery": 61,
+        "illuminance": 18697,
+        "illuminance_lux": 74,
+        "last_seen": "2022-01-15T11:57:42.730Z",
+        "led_indication": false,
+        "linkquality": 111,
+        "motion_sensitivity": "high",
+        "occupancy": true,
+        "occupancy_timeout": 1200,
+        "temperature": 22.28,
+        "update": { "state": "idle" },
+        "update_available": false,
+        "unit_of_measurement": "\u00b0C",
+        "device_class": "temperature",
+        "friendly_name": "bedroom_motionsensor_temperature"
+      },
+      "last_changed": "2022-01-15T11:37:12.780286+00:00",
+      "last_updated": "2022-01-15T11:57:42.738577+00:00",
+      "context": {
+        "id": "7ca3905dae1f385e83d3d3d49e32215a",
+        "parent_id": null,
+        "user_id": null
+      }
+    },
+    {
+      "entity_id": "sensor.bedroom_motionsensor_battery",
+      "state": "61",
+      "attributes": {
+        "state_class": "measurement",
+        "battery": 61,
+        "illuminance": 18697,
+        "illuminance_lux": 74,
+        "last_seen": "2022-01-15T11:57:42.730Z",
+        "led_indication": false,
+        "linkquality": 111,
+        "motion_sensitivity": "high",
+        "occupancy": true,
+        "occupancy_timeout": 1200,
+        "temperature": 22.28,
+        "update": { "state": "idle" },
+        "update_available": false,
+        "unit_of_measurement": "%",
+        "device_class": "battery",
+        "friendly_name": "bedroom_motionsensor_battery"
+      },
+      "last_changed": "2022-01-13T00:22:05.828242+00:00",
+      "last_updated": "2022-01-15T11:57:42.739697+00:00",
+      "context": {
+        "id": "29f475efded3a3db3395eb3f7f6db5be",
+        "parent_id": null,
+        "user_id": null
+      }
+    },
+    {
+      "entity_id": "sensor.bedroom_motionsensor_illuminance_lux",
+      "state": "74",
+      "attributes": {
+        "state_class": "measurement",
+        "battery": 61,
+        "illuminance": 18697,
+        "illuminance_lux": 74,
+        "last_seen": "2022-01-15T11:57:42.730Z",
+        "led_indication": false,
+        "linkquality": 111,
+        "motion_sensitivity": "high",
+        "occupancy": true,
+        "occupancy_timeout": 1200,
+        "temperature": 22.28,
+        "update": { "state": "idle" },
+        "update_available": false,
+        "unit_of_measurement": "lx",
+        "device_class": "illuminance",
+        "friendly_name": "bedroom_motionsensor_illuminance_lux"
+      },
+      "last_changed": "2022-01-15T11:57:22.867756+00:00",
+      "last_updated": "2022-01-15T11:57:42.740562+00:00",
+      "context": {
+        "id": "bb492f6ee2be26bb6f5f6de9c4ba3593",
+        "parent_id": null,
+        "user_id": null
+      }
+    },
+    {
+      "entity_id": "switch.adguard_filtering",
+      "state": "on",
+      "attributes": {
+        "icon": "mdi:shield-check",
+        "friendly_name": "AdGuard Filtering"
+      },
+      "last_changed": "2022-01-11T10:54:59.128996+00:00",
+      "last_updated": "2022-01-11T10:54:59.128996+00:00",
+      "context": {
+        "id": "7c52f81ac6d59a6ef811615a10b036db",
+        "parent_id": null,
+        "user_id": null
+      }
+    },
+    {
+      "entity_id": "sensor.adguard_safe_browsing_blocked",
+      "state": "16",
+      "attributes": {
+        "unit_of_measurement": "requests",
+        "icon": "mdi:shield-half-full",
+        "friendly_name": "AdGuard Safe Browsing Blocked"
+      },
+      "last_changed": "2022-01-12T22:05:01.072848+00:00",
+      "last_updated": "2022-01-12T22:05:01.072848+00:00",
+      "context": {
+        "id": "82cb0c32bda9cc2061dbdbc189cb1bd2",
+        "parent_id": null,
+        "user_id": null
+      }
+    },
+    {
+      "entity_id": "sensor.dimmer_switch_battery",
+      "state": "100",
+      "attributes": {
+        "state_class": "measurement",
+        "action_duration": null,
+        "battery": 100,
+        "brightness": 191,
+        "counter": 1,
+        "last_seen": "2022-01-15T11:33:34.821Z",
+        "linkquality": 126,
+        "update": { "state": "idle" },
+        "update_available": false,
+        "unit_of_measurement": "%",
+        "device_class": "battery",
+        "friendly_name": "dimmer_switch_battery"
+      },
+      "last_changed": "2022-01-11T10:55:00.613439+00:00",
+      "last_updated": "2022-01-15T11:33:34.826794+00:00",
+      "context": {
+        "id": "510b9787d57d42882b6aef40a9dc829d",
+        "parent_id": null,
+        "user_id": null
+      }
+    },
+    {
+      "entity_id": "sensor.dimmer_switch_action_duration",
+      "state": "None",
+      "attributes": {
+        "action_duration": null,
+        "battery": 100,
+        "brightness": 191,
+        "counter": 1,
+        "last_seen": "2022-01-15T11:33:34.821Z",
+        "linkquality": 126,
+        "update": { "state": "idle" },
+        "update_available": false,
+        "unit_of_measurement": "second",
+        "friendly_name": "dimmer_switch_action_duration"
+      },
+      "last_changed": "2022-01-11T10:55:00.903250+00:00",
+      "last_updated": "2022-01-15T11:33:34.827666+00:00",
+      "context": {
+        "id": "0c891459157e54da722835d0c4405e62",
+        "parent_id": null,
+        "user_id": null
+      }
+    },
+    {
+      "entity_id": "sensor.office_motionsensor_2_battery",
+      "state": "100",
+      "attributes": {
+        "state_class": "measurement",
+        "battery": 100,
+        "last_seen": "2022-01-15T11:18:11.388Z",
+        "linkquality": 111,
+        "occupancy": false,
+        "voltage": 3045,
+        "unit_of_measurement": "%",
+        "device_class": "battery",
+        "friendly_name": "office_motionsensor_2_battery"
+      },
+      "last_changed": "2022-01-11T10:55:00.969657+00:00",
+      "last_updated": "2022-01-15T11:28:11.393816+00:00",
+      "context": {
+        "id": "6f7e67a3858c77cecc1d21d6ad02a456",
+        "parent_id": null,
+        "user_id": null
+      }
+    },
+    {
+      "entity_id": "sensor.livingroom_motionsensor_2_battery",
+      "state": "100",
+      "attributes": {
+        "state_class": "measurement",
+        "battery": 100,
+        "last_seen": "2022-01-15T11:56:45.311Z",
+        "linkquality": 75,
+        "occupancy": true,
+        "voltage": 3045,
+        "unit_of_measurement": "%",
+        "device_class": "battery",
+        "friendly_name": "livingroom_motionsensor_2_battery"
+      },
+      "last_changed": "2022-01-11T10:55:00.980726+00:00",
+      "last_updated": "2022-01-15T11:56:45.317101+00:00",
+      "context": {
+        "id": "8a9f0468edd44004511dc43ac724d11e",
+        "parent_id": null,
+        "user_id": null
+      }
+    },
+    {
+      "entity_id": "sensor.bedroom_button_battery",
+      "state": "100",
+      "attributes": {
+        "state_class": "measurement",
+        "battery": 100,
+        "last_seen": "2022-01-15T11:37:21.584Z",
+        "linkquality": 75,
+        "voltage": 3015,
+        "unit_of_measurement": "%",
+        "device_class": "battery",
+        "friendly_name": "bedroom_button_battery"
+      },
+      "last_changed": "2022-01-11T10:55:01.016568+00:00",
+      "last_updated": "2022-01-15T11:37:21.592846+00:00",
+      "context": {
+        "id": "b44b5cdaae55ca513da659b7a073b293",
+        "parent_id": null,
+        "user_id": null
+      }
+    },
+    {
+      "entity_id": "sensor.adguard_safe_searches_enforced",
+      "state": "16235",
+      "attributes": {
+        "unit_of_measurement": "requests",
+        "icon": "mdi:shield-search",
+        "friendly_name": "AdGuard Safe Searches Enforced"
+      },
+      "last_changed": "2022-01-15T11:00:02.135442+00:00",
+      "last_updated": "2022-01-15T11:00:02.135442+00:00",
+      "context": {
+        "id": "f789c1cf0afca96473293d1d16a83fba",
+        "parent_id": null,
+        "user_id": null
+      }
+    },
+    {
+      "entity_id": "sensor.office_button_battery",
+      "state": "97",
+      "attributes": {
+        "state_class": "measurement",
+        "battery": 97,
+        "last_seen": "2022-01-15T11:52:58.120Z",
+        "linkquality": 63,
+        "voltage": 2995,
+        "unit_of_measurement": "%",
+        "device_class": "battery",
+        "friendly_name": "office_button_battery"
+      },
+      "last_changed": "2022-01-15T09:22:21.953689+00:00",
+      "last_updated": "2022-01-15T11:52:58.154712+00:00",
+      "context": {
+        "id": "c5ad79d90590e9a044ed24d237c56f19",
+        "parent_id": null,
+        "user_id": null
+      }
+    },
+    {
+      "entity_id": "number.rick_bass",
+      "state": "0",
+      "attributes": {
+        "min": -10,
+        "max": 10,
+        "step": 1.0,
+        "mode": "auto",
+        "friendly_name": "Rick Bass"
+      },
+      "last_changed": "2022-01-11T10:54:59.342926+00:00",
+      "last_updated": "2022-01-11T10:54:59.342926+00:00",
+      "context": {
+        "id": "bd2076e81a3e1ed68f8916880cda933a",
+        "parent_id": null,
+        "user_id": null
+      }
+    },
+    {
+      "entity_id": "number.rick_treble",
+      "state": "3",
+      "attributes": {
+        "min": -10,
+        "max": 10,
+        "step": 1.0,
+        "mode": "auto",
+        "friendly_name": "Rick Treble"
+      },
+      "last_changed": "2022-01-11T10:54:59.344066+00:00",
+      "last_updated": "2022-01-11T10:54:59.344066+00:00",
+      "context": {
+        "id": "efdc186540b1bed6e18459e5405323c0",
+        "parent_id": null,
+        "user_id": null
+      }
+    },
+    {
+      "entity_id": "media_player.rick",
+      "state": "paused",
+      "attributes": {
+        "volume_level": 0.32,
+        "is_volume_muted": false,
+        "media_content_id": "http://192.168.1.14:57296/stream.flac",
+        "media_content_type": "music",
+        "media_duration": 0,
+        "media_title": "Streaming from AirConnect",
+        "shuffle": false,
+        "repeat": "off",
+        "sonos_group": ["media_player.rick"],
+        "queue_position": 0,
+        "friendly_name": "Rick",
+        "supported_features": 457279
+      },
+      "last_changed": "2022-01-11T10:54:59.756369+00:00",
+      "last_updated": "2022-01-11T10:54:59.857758+00:00",
+      "context": {
+        "id": "b4059bfe454c99437dd20d6823f0a7eb",
+        "parent_id": null,
+        "user_id": null
+      }
+    },
+    {
+      "entity_id": "sensor.livingroom_button_battery",
+      "state": "100",
+      "attributes": {
+        "state_class": "measurement",
+        "battery": 100,
+        "last_seen": "2022-01-15T11:17:33.873Z",
+        "linkquality": 72,
+        "voltage": 3035,
+        "unit_of_measurement": "%",
+        "device_class": "battery",
+        "friendly_name": "livingroom_button_battery"
+      },
+      "last_changed": "2022-01-11T10:55:01.072000+00:00",
+      "last_updated": "2022-01-15T11:17:33.883891+00:00",
+      "context": {
+        "id": "45def407082f010035d69a429c3576bc",
+        "parent_id": null,
+        "user_id": null
+      }
+    },
+    {
+      "entity_id": "sensor.vibration_sensor_battery",
+      "state": "80",
+      "attributes": {
+        "state_class": "measurement",
+        "angle": 15,
+        "angle_x": 5,
+        "angle_x_absolute": 85,
+        "angle_y": 23,
+        "angle_y_absolute": 67,
+        "angle_z": -67,
+        "battery": 80,
+        "last_seen": "2022-01-15T11:01:22.990Z",
+        "linkquality": 87,
+        "sensitivity": null,
+        "strength": 7,
+        "vibration": false,
+        "voltage": 2965,
+        "unit_of_measurement": "%",
+        "device_class": "battery",
+        "friendly_name": "vibration_sensor_battery"
+      },
+      "last_changed": "2022-01-15T01:56:14.027992+00:00",
+      "last_updated": "2022-01-15T11:01:23.004595+00:00",
+      "context": {
+        "id": "df5b42a0dc463a3b4ac7ba56a4f4d064",
+        "parent_id": null,
+        "user_id": null
+      }
+    },
+    {
+      "entity_id": "sensor.vibration_sensor_strength",
+      "state": "7",
+      "attributes": {
+        "angle": 15,
+        "angle_x": 5,
+        "angle_x_absolute": 85,
+        "angle_y": 23,
+        "angle_y_absolute": 67,
+        "angle_z": -67,
+        "battery": 80,
+        "last_seen": "2022-01-15T11:01:22.990Z",
+        "linkquality": 87,
+        "sensitivity": null,
+        "strength": 7,
+        "vibration": false,
+        "voltage": 2965,
+        "friendly_name": "vibration_sensor_strength"
+      },
+      "last_changed": "2022-01-14T11:25:39.913273+00:00",
+      "last_updated": "2022-01-15T11:01:23.005562+00:00",
+      "context": {
+        "id": "7800e6283c1781b7b4679dff354c2222",
+        "parent_id": null,
+        "user_id": null
+      }
+    },
+    {
+      "entity_id": "sensor.vibration_sensor_angle_x",
+      "state": "5",
+      "attributes": {
+        "angle": 15,
+        "angle_x": 5,
+        "angle_x_absolute": 85,
+        "angle_y": 23,
+        "angle_y_absolute": 67,
+        "angle_z": -67,
+        "battery": 80,
+        "last_seen": "2022-01-15T11:01:22.990Z",
+        "linkquality": 87,
+        "sensitivity": null,
+        "strength": 7,
+        "vibration": false,
+        "voltage": 2965,
+        "friendly_name": "vibration_sensor_angle_x"
+      },
+      "last_changed": "2022-01-11T10:55:00.889510+00:00",
+      "last_updated": "2022-01-15T11:01:23.006461+00:00",
+      "context": {
+        "id": "cc9a55521502608d54c1cab18e0aaa24",
+        "parent_id": null,
+        "user_id": null
+      }
+    },
+    {
+      "entity_id": "sensor.vibration_sensor_angle_y",
+      "state": "23",
+      "attributes": {
+        "angle": 15,
+        "angle_x": 5,
+        "angle_x_absolute": 85,
+        "angle_y": 23,
+        "angle_y_absolute": 67,
+        "angle_z": -67,
+        "battery": 80,
+        "last_seen": "2022-01-15T11:01:22.990Z",
+        "linkquality": 87,
+        "sensitivity": null,
+        "strength": 7,
+        "vibration": false,
+        "voltage": 2965,
+        "friendly_name": "vibration_sensor_angle_y"
+      },
+      "last_changed": "2022-01-13T09:29:11.236146+00:00",
+      "last_updated": "2022-01-15T11:01:23.007391+00:00",
+      "context": {
+        "id": "b70b3426a23b99284b5776bbc3cb042f",
+        "parent_id": null,
+        "user_id": null
+      }
+    },
+    {
+      "entity_id": "sensor.vibration_sensor_angle_z",
+      "state": "-67",
+      "attributes": {
+        "angle": 15,
+        "angle_x": 5,
+        "angle_x_absolute": 85,
+        "angle_y": 23,
+        "angle_y_absolute": 67,
+        "angle_z": -67,
+        "battery": 80,
+        "last_seen": "2022-01-15T11:01:22.990Z",
+        "linkquality": 87,
+        "sensitivity": null,
+        "strength": 7,
+        "vibration": false,
+        "voltage": 2965,
+        "friendly_name": "vibration_sensor_angle_z"
+      },
+      "last_changed": "2022-01-13T09:29:11.237100+00:00",
+      "last_updated": "2022-01-15T11:01:23.008342+00:00",
+      "context": {
+        "id": "e4de11cd2b02213b1d20859b060de5ff",
+        "parent_id": null,
+        "user_id": null
+      }
+    },
+    {
+      "entity_id": "switch.sonos_rick_crossfade",
+      "state": "off",
+      "attributes": {
+        "icon": "mdi:swap-horizontal",
+        "friendly_name": "Rick Crossfade"
+      },
+      "last_changed": "2022-01-11T10:54:59.521292+00:00",
+      "last_updated": "2022-01-11T10:54:59.521292+00:00",
+      "context": {
+        "id": "d72ae6be7ac9156190604cf910957cb7",
+        "parent_id": null,
+        "user_id": null
+      }
+    },
+    {
+      "entity_id": "light.office_lamp",
+      "state": "on",
+      "attributes": {
+        "effect_list": [
+          "blink",
+          "breathe",
+          "okay",
+          "channel_change",
+          "finish_effect",
+          "stop_effect"
+        ],
+        "supported_color_modes": ["brightness"],
+        "color_mode": "brightness",
+        "brightness": 255,
+        "last_seen": "2022-01-15T11:55:03.315Z",
+        "linkquality": 102,
+        "update": { "state": "idle" },
+        "update_available": false,
+        "friendly_name": "office_lamp",
+        "supported_features": 45
+      },
+      "last_changed": "2022-01-15T11:43:04.979109+00:00",
+      "last_updated": "2022-01-15T11:55:03.322734+00:00",
+      "context": {
+        "id": "adapt_lgt_7505_interval_1329",
+        "parent_id": null,
+        "user_id": null
+      }
+    },
+    {
+      "entity_id": "light.livingroom_table_lamp",
+      "state": "on",
+      "attributes": {
+        "effect_list": [
+          "blink",
+          "breathe",
+          "okay",
+          "channel_change",
+          "finish_effect",
+          "stop_effect"
+        ],
+        "supported_color_modes": ["brightness"],
+        "color_mode": "brightness",
+        "brightness": 255,
+        "color": { "x": 0.526676280311873, "y": 0.41329727450763 },
+        "last_seen": "2022-01-15T11:55:03.429Z",
+        "linkquality": 93,
+        "update": { "state": "idle" },
+        "update_available": false,
+        "friendly_name": "livingroom_table_lamp",
+        "supported_features": 45
+      },
+      "last_changed": "2022-01-15T09:00:26.863348+00:00",
+      "last_updated": "2022-01-15T11:55:03.437894+00:00",
+      "context": {
+        "id": "adapt_lgt_7505_interval_1329",
+        "parent_id": null,
+        "user_id": null
+      }
+    },
+    {
+      "entity_id": "light.livingroom_sofa_lamp",
+      "state": "on",
+      "attributes": {
+        "effect_list": [
+          "blink",
+          "breathe",
+          "okay",
+          "channel_change",
+          "finish_effect",
+          "stop_effect"
+        ],
+        "supported_color_modes": ["brightness"],
+        "color_mode": "brightness",
+        "brightness": 255,
+        "color": { "x": 0.526676280311873, "y": 0.41329727450763 },
+        "last_seen": "2022-01-15T11:55:03.413Z",
+        "linkquality": 75,
+        "update": { "state": "idle" },
+        "update_available": false,
+        "friendly_name": "livingroom_sofa_lamp",
+        "supported_features": 45
+      },
+      "last_changed": "2022-01-15T09:00:26.952787+00:00",
+      "last_updated": "2022-01-15T11:55:03.423793+00:00",
+      "context": {
+        "id": "adapt_lgt_7505_interval_1329",
+        "parent_id": null,
+        "user_id": null
+      }
+    },
+    {
+      "entity_id": "sensor.adguard_average_processing_speed",
+      "state": "48.38",
+      "attributes": {
+        "unit_of_measurement": "ms",
+        "icon": "mdi:speedometer",
+        "friendly_name": "AdGuard Average Processing Speed"
+      },
+      "last_changed": "2022-01-15T11:10:02.318122+00:00",
+      "last_updated": "2022-01-15T11:10:02.318122+00:00",
+      "context": {
+        "id": "5ee3b7c0d6db75bd3f4d3abe938c66f2",
+        "parent_id": null,
+        "user_id": null
+      }
+    },
+    {
+      "entity_id": "switch.adguard_parental_control",
+      "state": "off",
+      "attributes": {
+        "icon": "mdi:shield-check",
+        "friendly_name": "AdGuard Parental Control"
+      },
+      "last_changed": "2022-01-11T10:54:59.736451+00:00",
+      "last_updated": "2022-01-11T10:54:59.736451+00:00",
+      "context": {
+        "id": "a7ff96b3ba0d44bdb581f7a34e48f20c",
+        "parent_id": null,
+        "user_id": null
+      }
+    },
+    {
+      "entity_id": "light.bedroom_lamp",
+      "state": "off",
+      "attributes": {
+        "effect_list": [
+          "blink",
+          "breathe",
+          "okay",
+          "channel_change",
+          "finish_effect",
+          "stop_effect"
+        ],
+        "supported_color_modes": ["brightness"],
+        "last_seen": "2022-01-15T11:51:31.090Z",
+        "linkquality": 105,
+        "update": { "state": "idle" },
+        "update_available": false,
+        "friendly_name": "bedroom_lamp",
+        "supported_features": 45
+      },
+      "last_changed": "2022-01-14T22:13:58.369664+00:00",
+      "last_updated": "2022-01-15T11:51:31.095673+00:00",
+      "context": {
+        "id": "7af0c2a0d0d799d19a363a56ca2046c3",
+        "parent_id": null,
+        "user_id": null
+      }
+    },
+    {
+      "entity_id": "light.livingroom_tv_lightstrip",
+      "state": "on",
+      "attributes": {
+        "min_mireds": 153,
+        "max_mireds": 500,
+        "effect_list": [
+          "blink",
+          "breathe",
+          "okay",
+          "channel_change",
+          "finish_effect",
+          "stop_effect"
+        ],
+        "supported_color_modes": ["color_temp", "xy"],
+        "color_mode": "color_temp",
+        "brightness": 255,
+        "color_temp": 183,
+        "hs_color": [27.827, 13.281],
+        "rgb_color": [255, 236, 221],
+        "xy_color": [0.355, 0.343],
+        "color": {
+          "h": 52,
+          "hue": 52,
+          "s": 13,
+          "saturation": 13,
+          "x": 0.3334,
+          "y": 0.3418
+        },
+        "last_seen": "2022-01-15T11:55:03.448Z",
+        "linkquality": 78,
+        "update": { "state": "idle" },
+        "update_available": false,
+        "friendly_name": "livingroom_tv_lightstrip",
+        "supported_features": 63
+      },
+      "last_changed": "2022-01-15T09:00:26.970627+00:00",
+      "last_updated": "2022-01-15T11:55:03.463056+00:00",
+      "context": {
+        "id": "adapt_lgt_7505_interval_1329",
+        "parent_id": null,
+        "user_id": null
+      }
+    },
+    {
+      "entity_id": "light.livingroom_lights",
+      "state": "on",
+      "attributes": {
+        "min_mireds": 153,
+        "max_mireds": 500,
+        "supported_color_modes": ["color_temp", "xy"],
+        "color_mode": "color_temp",
+        "brightness": 255,
+        "color_temp": 183,
+        "hs_color": [27.827, 13.281],
+        "rgb_color": [255, 236, 221],
+        "xy_color": [0.355, 0.343],
+        "color": {
+          "h": 52,
+          "hue": 52,
+          "s": 13,
+          "saturation": 13,
+          "x": 0.3334,
+          "y": 0.3418
+        },
+        "friendly_name": "livingroom_lights",
+        "supported_features": 59
+      },
+      "last_changed": "2022-01-15T09:00:26.858122+00:00",
+      "last_updated": "2022-01-15T11:55:03.461479+00:00",
+      "context": {
+        "id": "f3fd6b74203023a5ee92f60a4d9d3f23",
+        "parent_id": null,
+        "user_id": null
+      }
+    },
+    {
+      "entity_id": "light.bedroom_lights",
+      "state": "off",
+      "attributes": {
+        "supported_color_modes": ["brightness"],
+        "friendly_name": "bedroom_lights",
+        "supported_features": 41
+      },
+      "last_changed": "2022-01-14T22:13:58.366343+00:00",
+      "last_updated": "2022-01-14T22:13:58.366343+00:00",
+      "context": {
+        "id": "e65db373522869542ea2c0a5689d73f6",
+        "parent_id": null,
+        "user_id": null
+      }
+    },
+    {
+      "entity_id": "light.office_lights",
+      "state": "on",
+      "attributes": {
+        "supported_color_modes": ["brightness"],
+        "color_mode": "brightness",
+        "brightness": 255,
+        "friendly_name": "office_lights",
+        "supported_features": 41
+      },
+      "last_changed": "2022-01-15T11:43:04.973859+00:00",
+      "last_updated": "2022-01-15T11:43:04.973859+00:00",
+      "context": {
+        "id": "c7041856967687b6f04d62cb4d882664",
+        "parent_id": null,
+        "user_id": null
+      }
+    },
+    {
+      "entity_id": "binary_sensor.office_motionsensor_occupancy",
+      "state": "on",
+      "attributes": {
+        "battery": 53.5,
+        "illuminance": 12927,
+        "illuminance_lux": 20,
+        "last_seen": "2022-01-15T11:57:49.524Z",
+        "led_indication": true,
+        "linkquality": 93,
+        "motion_sensitivity": "high",
+        "occupancy": true,
+        "occupancy_timeout": 1200,
+        "temperature": 23.67,
+        "update": { "state": "idle" },
+        "update_available": false,
+        "device_class": "motion",
+        "friendly_name": "office_motionsensor_occupancy"
+      },
+      "last_changed": "2022-01-15T11:43:04.781187+00:00",
+      "last_updated": "2022-01-15T11:57:49.536569+00:00",
+      "context": {
+        "id": "cc57cf2f97f56d1cc9cd1fc935d0aef3",
+        "parent_id": null,
+        "user_id": null
+      }
+    },
+    {
+      "entity_id": "binary_sensor.livingroom_motionsensor_occupancy",
+      "state": "on",
+      "attributes": {
+        "battery": 19.5,
+        "illuminance": 17707,
+        "illuminance_lux": 59,
+        "last_seen": "2022-01-15T11:57:42.894Z",
+        "led_indication": false,
+        "linkquality": 99,
+        "motion_sensitivity": "high",
+        "occupancy": true,
+        "occupancy_timeout": 1200,
+        "temperature": 23.24,
+        "update": { "state": "idle" },
+        "update_available": false,
+        "device_class": "motion",
+        "friendly_name": "livingroom_motionsensor_occupancy"
+      },
+      "last_changed": "2022-01-15T09:00:27.101166+00:00",
+      "last_updated": "2022-01-15T11:57:42.903883+00:00",
+      "context": {
+        "id": "dbd20162dcabfe97e5420ce9e6c4ef7e",
+        "parent_id": null,
+        "user_id": null
+      }
+    },
+    {
+      "entity_id": "binary_sensor.bedroom_motionsensor_occupancy",
+      "state": "on",
+      "attributes": {
+        "battery": 61,
+        "illuminance": 18697,
+        "illuminance_lux": 74,
+        "last_seen": "2022-01-15T11:57:42.730Z",
+        "led_indication": false,
+        "linkquality": 111,
+        "motion_sensitivity": "high",
+        "occupancy": true,
+        "occupancy_timeout": 1200,
+        "temperature": 22.28,
+        "update": { "state": "idle" },
+        "update_available": false,
+        "device_class": "motion",
+        "friendly_name": "bedroom_motionsensor_occupancy"
+      },
+      "last_changed": "2022-01-15T11:43:19.225387+00:00",
+      "last_updated": "2022-01-15T11:57:42.743897+00:00",
+      "context": {
+        "id": "84977fc3b8c42d74576ffd69e2066848",
+        "parent_id": null,
+        "user_id": null
+      }
+    },
+    {
+      "entity_id": "binary_sensor.office_motionsensor_2_occupancy",
+      "state": "off",
+      "attributes": {
+        "battery": 100,
+        "last_seen": "2022-01-15T11:18:11.388Z",
+        "linkquality": 111,
+        "occupancy": false,
+        "voltage": 3045,
+        "device_class": "motion",
+        "friendly_name": "office_motionsensor_2_occupancy"
+      },
+      "last_changed": "2022-01-15T11:28:11.396048+00:00",
+      "last_updated": "2022-01-15T11:28:11.396048+00:00",
+      "context": {
+        "id": "eca5c4bc389334553b767bacc9e95614",
+        "parent_id": null,
+        "user_id": null
+      }
+    },
+    {
+      "entity_id": "binary_sensor.livingroom_motionsensor_2_occupancy",
+      "state": "on",
+      "attributes": {
+        "battery": 100,
+        "last_seen": "2022-01-15T11:56:45.311Z",
+        "linkquality": 75,
+        "occupancy": true,
+        "voltage": 3045,
+        "device_class": "motion",
+        "friendly_name": "livingroom_motionsensor_2_occupancy"
+      },
+      "last_changed": "2022-01-15T11:18:05.909160+00:00",
+      "last_updated": "2022-01-15T11:56:45.318582+00:00",
+      "context": {
+        "id": "5b47c503f621f7bea26051e7109de0a9",
+        "parent_id": null,
+        "user_id": null
+      }
+    },
+    {
+      "entity_id": "binary_sensor.vibration_sensor_vibration",
+      "state": "off",
+      "attributes": {
+        "angle": 15,
+        "angle_x": 5,
+        "angle_x_absolute": 85,
+        "angle_y": 23,
+        "angle_y_absolute": 67,
+        "angle_z": -67,
+        "battery": 80,
+        "last_seen": "2022-01-15T11:01:22.990Z",
+        "linkquality": 87,
+        "sensitivity": null,
+        "strength": 7,
+        "vibration": false,
+        "voltage": 2965,
+        "device_class": "vibration",
+        "friendly_name": "vibration_sensor_vibration"
+      },
+      "last_changed": "2022-01-13T09:30:18.247659+00:00",
+      "last_updated": "2022-01-15T11:01:23.009271+00:00",
+      "context": {
+        "id": "1e19438dd2075da377346365cdbd1656",
+        "parent_id": null,
+        "user_id": null
+      }
+    },
+    {
+      "entity_id": "switch.adguard_safe_browsing",
+      "state": "on",
+      "attributes": {
+        "icon": "mdi:shield-check",
+        "friendly_name": "AdGuard Safe Browsing"
+      },
+      "last_changed": "2022-01-11T10:54:59.947652+00:00",
+      "last_updated": "2022-01-11T10:54:59.947652+00:00",
+      "context": {
+        "id": "d7ed1e47b8d1ddc41d5a0116c70f6b06",
+        "parent_id": null,
+        "user_id": null
+      }
+    },
+    {
+      "entity_id": "sensor.livingroom_pm2_5_weight_concentration",
+      "state": "0.99",
+      "attributes": {
+        "state_class": "measurement",
+        "unit_of_measurement": "\u00b5g/m\u00b3",
+        "device_class": "pm25",
+        "icon": "mdi:chemical-weapon",
+        "friendly_name": "PM2.5 Weight concentration"
+      },
+      "last_changed": "2022-01-15T11:57:37.679116+00:00",
+      "last_updated": "2022-01-15T11:57:37.679116+00:00",
+      "context": {
+        "id": "debe42a5e132372b2f1e581a503e80e2",
+        "parent_id": null,
+        "user_id": null
+      }
+    },
+    {
+      "entity_id": "sensor.livingroom_pm10_weight_concentration",
+      "state": "1.24",
+      "attributes": {
+        "state_class": "measurement",
+        "unit_of_measurement": "\u00b5g/m\u00b3",
+        "device_class": "pm10",
+        "icon": "mdi:chemical-weapon",
+        "friendly_name": "PM10 Weight concentration"
+      },
+      "last_changed": "2022-01-15T11:57:37.681718+00:00",
+      "last_updated": "2022-01-15T11:57:37.681718+00:00",
+      "context": {
+        "id": "4d05de1d23fa4361edbfdcb3aef74ec5",
+        "parent_id": null,
+        "user_id": null
+      }
+    },
+    {
+      "entity_id": "sensor.livingroom_pm2_5_number_concentration",
+      "state": "5.54",
+      "attributes": {
+        "state_class": "measurement",
+        "unit_of_measurement": "#/m\u00b3",
+        "icon": "mdi:counter",
+        "friendly_name": "PM2.5 Number concentration"
+      },
+      "last_changed": "2022-01-15T11:57:37.682579+00:00",
+      "last_updated": "2022-01-15T11:57:37.682579+00:00",
+      "context": {
+        "id": "fe62ea9e9670d6be639b4fd5ded50a12",
+        "parent_id": null,
+        "user_id": null
+      }
+    },
+    {
+      "entity_id": "sensor.livingroom_pm10_number_concentration_2",
+      "state": "5.59",
+      "attributes": {
+        "state_class": "measurement",
+        "unit_of_measurement": "#/m\u00b3",
+        "icon": "mdi:counter",
+        "friendly_name": "PM10 Number concentration"
+      },
+      "last_changed": "2022-01-15T11:57:37.696847+00:00",
+      "last_updated": "2022-01-15T11:57:37.696847+00:00",
+      "context": {
+        "id": "df5a901e04a445139a485cd97fa023c8",
+        "parent_id": null,
+        "user_id": null
+      }
+    },
+    {
+      "entity_id": "sensor.livingroom_co2",
+      "state": "2009.4",
+      "attributes": {
+        "state_class": "measurement",
+        "unit_of_measurement": "ppm",
+        "icon": "mdi:molecule-co2",
+        "friendly_name": "CO2"
+      },
+      "last_changed": "2022-01-15T11:57:44.073024+00:00",
+      "last_updated": "2022-01-15T11:57:44.073024+00:00",
+      "context": {
+        "id": "cd06c1a6fbdac2e22e8ef8bd97bd7e0d",
+        "parent_id": null,
+        "user_id": null
+      }
+    },
+    {
+      "entity_id": "sensor.livingroom_humidity",
+      "state": "45.7",
+      "attributes": {
+        "state_class": "measurement",
+        "unit_of_measurement": "%",
+        "device_class": "humidity",
+        "friendly_name": "Humidity"
+      },
+      "last_changed": "2022-01-15T11:57:11.100622+00:00",
+      "last_updated": "2022-01-15T11:57:11.100622+00:00",
+      "context": {
+        "id": "53fdfbd62295544d030a3934cdf15d3c",
+        "parent_id": null,
+        "user_id": null
+      }
+    },
+    {
+      "entity_id": "sensor.livingroom_temperature",
+      "state": "25.1",
+      "attributes": {
+        "state_class": "measurement",
+        "unit_of_measurement": "\u00b0C",
+        "device_class": "temperature",
+        "friendly_name": "Temperature"
+      },
+      "last_changed": "2022-01-15T11:54:26.619828+00:00",
+      "last_updated": "2022-01-15T11:54:26.619828+00:00",
+      "context": {
+        "id": "9efa72cd6461506af382a3e4b17cdd94",
+        "parent_id": null,
+        "user_id": null
+      }
+    },
+    {
+      "entity_id": "binary_sensor.livingroom_motion",
+      "state": "on",
+      "attributes": { "device_class": "motion", "friendly_name": "Motion" },
+      "last_changed": "2022-01-15T11:35:58.484136+00:00",
+      "last_updated": "2022-01-15T11:35:58.484136+00:00",
+      "context": {
+        "id": "416ceca0d669d6c35455b75807eaccfe",
+        "parent_id": null,
+        "user_id": null
+      }
+    },
+    {
+      "entity_id": "switch.adguard_safe_search",
+      "state": "off",
+      "attributes": {
+        "icon": "mdi:shield-check",
+        "friendly_name": "AdGuard Safe Search"
+      },
+      "last_changed": "2022-01-11T10:55:00.130262+00:00",
+      "last_updated": "2022-01-11T10:55:00.130262+00:00",
+      "context": {
+        "id": "0df3800d6557514f268d36e386fb4ee9",
+        "parent_id": null,
+        "user_id": null
+      }
+    },
+    {
+      "entity_id": "sensor.bedroom_pm2_5_weight_concentration",
+      "state": "2.69",
+      "attributes": {
+        "state_class": "measurement",
+        "unit_of_measurement": "\u00b5g/m\u00b3",
+        "device_class": "pm25",
+        "icon": "mdi:chemical-weapon",
+        "friendly_name": "PM2.5 Weight concentration"
+      },
+      "last_changed": "2022-01-15T11:57:36.742146+00:00",
+      "last_updated": "2022-01-15T11:57:36.742146+00:00",
+      "context": {
+        "id": "7c97625dc7f4d0b3bc9b2dc3f4611f47",
+        "parent_id": null,
+        "user_id": null
+      }
+    },
+    {
+      "entity_id": "sensor.bedroom_pm10_weight_concentration",
+      "state": "2.92",
+      "attributes": {
+        "state_class": "measurement",
+        "unit_of_measurement": "\u00b5g/m\u00b3",
+        "device_class": "pm10",
+        "icon": "mdi:chemical-weapon",
+        "friendly_name": "PM10 Weight concentration"
+      },
+      "last_changed": "2022-01-15T11:57:36.742698+00:00",
+      "last_updated": "2022-01-15T11:57:36.742698+00:00",
+      "context": {
+        "id": "6839a64b1d3e51d1c652d6b36ce3804e",
+        "parent_id": null,
+        "user_id": null
+      }
+    },
+    {
+      "entity_id": "sensor.bedroom_pm2_5_number_concentration",
+      "state": "18.56",
+      "attributes": {
+        "state_class": "measurement",
+        "unit_of_measurement": "#/m\u00b3",
+        "icon": "mdi:counter",
+        "friendly_name": "PM2.5 Number concentration"
+      },
+      "last_changed": "2022-01-15T11:57:36.743163+00:00",
+      "last_updated": "2022-01-15T11:57:36.743163+00:00",
+      "context": {
+        "id": "144fcef1a0719e94083b5abff425a2c8",
+        "parent_id": null,
+        "user_id": null
+      }
+    },
+    {
+      "entity_id": "sensor.pm10_number_concentration",
+      "state": "18.62",
+      "attributes": {
+        "state_class": "measurement",
+        "unit_of_measurement": "#/m\u00b3",
+        "icon": "mdi:counter",
+        "friendly_name": "PM10 Number concentration"
+      },
+      "last_changed": "2022-01-15T11:57:36.743628+00:00",
+      "last_updated": "2022-01-15T11:57:36.743628+00:00",
+      "context": {
+        "id": "710174d0f837423c6b18e35f87bea021",
+        "parent_id": null,
+        "user_id": null
+      }
+    },
+    {
+      "entity_id": "sensor.bedroom_co2",
+      "state": "860.3",
+      "attributes": {
+        "state_class": "measurement",
+        "unit_of_measurement": "ppm",
+        "icon": "mdi:molecule-co2",
+        "friendly_name": "CO2"
+      },
+      "last_changed": "2022-01-15T11:57:01.807623+00:00",
+      "last_updated": "2022-01-15T11:57:01.807623+00:00",
+      "context": {
+        "id": "e41388d5cd452d80134fbaf3e886d4db",
+        "parent_id": null,
+        "user_id": null
+      }
+    },
+    {
+      "entity_id": "sensor.bedroom_humidity",
+      "state": "47.8",
+      "attributes": {
+        "state_class": "measurement",
+        "unit_of_measurement": "%",
+        "device_class": "humidity",
+        "friendly_name": "Humidity"
+      },
+      "last_changed": "2022-01-15T11:57:01.809148+00:00",
+      "last_updated": "2022-01-15T11:57:01.809148+00:00",
+      "context": {
+        "id": "26d1c7512f3394c3c5721cc8ffbcde0e",
+        "parent_id": null,
+        "user_id": null
+      }
+    },
+    {
+      "entity_id": "sensor.bedroom_temperature",
+      "state": "21.8",
+      "attributes": {
+        "state_class": "measurement",
+        "unit_of_measurement": "\u00b0C",
+        "device_class": "temperature",
+        "friendly_name": "Temperature"
+      },
+      "last_changed": "2022-01-15T11:57:01.808446+00:00",
+      "last_updated": "2022-01-15T11:57:01.808446+00:00",
+      "context": {
+        "id": "d739cba2c5fa1879ca9212207f7db308",
+        "parent_id": null,
+        "user_id": null
+      }
+    },
+    {
+      "entity_id": "sensor.office_co2",
+      "state": "1304.3",
+      "attributes": {
+        "state_class": "measurement",
+        "unit_of_measurement": "ppm",
+        "icon": "mdi:molecule-co2",
+        "friendly_name": "CO2"
+      },
+      "last_changed": "2022-01-15T11:57:44.587682+00:00",
+      "last_updated": "2022-01-15T11:57:44.587682+00:00",
+      "context": {
+        "id": "d20f902ac09f436d5c6bf7bc50b48b0c",
+        "parent_id": null,
+        "user_id": null
+      }
+    },
+    {
+      "entity_id": "sensor.office_humidity",
+      "state": "36.1",
+      "attributes": {
+        "state_class": "measurement",
+        "unit_of_measurement": "%",
+        "device_class": "humidity",
+        "friendly_name": "Humidity"
+      },
+      "last_changed": "2022-01-15T11:57:44.595936+00:00",
+      "last_updated": "2022-01-15T11:57:44.595936+00:00",
+      "context": {
+        "id": "605583765a13fa74ff3ae7c49901b587",
+        "parent_id": null,
+        "user_id": null
+      }
+    },
+    {
+      "entity_id": "sensor.office_temperature",
+      "state": "28.3",
+      "attributes": {
+        "state_class": "measurement",
+        "unit_of_measurement": "\u00b0C",
+        "device_class": "temperature",
+        "friendly_name": "Temperature"
+      },
+      "last_changed": "2022-01-15T11:50:24.076197+00:00",
+      "last_updated": "2022-01-15T11:50:24.076197+00:00",
+      "context": {
+        "id": "2f860f18766262626f37c16b1cc4526b",
+        "parent_id": null,
+        "user_id": null
+      }
+    },
+    {
+      "entity_id": "sensor.office_pressure",
+      "state": "1027.3",
+      "attributes": {
+        "state_class": "measurement",
+        "unit_of_measurement": "hPa",
+        "device_class": "pressure",
+        "friendly_name": "Pressure"
+      },
+      "last_changed": "2022-01-15T11:49:57.722855+00:00",
+      "last_updated": "2022-01-15T11:49:57.722855+00:00",
+      "context": {
+        "id": "09cb3bce50cbada01a1b0960ff4b9a94",
+        "parent_id": null,
+        "user_id": null
+      }
+    },
+    {
+      "entity_id": "switch.office_motionsensor_led_indication",
+      "state": "on",
+      "attributes": {
+        "battery": 53.5,
+        "illuminance": 12927,
+        "illuminance_lux": 20,
+        "last_seen": "2022-01-15T11:57:49.524Z",
+        "led_indication": true,
+        "linkquality": 93,
+        "motion_sensitivity": "high",
+        "occupancy": true,
+        "occupancy_timeout": 1200,
+        "temperature": 23.67,
+        "update": { "state": "idle" },
+        "update_available": false,
+        "icon": "mdi:led-on",
+        "friendly_name": "office_motionsensor_led_indication"
+      },
+      "last_changed": "2022-01-11T10:55:01.160765+00:00",
+      "last_updated": "2022-01-15T11:57:49.537454+00:00",
+      "context": {
+        "id": "6da8c812027b8b6ad0353173d4f5d842",
+        "parent_id": null,
+        "user_id": null
+      }
+    },
+    {
+      "entity_id": "switch.livingroom_motionsensor_led_indication",
+      "state": "off",
+      "attributes": {
+        "battery": 19.5,
+        "illuminance": 17707,
+        "illuminance_lux": 59,
+        "last_seen": "2022-01-15T11:57:42.894Z",
+        "led_indication": false,
+        "linkquality": 99,
+        "motion_sensitivity": "high",
+        "occupancy": true,
+        "occupancy_timeout": 1200,
+        "temperature": 23.24,
+        "update": { "state": "idle" },
+        "update_available": false,
+        "icon": "mdi:led-on",
+        "friendly_name": "livingroom_motionsensor_led_indication"
+      },
+      "last_changed": "2022-01-11T10:55:00.786773+00:00",
+      "last_updated": "2022-01-15T11:57:42.904504+00:00",
+      "context": {
+        "id": "38ddbcfc3391498d85e2f8d32244af96",
+        "parent_id": null,
+        "user_id": null
+      }
+    },
+    {
+      "entity_id": "switch.bedroom_motionsensor_led_indication",
+      "state": "off",
+      "attributes": {
+        "battery": 61,
+        "illuminance": 18697,
+        "illuminance_lux": 74,
+        "last_seen": "2022-01-15T11:57:42.730Z",
+        "led_indication": false,
+        "linkquality": 111,
+        "motion_sensitivity": "high",
+        "occupancy": true,
+        "occupancy_timeout": 1200,
+        "temperature": 22.28,
+        "update": { "state": "idle" },
+        "update_available": false,
+        "icon": "mdi:led-on",
+        "friendly_name": "bedroom_motionsensor_led_indication"
+      },
+      "last_changed": "2022-01-11T10:55:00.793357+00:00",
+      "last_updated": "2022-01-15T11:57:42.744818+00:00",
+      "context": {
+        "id": "5f1bad6d78361b07631d3ec6fa36a1b3",
+        "parent_id": null,
+        "user_id": null
+      }
+    },
+    {
+      "entity_id": "number.office_motionsensor_occupancy_timeout",
+      "state": "1200",
+      "attributes": {
+        "min": 0.0,
+        "max": 65535.0,
+        "step": 1.0,
+        "mode": "auto",
+        "battery": 53.5,
+        "illuminance": 12927,
+        "illuminance_lux": 20,
+        "last_seen": "2022-01-15T11:57:49.524Z",
+        "led_indication": true,
+        "linkquality": 93,
+        "motion_sensitivity": "high",
+        "occupancy": true,
+        "occupancy_timeout": 1200,
+        "temperature": 23.67,
+        "update": { "state": "idle" },
+        "update_available": false,
+        "unit_of_measurement": "second",
+        "icon": "mdi:timer",
+        "friendly_name": "office_motionsensor_occupancy_timeout"
+      },
+      "last_changed": "2022-01-11T10:55:01.220689+00:00",
+      "last_updated": "2022-01-15T11:57:49.538205+00:00",
+      "context": {
+        "id": "4b51c13f17a8039102ffcb165f91f600",
+        "parent_id": null,
+        "user_id": null
+      }
+    },
+    {
+      "entity_id": "number.livingroom_motionsensor_occupancy_timeout",
+      "state": "1200",
+      "attributes": {
+        "min": 0.0,
+        "max": 65535.0,
+        "step": 1.0,
+        "mode": "auto",
+        "battery": 19.5,
+        "illuminance": 17707,
+        "illuminance_lux": 59,
+        "last_seen": "2022-01-15T11:57:42.894Z",
+        "led_indication": false,
+        "linkquality": 99,
+        "motion_sensitivity": "high",
+        "occupancy": true,
+        "occupancy_timeout": 1200,
+        "temperature": 23.24,
+        "update": { "state": "idle" },
+        "update_available": false,
+        "unit_of_measurement": "second",
+        "icon": "mdi:timer",
+        "friendly_name": "livingroom_motionsensor_occupancy_timeout"
+      },
+      "last_changed": "2022-01-11T10:55:01.174208+00:00",
+      "last_updated": "2022-01-15T11:57:42.905044+00:00",
+      "context": {
+        "id": "70bc4f25622567642dda4ac5793c4bde",
+        "parent_id": null,
+        "user_id": null
+      }
+    },
+    {
+      "entity_id": "number.bedroom_motionsensor_occupancy_timeout",
+      "state": "1200",
+      "attributes": {
+        "min": 0.0,
+        "max": 65535.0,
+        "step": 1.0,
+        "mode": "auto",
+        "battery": 61,
+        "illuminance": 18697,
+        "illuminance_lux": 74,
+        "last_seen": "2022-01-15T11:57:42.730Z",
+        "led_indication": false,
+        "linkquality": 111,
+        "motion_sensitivity": "high",
+        "occupancy": true,
+        "occupancy_timeout": 1200,
+        "temperature": 22.28,
+        "update": { "state": "idle" },
+        "update_available": false,
+        "unit_of_measurement": "second",
+        "icon": "mdi:timer",
+        "friendly_name": "bedroom_motionsensor_occupancy_timeout"
+      },
+      "last_changed": "2022-01-11T10:55:01.239691+00:00",
+      "last_updated": "2022-01-15T11:57:42.745635+00:00",
+      "context": {
+        "id": "63160c27cb934f85da8120df8a8afb15",
+        "parent_id": null,
+        "user_id": null
+      }
+    },
+    {
+      "entity_id": "media_player.lets_rock",
+      "state": "unavailable",
+      "attributes": {
+        "restored": true,
+        "friendly_name": "Let\u2019s Rock",
+        "supported_features": 457279
+      },
+      "last_changed": "2022-01-11T10:55:01.905702+00:00",
+      "last_updated": "2022-01-11T10:55:01.905702+00:00",
+      "context": {
+        "id": "ae519cbe5bbde918220a71cdac3e20cb",
+        "parent_id": null,
+        "user_id": null
+      }
+    },
+    {
+      "entity_id": "switch.sonos_lets_rock_crossfade",
+      "state": "unavailable",
+      "attributes": {
+        "restored": true,
+        "icon": "mdi:swap-horizontal",
+        "friendly_name": "Let\u2019s Rock Crossfade",
+        "supported_features": 0
+      },
+      "last_changed": "2022-01-11T10:55:01.907384+00:00",
+      "last_updated": "2022-01-11T10:55:01.907384+00:00",
+      "context": {
+        "id": "15151039012e78aabc382731f6667a68",
+        "parent_id": null,
+        "user_id": null
+      }
+    },
+    {
+      "entity_id": "number.lets_rock_bass",
+      "state": "unavailable",
+      "attributes": {
+        "restored": true,
+        "min": -10,
+        "max": 10,
+        "step": 1.0,
+        "mode": "auto",
+        "friendly_name": "Let\u2019s Rock Bass",
+        "supported_features": 0
+      },
+      "last_changed": "2022-01-11T10:55:01.908100+00:00",
+      "last_updated": "2022-01-11T10:55:01.908100+00:00",
+      "context": {
+        "id": "0f5ba0403656ef08e32186bbc5db58d2",
+        "parent_id": null,
+        "user_id": null
+      }
+    },
+    {
+      "entity_id": "number.lets_rock_treble",
+      "state": "unavailable",
+      "attributes": {
+        "restored": true,
+        "min": -10,
+        "max": 10,
+        "step": 1.0,
+        "mode": "auto",
+        "friendly_name": "Let\u2019s Rock Treble",
+        "supported_features": 0
+      },
+      "last_changed": "2022-01-11T10:55:01.908392+00:00",
+      "last_updated": "2022-01-11T10:55:01.908392+00:00",
+      "context": {
+        "id": "129d959d2682e1c400a36697699bd647",
+        "parent_id": null,
+        "user_id": null
+      }
+    },
+    {
+      "entity_id": "media_player.plex_plex_for_apple_tv_appletv",
+      "state": "unavailable",
+      "attributes": {
+        "restored": true,
+        "friendly_name": "Plex (Plex for Apple TV - AppleTV)",
+        "supported_features": 152127
+      },
+      "last_changed": "2022-01-11T10:55:01.908694+00:00",
+      "last_updated": "2022-01-11T10:55:01.908694+00:00",
+      "context": {
+        "id": "d362614cb616b58e24d6b173633ad139",
+        "parent_id": null,
+        "user_id": null
+      }
+    },
+    {
+      "entity_id": "persistent_notification.http_login",
+      "state": "notifying",
+      "attributes": {
+        "title": "Login attempt failed",
+        "friendly_name": "Login attempt failed",
+        "message": "Login attempt or request with invalid authentication from 192.168.1.184 (192.168.1.184). See the log for details."
+      },
+      "last_changed": "2022-01-14T19:21:00.256331+00:00",
+      "last_updated": "2022-01-14T19:21:00.256331+00:00",
+      "context": {
+        "id": "290c7e28b28fcf9dd2a8e2d53a3c6154",
+        "parent_id": null,
+        "user_id": null
+      }
+    }
+  ]
+}
