@@ -2,6 +2,20 @@ import Foundation
 
 // MARK: Outgoing messages
 
+// See https://developers.home-assistant.io/docs/api/websocket/
+
+enum CommandType: String, Codable {
+    case listAreas = "config/area_registry/list"
+    case listDevices = "config/device_registry/list"
+    case listEntities = "config/entity_registry/list"
+    case retrieveStates = "get_states"
+}
+
+struct Message: Codable {
+    let type: CommandType
+    let id: Int
+}
+
 struct AuthMessage: Codable {
     var type: String = "auth"
     let accessToken: String
@@ -10,26 +24,6 @@ struct AuthMessage: Codable {
         case type
         case accessToken = "access_token"
     }
-}
-
-struct RequestAreaRegistry: Codable {
-    var type: String = "config/area_registry/list"
-    let id: Int
-}
-
-struct RequestDeviceRegistry: Codable {
-    var type: String = "config/device_registry/list"
-    let id: Int
-}
-
-struct RequestEntityRegistry: Codable {
-    var type: String = "config/entity_registry/list"
-    let id: Int
-}
-
-struct RequestCurrentStates: Codable {
-    var type: String = "get_states"
-    let id: Int
 }
 
 // MARK: Incoming messages
@@ -72,87 +66,79 @@ struct BaseResultMessage: Codable {
 
 // MARK: Result payloads
 
-enum ResultType {
-    case listAreas
-    case listDevices
-    case listEntities
-    case currentStates
-}
-
-struct ListAreasResultMessage: Codable {
+struct ResultMessage<T: Codable>: Codable {
     var type: String = IncomingMessageType.result.rawValue
     let id: Int
     let success: Bool
-    let result: [Area]
+    let result: [T]
+}
 
-    struct Area: Codable {
-        let name: String
-        let areaId: String
-
-        private enum CodingKeys: String, CodingKey {
-            case name
-            case areaId = "area_id"
-        }
+public struct Area: Codable {
+    public let name: String
+    public let areaId: String
+    public var picture: String? = nil
+    
+    private enum CodingKeys: String, CodingKey {
+        case name
+        case areaId = "area_id"
+        case picture
     }
 }
 
-struct ListDevicesResultMessage: Codable {
-    var type: String = IncomingMessageType.result.rawValue
-    let id: Int
-    let success: Bool
-    let result: [Device]
+public struct Device: Codable {
+    public let id: String
+    public var areaId: String? = nil
+    public let name: String
+    public var nameByUser: String? = nil
+    public var entryType: String? = nil
+    public var manufacturer: String? = nil
+    public var model: String? = nil
+    public var swVersion: String? = nil
+    public var viaDeviceId: String? = nil
 
-    struct Device: Codable {
-        let id: String
-        let name: String
-        let nameByUser: String?
-        let manufacturer: String
-        let areaId: String?
-
-        private enum CodingKeys: String, CodingKey {
-            case id
-            case name
-            case nameByUser = "name_by_user"
-            case manufacturer
-            case areaId = "area_id"
-        }
+    private enum CodingKeys: String, CodingKey {
+        case id
+        case areaId = "area_id"
+        case name
+        case nameByUser = "name_by_user"
+        case entryType = "entry_type"
+        case manufacturer
+        case model
+        case swVersion = "sw_version"
+        case viaDeviceId = "via_device_id"
     }
 }
 
-struct ListEntitiesResultMessage: Codable {
-    var type: String = IncomingMessageType.result.rawValue
-    let id: Int
-    let success: Bool
-    let result: [Entity]
+public struct Entity: Codable {
+    public let entityId: String
+    public var areaId: String? = nil
+    public var name: String? = nil
+    public var icon: String? = nil
+    public var deviceId: String? = nil
+    public let platform: String
 
-    struct Entity: Codable {
-        let id: String
-        let areaId: String?
-        let deviceId: String?
-        let platform: String
-
-        private enum CodingKeys: String, CodingKey {
-            case id = "entity_id"
-            case areaId = "area_id"
-            case deviceId = "device_id"
-            case platform
-        }
+    private enum CodingKeys: String, CodingKey {
+        case entityId = "entity_id"
+        case areaId = "area_id"
+        case name
+        case icon
+        case deviceId = "device_id"
+        case platform
     }
 }
 
-struct CurrentStatesResultMessage: Codable {
-    var type: String = IncomingMessageType.result.rawValue
-    let id: Int
-    let success: Bool
-    let result: [State]
+public struct State: Codable {
+    public let entityId: String
+    public let state: String
+    public var lastChanged: String? = nil
+    public var lastUpdated: String? = nil
+    public var attributes: [String:JSONProperty]? = nil
 
-    struct State: Codable {
-        let entityId: String
-        let state: String
-
-        private enum CodingKeys: String, CodingKey {
-            case entityId = "entity_id"
-            case state
-        }
+    private enum CodingKeys: String, CodingKey {
+        case entityId = "entity_id"
+        case state
+        case lastChanged = "last_changed"
+        case lastUpdated = "last_updated"
+        case attributes
     }
 }

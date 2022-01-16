@@ -1,180 +1,188 @@
 import Foundation
 
 public protocol MessageExchange {
-    func setMessageHandler(_ messageHandler: @escaping ((String) -> Void))
-    func sendMessage(message: String)
+    func setMessageHandler(_ messageHandler: @escaping ((String) async -> Void))
+    func sendMessage(message: String) async
     func disconnect()
-}
-
-enum HAClientError: Error {
-    case authenticationFailed(String)
-    case wrongPhase(String)
 }
 
 public protocol HAClientProtocol {
     init(messageExchange: MessageExchange)
-    func authenticate(
-        token: String,
-        onConnection: @escaping () -> Void,
-        onFailure: @escaping (_ errorMessage: String) -> Void
-    )
-    func requestRegistry()
-    func requestStates()
+    func authenticate(token: String) async throws -> Void
+    
+    func listAreas() async throws -> [Area]
+    func listDevices() async throws -> [Device]
+    func listEntities() async throws -> [Entity]
+    func retrieveStates() async throws -> [State]
 }
 
 public class HAClient: HAClientProtocol {
-    typealias VoidCompletionHandler = () -> Void
-    typealias AuthFailureHandler = (String) -> Void
-    typealias RequestID = Int
-
-    struct PendingRequest {
-        let id: Int
-        let type: ResultType
+    enum HAClientError: Error {
+        case authenticationFailed(String)
+        case authenticationRequired
+        case responseError
+        case requestTimeout
     }
-
-    enum Phase {
-        case pendingAuth(VoidCompletionHandler, AuthFailureHandler)
+    
+    enum Phase: Equatable {
+        case initial
+        case authRequested
         case authenticated
+        case authenticationFailure(failureReason: String)
     }
+    
+    private let messageExchange: MessageExchange
+    
+    private var currentPhase: Phase = .initial
 
-    var currentPhase: Phase?
-    public let registry: Registry
-
-    private var messageExchange: MessageExchange
-    private var lastUsedRequestId: Int?
-    private var pendingRequests: [RequestID: PendingRequest] = [:]
+    private let pendingRequests = PendingRequests()
 
     public required init(messageExchange: MessageExchange) {
         self.messageExchange = messageExchange
-        registry = Registry()
-        messageExchange.setMessageHandler(handleTextMessage(jsonString:))
+        self.messageExchange.setMessageHandler(self.handleTextMessage(jsonString:))
+    }
+    
+    // MARK: Send commands
+
+    public func authenticate(token: String) async throws -> Void {
+        let authCommand = AuthMessage(accessToken: token)
+        
+        currentPhase = .authRequested
+        
+        await messageExchange.sendMessage(
+            message: JSONCoding.serialize(authCommand)
+        )
+        
+        try await waitFor() {
+            currentPhase != .authRequested
+        }
+        
+        switch currentPhase {
+        case .authenticated:
+            NSLog("Auth successful")
+            return
+            
+        case .authenticationFailure(let failureReason):
+            throw HAClientError.authenticationFailed(failureReason)
+            
+        default:
+            return
+        }
+    }
+    
+    public func listAreas() async throws -> [Area] {
+        return try await sendCommandAndAwaitResponse(.listAreas)
+    }
+    
+    public func listDevices() async throws -> [Device] {
+        return try await sendCommandAndAwaitResponse(.listDevices)
+    }
+    
+    public func listEntities() async throws -> [Entity] {
+        return try await sendCommandAndAwaitResponse(.listEntities)
+    }
+    
+    public func retrieveStates() async throws -> [State] {
+        return try await sendCommandAndAwaitResponse(.retrieveStates)
+    }
+    
+    private func sendCommandAndAwaitResponse<T: Codable>(_ type: CommandType) async throws -> [T] {
+        guard self.currentPhase == .authenticated else {
+            throw HAClientError.authenticationRequired
+        }
+        
+        let requestId = await pendingRequests.insert(type: type)
+        await messageExchange.sendMessage(
+            message: JSONCoding.serialize(Message(type: type, id: requestId))
+        )
+        
+        try await waitFor() {
+            await pendingRequests.getResponse(requestId) != nil
+        }
+        
+        let response = await pendingRequests.getResponse(requestId)
+        if let message = response as? ResultMessage<T> {
+            await pendingRequests.remove(id: message.id)
+            return message.result
+        }
+        
+        throw HAClientError.responseError
     }
 
-    public func authenticate(token: String, onConnection: @escaping () -> Void, onFailure: @escaping (_ errorMessage: String) -> Void) {
-        currentPhase = .pendingAuth(onConnection, onFailure)
-        messageExchange.sendMessage(
-            message: JSONCoding.serialize(AuthMessage(accessToken: token))
-        )
+    private func waitFor(_ condition: () async -> Bool) async throws {
+        let startTime = Date()
+        let endTime = startTime.addingTimeInterval(1)
+        while await !condition() {
+            let nextTime = Date().addingTimeInterval(0.1)
+            RunLoop.current.run(until: nextTime)
+            if nextTime > endTime {
+                throw HAClientError.requestTimeout
+            }
+        }
     }
+    
+    // MARK: Message handling
 
-    public func requestRegistry() {
-        let fetchAreasRequestId = getAndIncrementId()
-        messageExchange.sendMessage(
-            message: JSONCoding.serialize(RequestAreaRegistry(id: fetchAreasRequestId))
-        )
-        pendingRequests[fetchAreasRequestId] = PendingRequest(
-            id: fetchAreasRequestId,
-            type: .listAreas
-        )
-
-        let fetchDevicesRequestId = getAndIncrementId()
-        messageExchange.sendMessage(
-            message: JSONCoding.serialize(RequestDeviceRegistry(id: fetchDevicesRequestId))
-        )
-        pendingRequests[fetchDevicesRequestId] = PendingRequest(
-            id: fetchDevicesRequestId,
-            type: .listDevices
-        )
-
-        let fetchEntitiesRequestId = getAndIncrementId()
-        messageExchange.sendMessage(
-            message: JSONCoding.serialize(RequestEntityRegistry(id: fetchEntitiesRequestId))
-        )
-        pendingRequests[fetchEntitiesRequestId] = PendingRequest(
-            id: fetchEntitiesRequestId,
-            type: .listEntities
-        )
-    }
-
-    public func requestStates() {
-        let fetchStatesRequestId = getAndIncrementId()
-        messageExchange.sendMessage(
-            message: JSONCoding.serialize(RequestCurrentStates(id: fetchStatesRequestId))
-        )
-        pendingRequests[fetchStatesRequestId] = PendingRequest(
-            id: fetchStatesRequestId,
-            type: .currentStates
-        )
-    }
-
-    private func getAndIncrementId() -> Int {
-        let id = (lastUsedRequestId ?? 0) + 1
-        lastUsedRequestId = id
-        return id
-    }
-
-    private func handleTextMessage(jsonString: String) {
+    private func handleTextMessage(jsonString: String) async {
         let incomingMessage = JSONCoding.deserialize(jsonString)
         let jsonData = jsonString.data(using: .utf8)!
 
         switch currentPhase {
-        case let .pendingAuth(completion, onFailure):
+        case .authRequested:
             guard let message = incomingMessage else {
                 return
             }
-            currentPhase = handleAuthenticationMessage(
-                message: message,
-                completion: completion,
-                onFailure: onFailure
-            )
+            currentPhase = handleAuthenticationMessage(message)
 
         case .authenticated:
             switch incomingMessage {
             case let resultMessage as BaseResultMessage:
                 guard resultMessage.success else {
-                    print("Result was not successful", jsonString)
+                    NSLog("Command was not successful. JSON: %@", jsonString)
                     return
                 }
-                handleMessage(message: resultMessage, jsonData: jsonData)
+                do {
+                    try await handleMessage(message: resultMessage, jsonData: jsonData)
+                } catch {
+                    NSLog("Message could not be handled. JSON %@", jsonString)
+                }
             default:
                 break
             }
 
         default:
-            print("Ignoring text message", jsonString)
-        }
-    }
-
-    private func handleAuthenticationMessage(message: Any, completion: @escaping VoidCompletionHandler, onFailure: @escaping AuthFailureHandler) -> Phase? {
-        switch message {
-        case _ as AuthOkMessage:
-            completion()
-            return .authenticated
-        case let authInvalidMessage as AuthInvalidMessage:
-            messageExchange.disconnect()
-            onFailure(authInvalidMessage.message)
-            return nil
-        default:
-            print("Not authenticated. Ignoring message", message)
-            return currentPhase
-        }
-    }
-
-    private func handleMessage(message: BaseResultMessage, jsonData: Data) {
-        guard let matchingRequest = pendingRequests[message.id] else {
-            print("No matching request found with this ID", message.id)
+            NSLog("Not handling message. JSON: %s", jsonString)
             return
         }
-
-        switch matchingRequest.type {
-        case .listAreas:
-            if let message = try? JSON.decoder.decode(ListAreasResultMessage.self, from: jsonData) {
-                registry.handleResultMessage(message)
-            }
-        case .listDevices:
-            if let message = try? JSON.decoder.decode(ListDevicesResultMessage.self, from: jsonData) {
-                registry.handleResultMessage(message)
-            }
-        case .listEntities:
-            if let message = try? JSON.decoder.decode(ListEntitiesResultMessage.self, from: jsonData) {
-                registry.handleResultMessage(message)
-            }
-        case .currentStates:
-            if let message = try? JSON.decoder.decode(CurrentStatesResultMessage.self, from: jsonData) {
-                registry.handleResultMessage(message)
-            }
+    }
+    
+    private func handleMessage(message: BaseResultMessage, jsonData: Data) async throws {
+        guard let matchingRequestType = await pendingRequests.getType(message.id) else {
+            NSLog("No matching request found with ID %@", message.id)
+            return
         }
-
-        pendingRequests.removeValue(forKey: message.id)
+        guard let response = JSONCoding.deserializeCommandResponse(
+            type: matchingRequestType,
+            jsonData: jsonData
+        ) else {
+            NSLog("Response for request %i with type %s could not be decoded", message.id, message.type)
+            throw HAClientError.responseError
+        }
+        await pendingRequests.addResponse(id: message.id, response)
+        
+    }
+    
+    private func handleAuthenticationMessage(_ message: Any) -> Phase {
+        switch message {
+        case _ as AuthOkMessage:
+            return .authenticated
+            
+        case let authInvalidMessage as AuthInvalidMessage:
+            messageExchange.disconnect()
+            return .authenticationFailure(failureReason: authInvalidMessage.message)
+            
+        default:
+            return currentPhase
+        }
     }
 }

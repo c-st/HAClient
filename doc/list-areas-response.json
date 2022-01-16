@@ -1,0 +1,27 @@
+{
+  "id": 1,
+  "type": "result",
+  "success": true,
+  "result": [
+    {
+      "area_id": "593c190803045e0161b0cf59f96c6710",
+      "name": "Living Room",
+      "picture": null
+    },
+    {
+      "area_id": "db526ed4ec3a69631b3630d5846842d3",
+      "name": "Kitchen",
+      "picture": null
+    },
+    {
+      "area_id": "f2646f763cb960e79c61284fcef1af96",
+      "name": "Bedroom",
+      "picture": null
+    },
+    {
+      "area_id": "2ba7b168135c34a9c6d1592c94cf7534",
+      "name": "Office",
+      "picture": null
+    }
+  ]
+}
