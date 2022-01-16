@@ -16,7 +16,7 @@ actor PendingRequestsActor {
         return pendingRequests[id] ?? nil
     }
     
-    public func addResponse(id: RequestID, _ message: Any?) {
+    public func addResponse(id: RequestID, _ message: Any) {
         responses[id] = message
     }
     

@@ -3,7 +3,7 @@ import XCTest
 
 @testable import HAClient
 
-final class HAClientAuthenticationTests: XCTestCase {
+final class HAClientAuthenticationTest: XCTestCase {
     var mockExchange: FakeMessageExchange!
     var client: HAClient!
 

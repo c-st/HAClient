@@ -138,10 +138,14 @@ public class HAClient: HAClientProtocol {
             switch incomingMessage {
             case let resultMessage as BaseResultMessage:
                 guard resultMessage.success else {
-                    NSLog("Command processing failed. JSON: %@", jsonString)
+                    NSLog("Command was not successful. JSON: %@", jsonString)
                     return
                 }
-                await handleMessage(message: resultMessage, jsonData: jsonData)
+                do {
+                    try await handleMessage(message: resultMessage, jsonData: jsonData)
+                } catch {
+                    NSLog("Message could not be handled. JSON %@", jsonString)
+                }
             default:
                 break
             }
@@ -152,15 +156,20 @@ public class HAClient: HAClientProtocol {
         }
     }
     
-    private func handleMessage(message: BaseResultMessage, jsonData: Data) async {
+    private func handleMessage(message: BaseResultMessage, jsonData: Data) async throws {
         guard let matchingRequestType = await pendingRequests.getType(message.id) else {
             NSLog("No matching request found with ID %@", message.id)
             return
         }
-        await pendingRequests.addResponse(id: message.id, JSONCoding.deserializeCommandResponse(
+        guard let response = JSONCoding.deserializeCommandResponse(
             type: matchingRequestType,
             jsonData: jsonData
-        ))
+        ) else {
+            NSLog("Response for request %i with type %s could not be decoded", message.id, message.type)
+            throw HAClientError.responseError
+        }
+        await pendingRequests.addResponse(id: message.id, response)
+        
     }
     
     private func handleAuthenticationMessage(_ message: Any) -> Phase {

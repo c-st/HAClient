@@ -130,9 +130,9 @@ public struct Entity: Codable {
 public struct State: Codable {
     let entityId: String
     let state: String
-    let lastChanged: String
-    let lastUpdated: String
-    let attributes: Dictionary<String, JSONProperty>
+    var lastChanged: String? = nil
+    var lastUpdated: String? = nil
+    var attributes: [String:JSONProperty]? = nil
 
     private enum CodingKeys: String, CodingKey {
         case entityId = "entity_id"

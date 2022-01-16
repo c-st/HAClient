@@ -34,5 +34,8 @@ final class IntegrationTest: XCTestCase {
         
         let entities = try await client.listEntities()
         expect(entities).to(haveCount(293))
+        
+        let states = try await client.retrieveStates()
+        expect(states).to(haveCount(230))
     }
 }
