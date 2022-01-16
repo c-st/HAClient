@@ -16,7 +16,7 @@ final class RetrieveStatesTest: XCTestCase {
         try await client.authenticate(token: "mytoken")
     }
     
-    func test_retrieveStates() async throws {
+    func test_parsesAttributes() async throws {
         mockExchange.outgoingMessageHandler = { msg in
             let message = """
             {
@@ -37,12 +37,22 @@ final class RetrieveStatesTest: XCTestCase {
                 }
               ]
             }
-
             """
             await self.mockExchange.simulateIncomingMessage(message: message)
         }
         
         let states = try await client.retrieveStates()
         expect(states).to(haveCount(1))
+        
+        let expected: [String: Any?] = [
+            "key": nil,
+            "key2": 1,
+            "key3": 1.23,
+            "key4": false,
+            "key5": ["a", "b", "c"]
+        ]
+        
+        let attributes = states[0].attributes!.asDictionary as NSDictionary
+        expect(attributes).to(equal(expected as NSDictionary))
     }
 }

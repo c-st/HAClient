@@ -9,7 +9,7 @@ public protocol MessageExchange {
 public protocol HAClientProtocol {
     init(messageExchange: MessageExchange)
     func authenticate(token: String) async throws -> Void
-    // Commands
+    
     func listAreas() async throws -> [Area]
     func listDevices() async throws -> [Device]
     func listEntities() async throws -> [Entity]
@@ -35,7 +35,7 @@ public class HAClient: HAClientProtocol {
     
     private var currentPhase: Phase = .initial
 
-    private let pendingRequests = PendingRequestsActor()
+    private let pendingRequests = PendingRequests()
 
     public required init(messageExchange: MessageExchange) {
         self.messageExchange = messageExchange

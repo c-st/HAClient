@@ -1,4 +1,4 @@
-actor PendingRequestsActor {
+actor PendingRequests {
     typealias RequestID = Int
 
     private var lastUsedRequestId: RequestID?
@@ -29,7 +29,7 @@ actor PendingRequestsActor {
         responses.removeValue(forKey: id)
     }
     
-    private func getAndIncrementId() -> Int {
+    private func getAndIncrementId() -> RequestID {
         let id = (lastUsedRequestId ?? 0) + 1
         lastUsedRequestId = id
         return id
