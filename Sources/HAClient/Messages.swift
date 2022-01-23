@@ -5,6 +5,7 @@ import Foundation
 // See https://developers.home-assistant.io/docs/api/websocket/
 
 enum CommandType: String, Codable {
+    case ping = "ping"
     case listAreas = "config/area_registry/list"
     case listDevices = "config/device_registry/list"
     case listEntities = "config/entity_registry/list"
@@ -37,6 +38,7 @@ enum IncomingMessageType: String, Codable {
     case auth_ok
     case auth_invalid
     case result
+    case pong
 }
 
 struct AuthRequired: Codable {
@@ -56,6 +58,11 @@ struct AuthOkMessage: Codable {
 struct AuthInvalidMessage: Codable {
     var type: String = IncomingMessageType.auth_invalid.rawValue
     let message: String
+}
+
+struct PongMessage: Codable {
+    var type: String = IncomingMessageType.pong.rawValue
+    let id: Int
 }
 
 struct BaseResultMessage: Codable {

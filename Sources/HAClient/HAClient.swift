@@ -40,6 +40,13 @@ public class HAClient: HAClientProtocol {
     public required init(messageExchange: MessageExchange) {
         self.messageExchange = messageExchange
         self.messageExchange.setMessageHandler(self.handleTextMessage(jsonString:))
+
+        // Send a regular ping:
+        Timer.scheduledTimer(withTimeInterval: 60, repeats: true, block: {  _ in
+            Task {
+                try await self.sendPing()
+            }
+        })
     }
     
     // MARK: Send commands
@@ -66,6 +73,23 @@ public class HAClient: HAClientProtocol {
             throw HAClientError.authenticationFailed(failureReason)
             
         default:
+            return
+        }
+    }
+    
+    public func sendPing() async throws -> Void {
+        let requestId = await pendingRequests.insert(type: .ping)
+        await messageExchange.sendMessage(
+            message: JSONCoding.serialize(Message(type: .ping, id: requestId))
+        )
+        
+        try await waitFor() {
+            await pendingRequests.getResponse(requestId) != nil
+        }
+        
+        let response = await pendingRequests.getResponse(requestId)
+        if let _ = response as? BaseMessage {
+            await pendingRequests.remove(id: requestId)
             return
         }
     }
@@ -124,6 +148,7 @@ public class HAClient: HAClientProtocol {
     // MARK: Message handling
 
     private func handleTextMessage(jsonString: String) async {
+        NSLog("Incoming text message \(jsonString)")
         let incomingMessage = JSONCoding.deserialize(jsonString)
         let jsonData = jsonString.data(using: .utf8)!
 
@@ -142,17 +167,37 @@ public class HAClient: HAClientProtocol {
                     return
                 }
                 do {
+                    NSLog("Handling message. JSON: %s", jsonString)
                     try await handleMessage(message: resultMessage, jsonData: jsonData)
                 } catch {
                     NSLog("Message could not be handled. JSON %@", jsonString)
                 }
+                
+            case let resultMessage as PongMessage:
+                await handlePong(resultMessage, jsonData: jsonData)
+                
             default:
+                NSLog("Unknown message encountered. JSON: %s", jsonString)
                 break
             }
 
         default:
             NSLog("Not handling message. JSON: %s", jsonString)
             return
+        }
+    }
+    
+    private func handleAuthenticationMessage(_ message: Any) -> Phase {
+        switch message {
+        case _ as AuthOkMessage:
+            return .authenticated
+            
+        case let authInvalidMessage as AuthInvalidMessage:
+            messageExchange.disconnect()
+            return .authenticationFailure(failureReason: authInvalidMessage.message)
+            
+        default:
+            return currentPhase
         }
     }
     
@@ -169,20 +214,18 @@ public class HAClient: HAClientProtocol {
             throw HAClientError.responseError
         }
         await pendingRequests.addResponse(id: message.id, response)
-        
     }
     
-    private func handleAuthenticationMessage(_ message: Any) -> Phase {
-        switch message {
-        case _ as AuthOkMessage:
-            return .authenticated
-            
-        case let authInvalidMessage as AuthInvalidMessage:
-            messageExchange.disconnect()
-            return .authenticationFailure(failureReason: authInvalidMessage.message)
-            
-        default:
-            return currentPhase
+    private func handlePong(_ message: PongMessage, jsonData: Data) async {
+        guard let _ = await pendingRequests.getType(message.id) else {
+            NSLog("No matching request found with ID %@", message.id)
+            return
+        }
+        if let response = JSONCoding.deserializeCommandResponse(
+            type: .ping,
+            jsonData: jsonData
+        ) {
+            await pendingRequests.addResponse(id: message.id, response)
         }
     }
 }
