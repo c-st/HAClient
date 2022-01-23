@@ -1,12 +1,16 @@
 import Foundation
 
 public class WebSocketStream: AsyncSequence, MessageExchange {
+
     public typealias Element = URLSessionWebSocketTask.Message
     public typealias AsyncIterator = AsyncThrowingStream<URLSessionWebSocketTask.Message, Error>.Iterator
     
     private var stream: AsyncThrowingStream<Element, Error>?
-    private let socket: URLSessionWebSocketTask
     private var continuation: AsyncThrowingStream<Element, Error>.Continuation?
+    
+    private var messageHandlingTask: Task<(), Never>?
+    
+    private let socket: URLSessionWebSocketTask
     
     public init(_ url: String, session: URLSession = URLSession.shared) {
         socket = session.webSocketTask(with: URL(string: url)!)
@@ -27,35 +31,38 @@ public class WebSocketStream: AsyncSequence, MessageExchange {
         return stream.makeAsyncIterator()
     }
     
-    public func setMessageHandler(_ messageHandler: @escaping ((String) async -> Void)) {
-        Task {
+    public func connect(
+        messageHandler: @escaping ((String) async -> Void),
+        errorHandler: @escaping ((Error) async -> Void)
+    ) {
+        messageHandlingTask = Task {
             do {
+                try Task.checkCancellation()
                 for try await message in self {
                     switch message {
                     case let .string(text):
                         await messageHandler(text)
                     case let .data(data):
                         NSLog("Ignoring binary message \(data)")
-                    @unknown default:
-                        fatalError("Unknown message received")
+                    default:
+                        NSLog("Unknown message received")
                     }
                 }
             } catch {
-                fatalError("Error while handling incoming message: \(error)")
+                await errorHandler(error)
             }
         }
     }
     
-    public func sendMessage(message: String) {
+    public func sendMessage(message: String) async throws {
         NSLog("Sending message %@", message)
-        socket.send(Element.string(message)) { error in
-            if let error = error {
-                fatalError("WebSocket sending error: \(error)")
-            }
-        }
+        try await socket.send(Element.string(message))
     }
     
     public func disconnect() {
+        if (!(messageHandlingTask?.isCancelled ?? true)) {
+            messageHandlingTask?.cancel()
+        }
         socket.cancel(with: .goingAway, reason: nil)
     }
     

@@ -24,7 +24,7 @@ final class ListAreasTest: XCTestCase {
             try await _ = unauthenticatedClient.listAreas()
             fail("Did not throw")
         } catch {
-            expect(error).to(matchError(HAClient.HAClientError.authenticationRequired))
+            expect(error).to(matchError(HAClientError.authenticationRequired))
         }
     }
     

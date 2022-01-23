@@ -1,29 +1,7 @@
 import Foundation
 
-public protocol MessageExchange {
-    func setMessageHandler(_ messageHandler: @escaping ((String) async -> Void))
-    func sendMessage(message: String) async
-    func disconnect()
-}
-
-public protocol HAClientProtocol {
-    init(messageExchange: MessageExchange)
-    func authenticate(token: String) async throws -> Void
-    func sendPing() async throws -> Void
-
-    func listAreas() async throws -> [Area]
-    func listDevices() async throws -> [Device]
-    func listEntities() async throws -> [Entity]
-    func retrieveStates() async throws -> [State]
-}
-
 public class HAClient: HAClientProtocol {
-    enum HAClientError: Error {
-        case authenticationFailed(String)
-        case authenticationRequired
-        case responseError
-        case requestTimeout
-    }
+    private var currentPhase: Phase = .initial
     
     enum Phase: Equatable {
         case initial
@@ -35,11 +13,20 @@ public class HAClient: HAClientProtocol {
     private let messageExchange: MessageExchange
     private let pendingRequests = PendingRequests()
     
-    private var currentPhase: Phase = .initial
-
     public required init(messageExchange: MessageExchange) {
         self.messageExchange = messageExchange
-        self.messageExchange.setMessageHandler(self.handleTextMessage(jsonString:))
+        self.messageExchange.connect(
+            messageHandler: self.handleTextMessage(jsonString:),
+            errorHandler: self.handleConnectionError(error:)
+        )
+    }
+    
+    public func reconnect() async throws {
+        self.messageExchange.disconnect()
+        self.messageExchange.connect(
+            messageHandler: self.handleTextMessage(jsonString:),
+            errorHandler: self.handleConnectionError(error:)
+        )
     }
     
     // MARK: Send commands
@@ -49,7 +36,7 @@ public class HAClient: HAClientProtocol {
         
         currentPhase = .authRequested
         
-        await messageExchange.sendMessage(
+        try await messageExchange.sendMessage(
             message: JSONCoding.serialize(authCommand)
         )
         
@@ -66,23 +53,6 @@ public class HAClient: HAClientProtocol {
             throw HAClientError.authenticationFailed(failureReason)
             
         default:
-            return
-        }
-    }
-    
-    public func sendPing() async throws -> Void {
-        let requestId = await pendingRequests.insert(type: .ping)
-        await messageExchange.sendMessage(
-            message: JSONCoding.serialize(Message(type: .ping, id: requestId))
-        )
-        
-        try await waitFor() {
-            await pendingRequests.getResponse(requestId) != nil
-        }
-        
-        let response = await pendingRequests.getResponse(requestId)
-        if let _ = response as? BaseMessage {
-            await pendingRequests.remove(id: requestId)
             return
         }
     }
@@ -109,7 +79,7 @@ public class HAClient: HAClientProtocol {
         }
         
         let requestId = await pendingRequests.insert(type: type)
-        await messageExchange.sendMessage(
+        try await messageExchange.sendMessage(
             message: JSONCoding.serialize(Message(type: type, id: requestId))
         )
         
@@ -125,6 +95,23 @@ public class HAClient: HAClientProtocol {
         
         throw HAClientError.responseError
     }
+    
+    public func sendPing() async throws -> Void {
+        let requestId = await pendingRequests.insert(type: .ping)
+        try await messageExchange.sendMessage(
+            message: JSONCoding.serialize(Message(type: .ping, id: requestId))
+        )
+        
+        try await waitFor() {
+            await pendingRequests.getResponse(requestId) != nil
+        }
+        
+        let response = await pendingRequests.getResponse(requestId)
+        if let _ = response as? BaseMessage {
+            await pendingRequests.remove(id: requestId)
+            return
+        }
+    }
 
     private func waitFor(_ condition: () async -> Bool) async throws {
         let startTime = Date()
@@ -135,6 +122,17 @@ public class HAClient: HAClientProtocol {
             if nextTime > endTime {
                 throw HAClientError.requestTimeout
             }
+        }
+    }
+    
+    // MARK: Error handling
+    
+    private func handleConnectionError(error: Error) async {
+        NSLog("Caught a connection error \(error). Attempting to reconnect")
+        do {
+            try await reconnect()
+        } catch {
+            NSLog("Reconnect failed. %s", error.localizedDescription)
         }
     }
     
@@ -160,14 +158,15 @@ public class HAClient: HAClientProtocol {
                     return
                 }
                 do {
-                    try await handleMessage(message: resultMessage, jsonData: jsonData)
+                    try await handleMessage(
+                        message: resultMessage,
+                        jsonData: jsonData
+                    )
                 } catch {
                     NSLog("Message could not be handled. JSON %@", jsonString)
                 }
-                
             case let resultMessage as PongMessage:
                 await handlePong(resultMessage, jsonData: jsonData)
-                
             default:
                 NSLog("Unknown message encountered. JSON: %s", jsonString)
                 break
@@ -186,7 +185,9 @@ public class HAClient: HAClientProtocol {
             
         case let authInvalidMessage as AuthInvalidMessage:
             messageExchange.disconnect()
-            return .authenticationFailure(failureReason: authInvalidMessage.message)
+            return .authenticationFailure(
+                failureReason: authInvalidMessage.message
+            )
             
         default:
             return currentPhase
@@ -209,10 +210,6 @@ public class HAClient: HAClientProtocol {
     }
     
     private func handlePong(_ message: PongMessage, jsonData: Data) async {
-        guard let _ = await pendingRequests.getType(message.id) else {
-            NSLog("No matching request found with ID %@", message.id)
-            return
-        }
         if let response = JSONCoding.deserializeCommandResponse(
             type: .ping,
             jsonData: jsonData
