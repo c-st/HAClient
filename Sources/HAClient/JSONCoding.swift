@@ -23,6 +23,8 @@ final class JSONCoding {
             return try? JSON.decoder.decode(AuthOkMessage.self, from: jsonData)
         case .auth_invalid:
             return try? JSON.decoder.decode(AuthInvalidMessage.self, from: jsonData)
+        case .pong:
+            return try? JSON.decoder.decode(PongMessage.self, from: jsonData)
         case .result:
             return try? JSON.decoder.decode(BaseResultMessage.self, from: jsonData)
         }
@@ -30,6 +32,10 @@ final class JSONCoding {
     
     static func deserializeCommandResponse(type: CommandType, jsonData: Data) -> Any? {
         switch type {
+        case .ping:
+            if let message = try? JSON.decoder.decode(PongMessage.self, from: jsonData) {
+                return message
+            }
         case .listAreas:
             if let message = try? JSON.decoder.decode(ResultMessage<Area>.self, from: jsonData) {
                 return message

@@ -20,6 +20,13 @@ final class IntegrationTest: XCTestCase {
         } catch {}
     }
     
+    func test_pong() async throws {
+        let client = HAClient(messageExchange: WebSocketStream(url))
+        try await client.authenticate(token: token)
+        
+        try await client.sendPing()
+    }
+    
     func test_retrieveRegistry() async throws {
         let client = HAClient(messageExchange: WebSocketStream(url))
         try await client.authenticate(token: token)

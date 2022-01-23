@@ -47,6 +47,7 @@ public class WebSocketStream: AsyncSequence, MessageExchange {
     }
     
     public func sendMessage(message: String) {
+        NSLog("Sending message %@", message)
         socket.send(Element.string(message)) { error in
             if let error = error {
                 fatalError("WebSocket sending error: \(error)")
