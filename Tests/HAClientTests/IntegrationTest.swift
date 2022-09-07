@@ -4,7 +4,7 @@ import XCTest
 @testable import HAClient
 
 final class IntegrationTest: XCTestCase {
-    let url = "ws://homeassistant.raspberrypi.localdomain/api/websocket"
+    let url = "wss://homeassistant.raspberrypi.localdomain/api/websocket"
     let token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiI4YzI5ZGJmODdjZjE0NTUyYTJlMWVjMjFjOWU4NGM1MyIsImlhdCI6MTY0MTc0NDU3MSwiZXhwIjoxOTU3MTA0NTcxfQ.lhrtV093l7yL88l0jjfMPwSAZc1eAQpxejFzLIWry8s"
 
     func test_authentication() async throws {
@@ -27,20 +27,28 @@ final class IntegrationTest: XCTestCase {
         try await client.sendPing()
     }
     
+//    func test_reconnect() async throws {
+//        let client = HAClient(messageExchange: WebSocketStream(url))
+//        try await client.sendPing()
+//
+//        try await client.reconnect()
+//        try await client.sendPing()
+//    }
+//
     func test_retrieveRegistry() async throws {
         let client = HAClient(messageExchange: WebSocketStream(url))
         try await client.authenticate(token: token)
         
         let areas = try await client.listAreas()
-        expect(areas).to(haveCount(4))
+        expect(areas).to(haveCount(14))
         
-        let devices = try await client.listDevices()
-        expect(devices).to(haveCount(38))
-        
-        let entities = try await client.listEntities()
-        expect(entities).to(haveCount(293))
-        
-        let states = try await client.retrieveStates()
-        expect(states).to(haveCount(230))
+//        let devices = try await client.listDevices()
+//        expect(devices).to(haveCount(106))
+//
+//        let entities = try await client.listEntities()
+//        expect(entities).to(haveCount(293))
+//
+//        let states = try await client.retrieveStates()
+//        expect(states).to(haveCount(230))
     }
 }
