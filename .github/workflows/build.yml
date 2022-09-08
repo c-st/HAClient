@@ -3,11 +3,10 @@ on: [push]
 
 jobs:
   build:
-    if: ${{ false }}  # disable until macOS 12 (with concurrency) runners are available.
     runs-on: macos-12
     steps:
-    - uses: actions/checkout@v2
-    - name: Build
-      run: swift build
-    - name: Run tests
-      run: swift test --skip IntegrationTest
+      - uses: actions/checkout@v2
+      - name: Build
+        run: swift build
+      - name: Run tests
+        run: swift test --skip IntegrationTest
