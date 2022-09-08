@@ -102,7 +102,7 @@ struct TestExamples {
     ]
     
     static let states = [
-        State(
+        EntityState(
             entityId: "light.livingroom_sofa_lamp",
             state: "off",
             lastChanged: "2022-01-14T22:13:58.369664+00:00",
@@ -113,7 +113,7 @@ struct TestExamples {
                 "color_mode": JSONProperty.string("brightness")
             ]
         ),
-        State(
+        EntityState(
             entityId: "light.livingroom_table_lamp",
             state: "off",
             lastChanged: "2022-01-14T22:13:58.369664+00:00",
@@ -124,7 +124,7 @@ struct TestExamples {
                 "color_mode": JSONProperty.string("brightness")
             ]
         ),
-        State(
+        EntityState(
             entityId: "light.bedroom_lamp",
             state: "off",
             lastChanged: "2022-01-14T22:13:58.369664+00:00",
@@ -136,7 +136,7 @@ struct TestExamples {
             ]
         ),
         
-        State(
+        EntityState(
             entityId: "binary_sensor.livingroom_motionsensor_occupancy",
             state: "off",
             lastChanged: "2022-01-14T22:13:58.369664+00:00",
@@ -149,7 +149,7 @@ struct TestExamples {
                 "illuminance_lux": JSONProperty.double(74)
             ]
         ),
-        State(
+        EntityState(
             entityId: "binary_sensor.livingroom_motionsensor_temperature",
             state: "23.24",
             lastChanged: "2022-01-14T22:13:58.369664+00:00",
@@ -162,7 +162,7 @@ struct TestExamples {
                 "illuminance_lux": JSONProperty.double(74)
             ]
         ),
-        State(
+        EntityState(
             entityId: "binary_sensor.livingroom_motionsensor_illuminance_lux",
             state: "74",
             lastChanged: "2022-01-14T22:13:58.369664+00:00",
@@ -176,7 +176,7 @@ struct TestExamples {
             ]
         ),
         
-        State(
+        EntityState(
             entityId: "binary_sensor.bedroom_motionsensor_occupancy",
             state: "on",
             lastChanged: "2022-01-14T22:13:58.369664+00:00",
@@ -189,7 +189,7 @@ struct TestExamples {
                 "illuminance_lux": JSONProperty.double(59)
             ]
         ),
-        State(
+        EntityState(
             entityId: "binary_sensor.bedroom_motionsensor_temperature",
             state: "22.28",
             lastChanged: "2022-01-14T22:13:58.369664+00:00",
@@ -202,7 +202,7 @@ struct TestExamples {
                 "illuminance_lux": JSONProperty.double(59)
             ]
         ),
-        State(
+        EntityState(
             entityId: "binary_sensor.bedroom_motionsensor_illuminance_lux",
             state: "59",
             lastChanged: "2022-01-14T22:13:58.369664+00:00",

@@ -14,7 +14,7 @@ public protocol HAClientProtocol {
     func listAreas() async throws -> [Area]
     func listDevices() async throws -> [Device]
     func listEntities() async throws -> [Entity]
-    func retrieveStates() async throws -> [State]
+    func retrieveStates() async throws -> [EntityState]
 }
 
 public class HAClient: HAClientProtocol {
@@ -99,7 +99,7 @@ public class HAClient: HAClientProtocol {
         return try await sendCommandAndAwaitResponse(.listEntities)
     }
     
-    public func retrieveStates() async throws -> [State] {
+    public func retrieveStates() async throws -> [EntityState] {
         return try await sendCommandAndAwaitResponse(.retrieveStates)
     }
     

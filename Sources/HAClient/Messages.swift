@@ -134,7 +134,7 @@ public struct Entity: Codable {
     }
 }
 
-public struct State: Codable {
+public struct EntityState: Codable {
     public let entityId: String
     public let state: String
     public var lastChanged: String? = nil

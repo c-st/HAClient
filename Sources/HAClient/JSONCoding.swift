@@ -49,7 +49,7 @@ final class JSONCoding {
                 return message
             }
         case .retrieveStates:
-            if let message = try? JSON.decoder.decode(ResultMessage<State>.self, from: jsonData) {
+            if let message = try? JSON.decoder.decode(ResultMessage<EntityState>.self, from: jsonData) {
                 return message
             }
         }
