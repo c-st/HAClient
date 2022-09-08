@@ -127,12 +127,10 @@ public class HAClient: HAClientProtocol {
     }
 
     private func waitFor(_ condition: () async -> Bool) async throws {
-        let startTime = Date()
-        let endTime = startTime.addingTimeInterval(1)
+        let deadline = Date().addingTimeInterval(1)
         while await !condition() {
-            let nextTime = Date().addingTimeInterval(0.1)
-            RunLoop.current.run(until: nextTime)
-            if nextTime > endTime {
+            try await Task.sleep(nanoseconds: NSEC_PER_MSEC * 10)
+            if Date() > deadline {
                 throw HAClientError.requestTimeout
             }
         }
