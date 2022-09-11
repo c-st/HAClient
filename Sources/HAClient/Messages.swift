@@ -85,6 +85,12 @@ public struct Area: Codable {
     public let areaId: String
     public var picture: String? = nil
     
+    public init(name: String, areaId: String, picture: String? = nil) {
+        self.name = name
+        self.areaId = areaId
+        self.picture = picture
+    }
+    
     private enum CodingKeys: String, CodingKey {
         case name
         case areaId = "area_id"
@@ -102,6 +108,18 @@ public struct Device: Codable {
     public var model: String? = nil
     public var swVersion: String? = nil
     public var viaDeviceId: String? = nil
+    
+    public init(id: String, areaId: String? = nil, name: String, nameByUser: String? = nil, entryType: String? = nil, manufacturer: String? = nil, model: String? = nil, swVersion: String? = nil, viaDeviceId: String? = nil) {
+        self.id = id
+        self.areaId = areaId
+        self.name = name
+        self.nameByUser = nameByUser
+        self.entryType = entryType
+        self.manufacturer = manufacturer
+        self.model = model
+        self.swVersion = swVersion
+        self.viaDeviceId = viaDeviceId
+    }
 
     private enum CodingKeys: String, CodingKey {
         case id
@@ -123,6 +141,15 @@ public struct Entity: Codable {
     public var icon: String? = nil
     public var deviceId: String? = nil
     public let platform: String
+    
+    public init(entityId: String, areaId: String? = nil, name: String? = nil, icon: String? = nil, deviceId: String? = nil, platform: String) {
+        self.entityId = entityId
+        self.areaId = areaId
+        self.name = name
+        self.icon = icon
+        self.deviceId = deviceId
+        self.platform = platform
+    }
 
     private enum CodingKeys: String, CodingKey {
         case entityId = "entity_id"
@@ -139,7 +166,15 @@ public struct EntityState: Codable {
     public let state: String
     public var lastChanged: String? = nil
     public var lastUpdated: String? = nil
-    public var attributes: [String:JSONProperty]? = nil
+    public var attributes: [String : JSONProperty]? = nil
+    
+    public init(entityId: String, state: String, lastChanged: String? = nil, lastUpdated: String? = nil, attributes: [String : JSONProperty]? = nil) {
+        self.entityId = entityId
+        self.state = state
+        self.lastChanged = lastChanged
+        self.lastUpdated = lastUpdated
+        self.attributes = attributes
+    }
 
     private enum CodingKeys: String, CodingKey {
         case entityId = "entity_id"
