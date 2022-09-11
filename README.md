@@ -24,7 +24,7 @@ dependencies: [
 
 ```swift
 let url = "ws://homeassistant.raspberrypi.localdomain/api/websocket"
-let client = HAClient(messageExchange: WebSocketStream(url))
+let client = HAClient(messageExchange: WebSocketClient(url))
 
 // Authenticate
 let token = "insert long-lived access token"
