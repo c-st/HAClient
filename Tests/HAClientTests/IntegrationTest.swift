@@ -8,12 +8,13 @@ final class IntegrationTest: XCTestCase {
     let token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiI4YzI5ZGJmODdjZjE0NTUyYTJlMWVjMjFjOWU4NGM1MyIsImlhdCI6MTY0MTc0NDU3MSwiZXhwIjoxOTU3MTA0NTcxfQ.lhrtV093l7yL88l0jjfMPwSAZc1eAQpxejFzLIWry8s"
 
     func test_authentication() async throws {
-        let client = HAClient(messageExchange: WebSocketStream(url))
+        let client = HAClient(messageExchange: WebSocketClient(url))
+        
         try await client.authenticate(token: token)
     }
 
     func test_authenticationFail() async throws {
-        let client = HAClient(messageExchange: WebSocketStream(url))
+        let client = HAClient(messageExchange: WebSocketClient(url))
         do {
             try await client.authenticate(token: "invalid-token")
             fail("Method did not throw")
@@ -21,14 +22,14 @@ final class IntegrationTest: XCTestCase {
     }
     
     func test_pong() async throws {
-        let client = HAClient(messageExchange: WebSocketStream(url))
+        let client = HAClient(messageExchange: WebSocketClient(url))
         try await client.authenticate(token: token)
         
         try await client.sendPing()
     }
     
 //    func test_reconnect() async throws {
-//        let client = HAClient(messageExchange: WebSocketStream(url))
+//        let client = HAClient(messageExchange: WebSocketClient(url))
 //        try await client.sendPing()
 //
 //        try await client.reconnect()
@@ -36,7 +37,7 @@ final class IntegrationTest: XCTestCase {
 //    }
 //
     func test_retrieveRegistry() async throws {
-        let client = HAClient(messageExchange: WebSocketStream(url))
+        let client = HAClient(messageExchange: WebSocketClient(url))
         try await client.authenticate(token: token)
         
         let areas = try await client.listAreas()

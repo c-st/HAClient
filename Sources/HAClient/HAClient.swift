@@ -1,11 +1,5 @@
 import Foundation
 
-public protocol MessageExchange {
-    func setMessageHandler(_ messageHandler: @escaping ((String) async -> Void))
-    func sendMessage(message: String) async
-    func disconnect()
-}
-
 public protocol HAClientProtocol {
     init(messageExchange: MessageExchange)
     func authenticate(token: String) async throws -> Void
@@ -39,18 +33,22 @@ public class HAClient: HAClientProtocol {
 
     public required init(messageExchange: MessageExchange) {
         self.messageExchange = messageExchange
-        self.messageExchange.setMessageHandler(self.handleTextMessage(jsonString:))
+        self.messageExchange.setMessageHandler(
+            self.handleTextMessage(jsonString:)
+        )
     }
     
     // MARK: Send commands
 
     public func authenticate(token: String) async throws -> Void {
-        let authCommand = AuthMessage(accessToken: token)
-        
         currentPhase = .authRequested
         
-        await messageExchange.sendMessage(
-            message: JSONCoding.serialize(authCommand)
+        messageExchange.connect()
+
+        let authCommand = AuthMessage(accessToken: token)
+
+        messageExchange.sendMessage(
+            payload: JSONCoding.serialize(authCommand)
         )
         
         try await waitFor() {
@@ -72,8 +70,8 @@ public class HAClient: HAClientProtocol {
     
     public func sendPing() async throws -> Void {
         let requestId = await pendingRequests.insert(type: .ping)
-        await messageExchange.sendMessage(
-            message: JSONCoding.serialize(Message(type: .ping, id: requestId))
+        messageExchange.sendMessage(
+            payload: JSONCoding.serialize(Message(type: .ping, id: requestId))
         )
         
         try await waitFor() {
@@ -109,8 +107,8 @@ public class HAClient: HAClientProtocol {
         }
         
         let requestId = await pendingRequests.insert(type: type)
-        await messageExchange.sendMessage(
-            message: JSONCoding.serialize(Message(type: type, id: requestId))
+        messageExchange.sendMessage(
+            payload: JSONCoding.serialize(Message(type: type, id: requestId))
         )
         
         try await waitFor() {
@@ -127,9 +125,9 @@ public class HAClient: HAClientProtocol {
     }
 
     private func waitFor(_ condition: () async -> Bool) async throws {
-        let deadline = Date().addingTimeInterval(1)
+        let deadline = Date().addingTimeInterval(5)
         while await !condition() {
-            try await Task.sleep(nanoseconds: NSEC_PER_MSEC * 10)
+            try await Task.sleep(nanoseconds: NSEC_PER_MSEC * 20)
             if Date() > deadline {
                 throw HAClientError.requestTimeout
             }
