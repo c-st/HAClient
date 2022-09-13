@@ -7,10 +7,7 @@ import Foundation
  This simulates a websocket client and can fake incoming and outgoing messages.
  */
 class FakeMessageExchange: MessageExchange {
-    var isConnected: Bool = true
-    
-    // var sentMessages: [String] = []
-    
+    var isConnected: Bool = false
     var successfullyAuthenticated: Bool?
    
     // MARK: Fake helpers
@@ -26,7 +23,7 @@ class FakeMessageExchange: MessageExchange {
 
     // MARK: Protocol implementation
     
-    // Handler for incoming messages (WebSocket endpoint -> client)
+    // Handler for handling incoming server messages by client
     private var messageHandler: ((String) async -> Void)?
 
     func setMessageHandler(_ messageHandler: @escaping ((String) async -> Void)) {
@@ -36,12 +33,24 @@ class FakeMessageExchange: MessageExchange {
     func sendMessage(payload: String) {
         if let handler = outgoingMessageHandler {
             Task {
+                NSLog(">> \(payload)")
                 await handler(payload)
             }
         }
-        // sentMessages.append(message)
     }
     
-    func connect() {}
-    func disconnect() {}
+    func connect() {
+        NSLog("Connected to FakeMessageExchange")
+        isConnected = true
+        Task {
+            await simulateIncomingMessage(message: JSONCoding.serialize(
+                    AuthRequired(haVersion: "fake-version"))
+            )
+        }
+    }
+    
+    func disconnect() {
+        NSLog("Disconnected from FakeMessageExchange")
+        isConnected = false
+    }
 }

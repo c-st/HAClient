@@ -10,7 +10,7 @@ public protocol MessageExchange {
     var isConnected: Bool { get }
 }
 
-public class WebSocketClient: NSObject, URLSessionDelegate, URLSessionTaskDelegate, MessageExchange {
+public class WebSocketClient: NSObject, URLSessionDelegate, URLSessionWebSocketDelegate, MessageExchange {
     private let timeout: TimeInterval!
     private let url: URL!
     
@@ -38,9 +38,9 @@ public class WebSocketClient: NSObject, URLSessionDelegate, URLSessionTaskDelega
             delegate: self,
             delegateQueue: OperationQueue()
         )
-        let urlRequest = URLRequest(url: url) //, timeoutInterval: timeout)
-        
+        let urlRequest = URLRequest(url: url, timeoutInterval: timeout)
         webSocketTask = urlSession.webSocketTask(with: urlRequest)
+        
         webSocketTask.resume()
         
         readMessage()
@@ -55,7 +55,6 @@ public class WebSocketClient: NSObject, URLSessionDelegate, URLSessionTaskDelega
             case .success(let message):
                 switch message {
                 case .string(let string):
-                    NSLog("Received text message")
                     Task {
                         await self.messageHandler(string)
                     }
@@ -70,7 +69,7 @@ public class WebSocketClient: NSObject, URLSessionDelegate, URLSessionTaskDelega
     }
     
     public func sendMessage(payload: String) {
-        NSLog("Sending message \(payload)")
+        NSLog(">> \(payload)")
         webSocketTask.send(.string(payload)) { error in
             self.handleError(error)
         }
@@ -94,6 +93,14 @@ public class WebSocketClient: NSObject, URLSessionDelegate, URLSessionTaskDelega
     }
     
     // MARK: UrlSessionDelegate
+    
+    public func urlSession(_ session: URLSession, task: URLSessionTask, didCompleteWithError error: Error?) {
+        NSLog("didCompleteWErrors")
+    }
+    
+    public func urlSession(_ session: URLSession, taskIsWaitingForConnectivity task: URLSessionTask) {
+        NSLog("waiting...")
+    }
     
     public func urlSession(_ session: URLSession, didReceive challenge: URLAuthenticationChallenge, completionHandler: @escaping (URLSession.AuthChallengeDisposition, URLCredential?) -> Void) {
         NSLog("Challenge received")

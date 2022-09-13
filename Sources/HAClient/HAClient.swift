@@ -41,28 +41,32 @@ public class HAClient: HAClientProtocol {
     // MARK: Send commands
 
     public func authenticate(token: String) async throws -> Void {
-        currentPhase = .authRequested
-        
-        messageExchange.connect()
+        if !messageExchange.isConnected {
+            // Establish connection
+            currentPhase = .initial
+            messageExchange.connect()
+            try await waitFor {
+                currentPhase == .authRequested
+            } 
+        }
+       
 
+        // Send auth
         let authCommand = AuthMessage(accessToken: token)
-
         messageExchange.sendMessage(
             payload: JSONCoding.serialize(authCommand)
         )
-        
         try await waitFor() {
             currentPhase != .authRequested
         }
         
+        // Handle auth result
         switch currentPhase {
         case .authenticated:
-            NSLog("Authentication successful.")
+            NSLog("Authentication successful")
             return
-            
         case .authenticationFailure(let failureReason):
             throw HAClientError.authenticationFailed(failureReason)
-            
         default:
             return
         }
@@ -137,17 +141,23 @@ public class HAClient: HAClientProtocol {
     // MARK: Message handling
 
     private func handleTextMessage(jsonString: String) async {
-        NSLog("Incoming text message \(jsonString)")
-        let incomingMessage = JSONCoding.deserialize(jsonString)
+        NSLog("<< \(jsonString)")
         let jsonData = jsonString.data(using: .utf8)!
+        
+        guard let incomingMessage = JSONCoding.deserialize(jsonString) else {
+            NSLog("Failed to deserialize \(jsonString)")
+            return
+        }
 
         switch currentPhase {
+        case .initial:
+            currentPhase = .authRequested
+            return
+            
         case .authRequested:
-            guard let message = incomingMessage else {
-                return
-            }
-            currentPhase = handleAuthenticationMessage(message)
-
+            currentPhase = handleAuthenticationMessage(incomingMessage)
+            return
+            
         case .authenticated:
             switch incomingMessage {
             case let resultMessage as BaseResultMessage:
